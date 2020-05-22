@@ -1,0 +1,34 @@
+{
+  "packs": {
+    "command": "packs",
+    "description": "Get your sticker packs"
+  },
+  "new": {
+    "command": "new",
+    "description": "Create a sticker pack"
+  },
+  "copy": {
+    "command": "copy",
+    "description": "Copy existing sticker pack"
+  },
+  "restore": {
+    "command": "restore",
+    "description": "Restore sticker pack"
+  },
+  "original": {
+    "command": "original",
+    "description": "Find original sticker"
+  },
+  "lang": {
+    "command": "lang",
+    "description": "Select language"
+  },
+  "cancel": {
+    "command": "cancel",
+    "description": "Cancel action"
+  },
+  "help": {
+    "command": "help",
+    "description": "Get help"
+  }
+}

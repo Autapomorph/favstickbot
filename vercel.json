@@ -1,0 +1,16 @@
+{
+  "github": {
+    "silent": true
+  },
+  "routes": [
+    {
+      "src": "/.*",
+      "methods": ["POST"],
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/.*",
+      "status": 404
+    }
+  ]
+}

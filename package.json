@@ -1,0 +1,61 @@
+{
+  "name": "favsbot",
+  "version": "1.0.0",
+  "description": "Telegram bot which helps you mix stickers from multiple packs into a single one",
+  "keywords": [
+    "telegram",
+    "bot",
+    "stickers"
+  ],
+  "author": "Autapomorph (https://github.com/Autapomorph)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Autapomorph/bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Autapomorph/bot/issues"
+  },
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:dev": "cross-env NODE_ENV=development npm run watch",
+    "start:prod": "cross-env NODE_ENV=production npm run watch",
+    "watch": "nodemon src/index.js -e js,mjs,json,yaml",
+    "lint": "eslint .",
+    "lint:staged": "lint-staged"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.15",
+    "nanoid": "^3.1.9",
+    "node-fetch": "^2.6.0",
+    "sharp": "^0.25.3",
+    "telegraf": "^3.38.0",
+    "telegraf-i18n": "^6.6.0",
+    "telegraf-ratelimit": "^2.0.0",
+    "telegraf-update-logger": "^1.1.7",
+    "winston": "^3.2.1",
+    "winston-transport-sentry-node": "^0.3.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.6",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:staged"
+    }
+  }
+}
