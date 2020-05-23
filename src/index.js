@@ -15,11 +15,9 @@ if (!isProd) {
 database.connect(MONGODB_URI);
 database.addConnectListener(async () => {
   if (BOT_DOMAIN) {
-    // eslint-disable-next-line no-use-before-define
     return launchWebhookMode(bot);
   }
 
-  // eslint-disable-next-line no-use-before-define
   return launchPollingMode(bot);
 });
 

@@ -6,5 +6,6 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'consistent-return': 'off',
+    'no-use-before-define': ['error', { functions: false }],
   },
 };
