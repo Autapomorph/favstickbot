@@ -5,7 +5,7 @@ const isStickersBot = require('./isStickersBot');
 const hasPackLink = require('./hasPackLink');
 const i18n = require('./i18n');
 const rateLimit = require('./rateLimit');
-const logger = require('./logger');
+const logUpdate = require('./logUpdate');
 
 module.exports = {
   session,
@@ -15,5 +15,5 @@ module.exports = {
   hasPackLink,
   i18n,
   rateLimit,
-  logger,
+  logUpdate,
 };

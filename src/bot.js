@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf');
-const { compose, passThru } = require('telegraf/composer');
+const { compose } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
@@ -10,13 +10,12 @@ const {
   hasPackLink,
   i18n,
   rateLimit,
-  logger: updateLogger,
+  logUpdate,
 } = require('./middlewares');
 const { registerCommands } = require('./commands');
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
 const logger = require('./utils/logger');
-const { isProd } = require('./utils');
 
 // init bot
 const bot = new Telegraf(process.env.BOT_TOKEN, {
@@ -26,17 +25,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 });
 
 // middlewares
-bot.use(
-  compose([
-    !isProd ? updateLogger : passThru(),
-    session,
-    i18n,
-    rateLimit,
-    updateUser,
-    updateLocale,
-    stage,
-  ]),
-);
+bot.use(compose([logUpdate, session, i18n, rateLimit, updateUser, updateLocale, stage]));
 
 // error handling
 bot.catch(async (error, ctx) => {

@@ -6,7 +6,7 @@ const WEBHOOK_OPTIONS = require('./config/webhook');
 const logger = require('./utils/logger');
 const { isProd } = require('./utils');
 
-const { MONGODB_URI, BOT_DOMAIN } = process.env;
+const { MONGODB_URI, WEBHOOK_DOMAIN } = process.env;
 
 if (!isProd) {
   logger.debug('Logging initialized at debug level');
@@ -14,7 +14,7 @@ if (!isProd) {
 
 database.connect(MONGODB_URI);
 database.addConnectListener(async () => {
-  if (BOT_DOMAIN) {
+  if (WEBHOOK_DOMAIN) {
     return launchWebhookMode(bot);
   }
 

@@ -29,9 +29,8 @@ const getStickerFile = ctx => {
     }
 
     case 'document': {
-      const isMimeTypeValid = stickerMimeTypes.includes(document.mime_type);
-
-      if (!isMimeTypeValid) {
+      // Mime type in invalid
+      if (!stickerMimeTypes.includes(document.mime_type)) {
         return;
       }
 
@@ -43,7 +42,6 @@ const getStickerFile = ctx => {
     }
 
     default:
-      return undefined;
   }
 };
 

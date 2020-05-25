@@ -2,7 +2,7 @@
 
 Telegram bot which helps you mix stickers from multiple packs into a single one
 
-### How to run?
+## How to run?
 
 - configure `.env` file
 - `npm i`
