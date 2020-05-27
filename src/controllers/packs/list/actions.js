@@ -13,7 +13,7 @@ const {
 // mark pack as selected
 const selectPack = async ctx => {
   const { user } = ctx.session;
-  const packToSelect = await getPackById(ctx.match[2]);
+  const packToSelect = await getPackById(ctx.match.groups.packId);
 
   if (String(packToSelect.owner) !== String(user.id)) {
     return replyErrorAccessDenied(ctx);
@@ -31,7 +31,7 @@ const selectPack = async ctx => {
 const hideOrRestorePack = async ctx => {
   const { user } = ctx.session;
   const visiblePacks = await getVisiblePacks(user.id);
-  const packToModify = await getPackById(ctx.match[2]);
+  const packToModify = await getPackById(ctx.match.groups.packId);
   const selectedPackId = getSelectedPackId(user);
   const isRestoring = packToModify.isHidden;
   const isHiding = !isRestoring;

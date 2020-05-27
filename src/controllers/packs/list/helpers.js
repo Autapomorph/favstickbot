@@ -11,9 +11,9 @@ const errorTypes = {
 
 const getPackListKeyboard = (packs, selectedPackId) => {
   return packs.map(({ id, title, isAnimated }) => {
-    let packTitle = isAnimated ? `🅰️ ${title}` : title;
-    packTitle = String(selectedPackId) === String(id) ? `✅ ${packTitle}` : packTitle;
-    return [Markup.callbackButton(packTitle, `pack_select:${id}`)];
+    let packText = isAnimated ? `🅰️ ${title}` : title;
+    packText = String(selectedPackId) === String(id) ? `✅ ${packText}` : packText;
+    return [Markup.callbackButton(packText, `pack_select:${id}`)];
   });
 };
 
@@ -81,9 +81,7 @@ const replyPackHideRestoreAction = async (ctx, pack) => {
 
   await ctx
     .editMessageReplyMarkup(
-      Markup.inlineKeyboard([
-        Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${ctx.match[2]}`),
-      ]),
+      Markup.inlineKeyboard([Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${pack.id}`)]),
     )
     .catch(() => {});
 

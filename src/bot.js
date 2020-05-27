@@ -12,10 +12,11 @@ const {
   rateLimit,
   logUpdate,
 } = require('./middlewares');
-const { registerCommands } = require('./commands');
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
-const logger = require('./utils/logger');
+const commandsList = require('./config/commands');
+const commands = require('./utils/bot/commands');
+const errorBoundary = require('./utils/bot/errorBoundary');
 
 // init bot
 const bot = new Telegraf(process.env.BOT_TOKEN, {
@@ -24,34 +25,17 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
   },
 });
 
-// middlewares
+// register bot commands
+commands.register(commandsList);
+
+// register middlewares
 bot.use(compose([logUpdate, session, i18n, rateLimit, updateUser, updateLocale, stage]));
 
-// error handling
-bot.catch(async (error, ctx) => {
-  logger.error(`Bot caught an unhandled error:\n%O\nContext:\n%O`, error, ctx);
-  logger.sentry.error(error);
-
-  if (error.description) {
-    await ctx.reply(
-      ctx.i18n.t('shared.error.reply.telegram', {
-        error: error.description,
-      }),
-    );
-  } else {
-    await ctx.reply(ctx.i18n.t('shared.error.reply.uncaughtException'));
-  }
-});
-
-// register bot commands
-registerCommands();
-
-// handle /start command
+// handle /start & /help commands
 bot.start(controllers.start);
-// handle /help command
 bot.help(controllers.start);
 
-// handle commands (/command) with i18n support
+// handle commands with i18n support
 bot.hears(['/packs', match('cmd.start.btn.packs')], controllers.packs.list.command);
 bot.hears(['/new', match('cmd.start.btn.new')], ctx => ctx.scene.enter('PACKS_CREATE'));
 bot.command('copy', controllers.packs.copy.enter);
@@ -69,8 +53,11 @@ bot.on('forward', isStickersBot, hasPackLink, controllers.packs.restore.command)
 bot.on(['sticker', 'document', 'photo'], controllers.stickers.add);
 
 // handle callback queries
-bot.action(/(pack_select):(.+)/, controllers.packs.list.actions.select);
-bot.action(/(pack_hide):(.+)/, controllers.packs.list.actions.hide);
-bot.action(/language_set:(.+)/, controllers.language.actions.setLanguage);
+bot.action(/pack_select:(?<packId>.+)/, controllers.packs.list.actions.select);
+bot.action(/pack_hide:(?<packId>.+)/, controllers.packs.list.actions.hide);
+bot.action(/language_set:(?<langCode>.+)/, controllers.language.actions.setLanguage);
+
+// register error handler
+bot.catch(errorBoundary);
 
 module.exports = bot;
