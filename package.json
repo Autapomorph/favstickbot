@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.16",
+    "mongoose": "^5.9.18",
     "nanoid": "^3.1.9",
     "node-fetch": "^2.6.0",
     "sharp": "^0.25.3",
