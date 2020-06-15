@@ -1,6 +1,7 @@
 const errorTypes = {
   TELEGRAM: 'shared.error.reply.telegram',
   RATELIMIT: 'shared.error.reply.ratelimit',
+  UNCAUGHT: 'shared.error.reply.uncaughtException',
 };
 
 // Base reply error
@@ -32,10 +33,16 @@ const replyErrorRatelimit = async (ctx, extra = {}) => {
   return ctx.replyWithHTML(ctx.i18n.t(errorTypes.RATELIMIT), extra);
 };
 
+// Reply uncaught error
+const replyErrorUncaught = async (ctx, extra = {}) => {
+  return ctx.replyWithHTML(ctx.i18n.t(errorTypes.UNCAUGHT), extra);
+};
+
 module.exports = {
   replyError,
   replyErrorToMessage,
   replyErrorWithResource,
   replyErrorTelegram,
   replyErrorRatelimit,
+  replyErrorUncaught,
 };
