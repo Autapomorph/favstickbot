@@ -11,8 +11,7 @@ const connect = uri => {
   });
 
   mongoose.connection.on('error', error => {
-    logger.error('Error during connection to the database:\n%O', error);
-    logger.sentry.error(error);
+    logger.error('Error during connection to the database:', error);
     process.exit(1);
   });
 };

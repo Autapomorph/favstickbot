@@ -9,11 +9,11 @@ const { format } = winston;
 const { combine, errors, align, colorize, timestamp, splat, simple, printf } = format;
 
 const logger = winston.createLogger({
+  format: errors({ stack: true }),
   transports: [
     new winston.transports.Console({
       level: isProd ? 'error' : 'debug',
       format: combine(
-        errors({ stack: true }),
         timestamp({ format: 'DD/MM/YYYY HH:mm:ss ZZ' }),
         align(),
         colorize(),
@@ -25,11 +25,6 @@ const logger = winston.createLogger({
         }),
       ),
     }),
-  ],
-});
-
-logger.sentry = winston.createLogger({
-  transports: [
     new SentryTransport({
       level: 'error',
       silent: !isProd,
