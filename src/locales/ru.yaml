@@ -138,7 +138,7 @@ shared:
       telegram: |
         <b>Telegram вернул ошибку!</b>
         <code>${error}</code>
-      uncaughtException: Неизвестная ошибка
+      unknown: Неизвестная ошибка
     answer:
       telegram: |
         Telegram вернул ошибку:

@@ -6,22 +6,38 @@ const { isProd } = require('./index');
 const { SENTRY_DSN } = process.env;
 
 const { format } = winston;
-const { combine, errors, align, colorize, timestamp, splat, simple, printf } = format;
+const { combine, errors, align, colorize, timestamp, splat, printf } = format;
+
+const formatErrorConsole = format(info => {
+  const { message, stack, description } = info;
+  return {
+    ...info,
+    // eslint-disable-next-line no-nested-ternary
+    message: stack ? (description ? `${description}\n${stack}` : stack) : message,
+  };
+})();
+
+const formatErrorSentry = format(info => {
+  const { message, stack, description } = info;
+  return {
+    ...info,
+    message: stack && description ? `${description}\n${message}` : message,
+  };
+})();
 
 const logger = winston.createLogger({
   format: errors({ stack: true }),
   transports: [
     new winston.transports.Console({
-      level: isProd ? 'error' : 'debug',
+      level: isProd ? 'info' : 'debug',
       format: combine(
+        formatErrorConsole,
         timestamp({ format: 'DD/MM/YYYY HH:mm:ss ZZ' }),
         align(),
         colorize(),
         splat(),
-        simple(),
-        printf(({ timestamp: time, level, message, stack }) => {
-          const stackTrace = stack ? `\n${stack}` : '';
-          return `[${time}] [${level}] ${message}${stackTrace}`;
+        printf(({ timestamp: time, level, message }) => {
+          return `[${time}] [${level}] ${message}`;
         }),
       ),
     }),
@@ -30,7 +46,11 @@ const logger = winston.createLogger({
       silent: !isProd,
       sentry: {
         dsn: SENTRY_DSN,
+        normalizeDepth: 10,
+        beforeBreadcrumb: breadcrumb =>
+          breadcrumb.category === 'http' || breadcrumb.type === 'http' ? null : breadcrumb,
       },
+      format: formatErrorSentry,
     }),
   ],
 });
