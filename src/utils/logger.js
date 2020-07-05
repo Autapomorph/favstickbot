@@ -3,8 +3,6 @@ const SentryTransport = require('winston-transport-sentry-node').default;
 
 const { isProd } = require('./index');
 
-const { SENTRY_DSN } = process.env;
-
 const { format } = winston;
 const { combine, errors, align, colorize, timestamp, splat, printf } = format;
 
@@ -15,7 +13,7 @@ const formatErrorConsole = format(info => {
     // eslint-disable-next-line no-nested-ternary
     message: stack ? (description ? `${description}\n${stack}` : stack) : message,
   };
-})();
+});
 
 const formatErrorSentry = format(info => {
   const { message, stack, description } = info;
@@ -23,7 +21,7 @@ const formatErrorSentry = format(info => {
     ...info,
     message: stack && description ? `${description}\n${message}` : message,
   };
-})();
+});
 
 const logger = winston.createLogger({
   format: errors({ stack: true }),
@@ -31,7 +29,7 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       level: isProd ? 'info' : 'debug',
       format: combine(
-        formatErrorConsole,
+        formatErrorConsole(),
         timestamp({ format: 'DD/MM/YYYY HH:mm:ss ZZ' }),
         align(),
         colorize(),
@@ -45,12 +43,13 @@ const logger = winston.createLogger({
       level: 'error',
       silent: !isProd,
       sentry: {
-        dsn: SENTRY_DSN,
+        dsn: process.env.SENTRY_DSN,
+        release: `${process.env.npm_package_name}@${process.env.npm_package_version}`,
         normalizeDepth: 10,
         beforeBreadcrumb: breadcrumb =>
           breadcrumb.category === 'http' || breadcrumb.type === 'http' ? null : breadcrumb,
       },
-      format: formatErrorSentry,
+      format: formatErrorSentry(),
     }),
   ],
 });
