@@ -24,7 +24,7 @@ module.exports = async ctx => {
   }
 
   if (!user.selectedPack) {
-    const defaultPack = prepareDefaultPack(user.id, ctx.botInfo.username, isAnimated);
+    const defaultPack = prepareDefaultPack(user.id, ctx.me, isAnimated);
     user.selectedPack = await Pack.createNew(defaultPack);
     await user.save();
   }
