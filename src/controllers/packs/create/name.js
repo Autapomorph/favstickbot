@@ -12,7 +12,7 @@ packsCreateNameScene.on('text', async ctx => {
   const { user } = ctx.session;
   const { packToCreate, packToCopy } = ctx.scene.state;
   const packName = ctx.message.text;
-  packToCreate.name = `${packName}_by_${ctx.me}`;
+  packToCreate.name = `${packName}_by_${ctx.botInfo.username}`;
 
   if (!(await validatePackName(ctx, packToCreate.name))) {
     return ctx.scene.reenter();

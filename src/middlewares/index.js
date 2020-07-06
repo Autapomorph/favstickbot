@@ -1,3 +1,4 @@
+const botInfo = require('./botInfo');
 const session = require('./session');
 const updateUser = require('./updateUser');
 const updateLocale = require('./updateLocale');
@@ -8,6 +9,7 @@ const rateLimit = require('./rateLimit');
 const logUpdate = require('./logUpdate');
 
 module.exports = {
+  botInfo,
   session,
   updateUser,
   updateLocale,

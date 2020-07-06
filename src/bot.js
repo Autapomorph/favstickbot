@@ -3,6 +3,7 @@ const { compose } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
+  botInfo,
   session,
   updateUser,
   updateLocale,
@@ -29,7 +30,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 commands.register(commandsList);
 
 // register middlewares
-bot.use(compose([logUpdate, session, i18n, rateLimit, updateUser, updateLocale, stage]));
+bot.use(compose([logUpdate, botInfo, session, i18n, rateLimit, updateUser, updateLocale, stage]));
 
 // handle /start & /help commands
 bot.start(controllers.start);
