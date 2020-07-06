@@ -23,6 +23,7 @@ const getStickerFile = ctx => {
     case 'photo': {
       return {
         ...photo.slice(-1)[0],
+        is_animated: false,
         type: 'photo',
         emoji: caption,
       };
@@ -36,6 +37,7 @@ const getStickerFile = ctx => {
 
       return {
         ...document,
+        is_animated: false,
         type: 'document',
         emoji: caption,
       };
