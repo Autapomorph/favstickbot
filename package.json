@@ -1,5 +1,5 @@
 {
-  "name": "favsbot",
+  "name": "favstickbot",
   "version": "1.0.0",
   "description": "Telegram bot which helps you mix stickers from multiple packs into a single one",
   "keywords": [
@@ -10,10 +10,10 @@
   "author": "Autapomorph (https://github.com/Autapomorph)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Autapomorph/favsbot.git"
+    "url": "https://github.com/Autapomorph/favstickbot.git"
   },
   "bugs": {
-    "url": "https://github.com/Autapomorph/favsbot/issues"
+    "url": "https://github.com/Autapomorph/favstickbot/issues"
   },
   "license": "MIT",
   "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
