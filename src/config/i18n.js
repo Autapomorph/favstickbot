@@ -1,19 +1,30 @@
+const path = require('path');
+
 const locales = {
-  en: '🇺🇸',
-  ru: '🇷🇺',
+  en: {
+    name: 'english',
+    localName: 'english',
+    code: 'en',
+    symbol: '🇺🇸',
+    selectText: 'Select language',
+    selectTextWithSymbol: '🇺🇸 Select language',
+  },
+  ru: {
+    name: 'russian',
+    localName: 'русский',
+    code: 'ru',
+    symbol: '🇷🇺',
+    selectText: 'Выберите язык',
+    selectTextWithSymbol: '🇷🇺 Выберите язык',
+  },
 };
 
-const translateStrings = {
-  en: 'Select language',
-  ru: 'Выберите язык',
-};
+const defaultLocale = locales.en;
 
-const translateMessages = {
-  en: `${locales.en} ${translateStrings.en}`,
-  ru: `${locales.ru} ${translateStrings.ru}`,
-};
+const resourcesPath = path.resolve(__dirname, '../locales');
 
 module.exports = {
   locales,
-  translateMessages,
+  defaultLocale,
+  resourcesPath,
 };

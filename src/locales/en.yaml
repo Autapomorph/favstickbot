@@ -21,7 +21,7 @@ cmd:
         <b>🌟 Sticker packs:</b>
       empty: |
         <b>You have no sticker packs yet</b>
-        To create, write a command /new
+        Send /new to create one
   restore:
     reply: |
       <b>🗃 Sticker pack restoration</b>

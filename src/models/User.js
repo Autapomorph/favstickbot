@@ -24,7 +24,7 @@ const UserSchema = mongoose.Schema(
     },
     locale: {
       type: String,
-      default: defaultLocale,
+      default: defaultLocale.code,
     },
   },
   {

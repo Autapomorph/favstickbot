@@ -2,11 +2,11 @@ const Markup = require('telegraf/markup');
 
 const { locales } = require('../../config');
 
-const cbLangButtons = Object.entries(locales).map(([key, val]) => {
-  return Markup.callbackButton(val, `language_set:${key}`);
-});
+const langButtons = Object.values(locales).map(locale =>
+  Markup.callbackButton(locale.symbol, `language_set:${locale.code}`),
+);
 
-const langKeyboard = Markup.inlineKeyboard(cbLangButtons, {
+const langKeyboard = Markup.inlineKeyboard(langButtons, {
   columns: 5,
 }).extra();
 

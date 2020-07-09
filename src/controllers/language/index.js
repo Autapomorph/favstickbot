@@ -1,9 +1,11 @@
 const actions = require('./actions');
 const { langKeyboard } = require('./helpers');
-const { translateMessages } = require('../../config');
+const { locales } = require('../../config');
 
 const enter = async ctx => {
-  const messageText = Object.values(translateMessages).join('\n');
+  const messageText = Object.values(locales)
+    .map(locale => locale.selectTextWithSymbol)
+    .join('\n');
   return ctx.reply(messageText, langKeyboard);
 };
 

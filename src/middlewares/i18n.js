@@ -1,9 +1,10 @@
-const path = require('path');
 const I18n = require('telegraf-i18n');
 
+const { resourcesPath, defaultLocale } = require('../config');
+
 const i18n = new I18n({
-  directory: path.resolve(process.cwd(), 'src', 'locales'),
-  defaultLanguage: 'en',
+  directory: resourcesPath,
+  defaultLanguage: defaultLocale.code,
   useSession: true,
 });
 

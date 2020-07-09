@@ -3,13 +3,12 @@ const { locales } = require('../../config');
 
 const setLanguage = async ctx => {
   const { user } = ctx.session;
-  const { langCode } = ctx.match.groups;
-  const localeSymbol = locales[langCode];
 
-  if (localeSymbol) {
-    ctx.answerCbQuery(localeSymbol);
-    ctx.i18n.locale(langCode);
-    user.locale = ctx.i18n.locale();
+  const locale = locales[ctx.match.groups.langCode];
+  if (locale) {
+    ctx.answerCbQuery(locale.symbol);
+    ctx.i18n.locale(locale.code);
+    user.locale = locale.code;
     await user.save();
   }
 
