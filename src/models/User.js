@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const Pack = require('./Pack');
+const { defaultLocale } = require('../config/i18n');
 const logger = require('../utils/logger');
 
 const UserSchema = mongoose.Schema(
@@ -20,15 +22,22 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Pack',
     },
-    locale: String,
+    locale: {
+      type: String,
+      default: defaultLocale,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-UserSchema.pre(['find', 'findOne'], function pre() {
+UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
   this.populate('selectedPack');
+});
+
+UserSchema.pre('deleteOne', { document: true }, async function pre() {
+  await Pack.deleteMany({ owner: this.id });
 });
 
 UserSchema.statics.createNew = async function createNew(tgUser) {
@@ -37,20 +46,12 @@ UserSchema.statics.createNew = async function createNew(tgUser) {
     firstName: tgUser.first_name,
     lastName: tgUser.last_name,
     username: tgUser.username,
+    locale: tgUser.language_code,
+    selectedPack: null,
   });
 
-  logger.debug('New user has been created:\n%O', user);
+  logger.debug('New user has been created: %s', user.id);
   return user;
-};
-
-UserSchema.statics.findOrCreate = async function findOrCreate(tgUser) {
-  const user = await this.findOne({ telegramId: tgUser.id }).populate('selectedPack');
-
-  if (user) {
-    return user;
-  }
-
-  return this.createNew(tgUser);
 };
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
@@ -63,7 +64,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       updatedAt: new Date(),
     },
     { new: true },
-  ).populate('selectedPack');
+  );
 
   if (updatedUser) {
     return updatedUser;

@@ -38,16 +38,24 @@ const PackSchema = mongoose.Schema(
   },
 );
 
+PackSchema.pre('deleteOne', { document: true }, async function pre() {
+  await Sticker.deleteMany({ pack: this.id });
+});
+
+PackSchema.pre('deleteMany', async function pre() {
+  const userPacksIds = await this.model.find(this.getFilter()).distinct('_id');
+  await Sticker.deleteMany({ pack: { $in: userPacksIds } });
+});
+
 PackSchema.statics.createNew = async function createNew(packData) {
   const { owner, name, title, isAnimated = false, hasTgInstance = false } = packData;
 
-  // if user tries to create pack with name that already exists
+  // if user tries to create pack with name that already exists in database
   // (e.g. user has deleted pack using @Stickers bot),
   // we should delete existing pack and stickers added to it
   const oldPack = await this.findOne({ name });
   if (oldPack) {
-    await Sticker.deleteMany({ pack: oldPack.id });
-    await oldPack.remove();
+    await oldPack.deleteOne();
   }
 
   const newPack = await this.create({
@@ -58,18 +66,8 @@ PackSchema.statics.createNew = async function createNew(packData) {
     hasTgInstance,
   });
 
-  logger.debug('New sticker pack has been created:\n%O', newPack);
+  logger.debug('New sticker pack has been created: %s', newPack.id);
   return newPack;
-};
-
-PackSchema.statics.findOrCreate = async function findOrCreate(packData) {
-  const pack = await this.findOne({ name: packData.name });
-
-  if (pack) {
-    return pack;
-  }
-
-  return this.createNew(packData);
 };
 
 const Pack = mongoose.model('Pack', PackSchema);

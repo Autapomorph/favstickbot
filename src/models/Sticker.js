@@ -47,7 +47,7 @@ StickerSchema.statics.createNew = async function createNew(pack, emojis, inputFi
     },
   });
 
-  logger.debug('New sticker has been created:\n%O', sticker);
+  logger.debug('New sticker has been created: %s', sticker.id);
   return sticker;
 };
 
