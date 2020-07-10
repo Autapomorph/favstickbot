@@ -56,6 +56,7 @@ bot.on(['sticker', 'document', 'photo'], controllers.stickers.add);
 // handle callback queries
 bot.action(/pack_select:(?<packId>.+)/, controllers.packs.list.actions.select);
 bot.action(/pack_hide:(?<packId>.+)/, controllers.packs.list.actions.hide);
+bot.action(/pack_restore:(?<packId>.+)/, controllers.packs.list.actions.restore);
 bot.action(/language_set:(?<langCode>.+)/, controllers.language.actions.setLanguage);
 
 // register error handler

@@ -26,7 +26,18 @@ module.exports = async (error, ctx) => {
     sceneState,
   });
 
+  // Error sent from Telegram
   if (error.description) {
+    // Forbidden: bot was blocked by the user
+    if (/forbidden.*bot.*blocked.*user/i.test(error.description)) {
+      return;
+    }
+
+    // Too Many Requests: retry after *
+    if (/too.*many.*requests/i.test(error.description)) {
+      return;
+    }
+
     return replyErrorTelegram(ctx, error);
   }
 

@@ -18,8 +18,9 @@ packsCreateNameScene.on('text', async ctx => {
     return ctx.scene.reenter();
   }
 
-  const createPackResult = await createPack(ctx, user, packToCreate, packToCopy);
-  if (createPackResult.error) {
+  try {
+    await createPack(ctx, user, packToCreate, packToCopy);
+  } catch (error) {
     return;
   }
 

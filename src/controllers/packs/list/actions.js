@@ -1,6 +1,7 @@
 const {
   replyPackSelectAction,
-  replyPackHideRestoreAction,
+  replyPackHideAction,
+  replyPackRestoreAction,
   replyErrorAccessDenied,
 } = require('./helpers');
 const {
@@ -9,13 +10,14 @@ const {
   getVisiblePacks,
   getSelectedPackId,
 } = require('../../../utils/packs');
+const { validateOwner } = require('../../../utils/packs/validate');
 
-// mark pack as selected
+// Mark pack as selected
 const selectPack = async ctx => {
   const { user } = ctx.session;
   const packToSelect = await getPackById(ctx.match.groups.packId);
 
-  if (String(packToSelect.owner) !== String(user.id)) {
+  if (!validateOwner(packToSelect, user)) {
     return replyErrorAccessDenied(ctx);
   }
 
@@ -27,48 +29,53 @@ const selectPack = async ctx => {
   return replyPackSelectAction(ctx, packToSelect);
 };
 
-// hide/restore packs to be visible in packlist
-const hideOrRestorePack = async ctx => {
+// Hide pack from pack list
+const hidePack = async ctx => {
   const { user } = ctx.session;
-  const visiblePacks = await getVisiblePacks(user.id);
   const packToModify = await getPackById(ctx.match.groups.packId);
   const selectedPackId = getSelectedPackId(user);
-  const isRestoring = packToModify.isHidden;
-  const isHiding = !isRestoring;
 
-  if (String(packToModify.owner) !== String(user.id)) {
+  if (!validateOwner(packToModify, user)) {
     return replyErrorAccessDenied(ctx);
   }
 
-  // hide pack
-  if (isHiding) {
-    packToModify.isHidden = true;
-    await packToModify.save();
+  packToModify.isHidden = true;
+  await packToModify.save();
 
-    // if pack is selected
-    if (String(packToModify.id) === String(selectedPackId)) {
-      // get first visible pack and make it selected (if exists, null otherwise)
-      user.selectedPack = await getVisiblePack(user.id);
-      await user.save();
-    }
+  // If pack is selected
+  if (String(packToModify.id) === String(selectedPackId)) {
+    // Get first visible pack and make it selected (if exists, null otherwise)
+    user.selectedPack = await getVisiblePack(user.id);
+    await user.save();
   }
 
-  // restore pack
-  if (isRestoring) {
-    if (!visiblePacks.length) {
-      // set pack to be selected one if there are no visible packs
-      user.selectedPack = packToModify;
-      await user.save();
-    }
+  return replyPackHideAction(ctx, packToModify);
+};
 
-    packToModify.isHidden = false;
-    await packToModify.save();
+// Restore pack to pack list
+const restorePack = async ctx => {
+  const { user } = ctx.session;
+  const packToModify = await getPackById(ctx.match.groups.packId);
+  const visiblePacks = await getVisiblePacks(user.id);
+
+  if (!validateOwner(packToModify, user)) {
+    return replyErrorAccessDenied(ctx);
   }
 
-  return replyPackHideRestoreAction(ctx, packToModify);
+  // Set pack to be selected one if there are no visible packs
+  if (!visiblePacks.length) {
+    user.selectedPack = packToModify;
+    await user.save();
+  }
+
+  packToModify.isHidden = false;
+  await packToModify.save();
+
+  return replyPackRestoreAction(ctx, packToModify);
 };
 
 module.exports = {
   select: selectPack,
-  hide: hideOrRestorePack,
+  hide: hidePack,
+  restore: restorePack,
 };

@@ -3,6 +3,7 @@ const Markup = require('telegraf/markup');
 const { packLinkPrefix } = require('../../../config');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 const { getVisiblePacks, getSelectedPackId } = require('../../../utils/packs');
+const { isNextKeyboardDifferent } = require('../../../utils/keyboards');
 const { replyError } = require('../../../utils/errors/replyError');
 
 const errorTypes = {
@@ -20,17 +21,15 @@ const getPackListKeyboard = (packs, selectedPackId) => {
 const getPackListText = (ctx, packs) =>
   packs.length ? ctx.i18n.t('cmd.packs.reply.list') : ctx.i18n.t('cmd.packs.reply.empty');
 
-const replyPackList = async (ctx, packs, keyboard) => {
-  const text = getPackListText(ctx, packs);
-  return ctx.replyWithHTML(text, {
-    reply_markup: Markup.inlineKeyboard(keyboard),
-  });
-};
+const replyPackList = async (ctx, text, keyboard, messageId) => {
+  if (messageId !== undefined) {
+    return ctx.telegram.editMessageText(ctx.chat.id, messageId, null, text, {
+      parse_mode: 'HTML',
+      reply_markup: Markup.inlineKeyboard(keyboard),
+    });
+  }
 
-const editPackList = async (ctx, packs, keyboard, messageId) => {
-  const text = getPackListText(ctx, packs);
-  return ctx.telegram.editMessageText(ctx.chat.id, messageId, null, text, {
-    parse_mode: 'HTML',
+  return ctx.replyWithHTML(text, {
     reply_markup: Markup.inlineKeyboard(keyboard),
   });
 };
@@ -38,24 +37,27 @@ const editPackList = async (ctx, packs, keyboard, messageId) => {
 const replyPackSelectAction = async (ctx, pack) => {
   const { user } = ctx.session;
   const packs = await getVisiblePacks(user.id);
+  const packListText = getPackListText(ctx, packs);
   const packListKeyboard = getPackListKeyboard(packs, pack.id);
-  const packListMessageId = ctx.callbackQuery.message.message_id;
-  const cbBtnText = pack.isHidden ? 'actions.pack.btn.restore' : 'actions.pack.btn.hide';
+  const prevPackListMessage = ctx.callbackQuery.message;
+  const prevPackListMessageId = prevPackListMessage.message_id;
+  const prevPackListMessageKeyboard =
+    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
 
-  if (packListMessageId) {
-    editPackList(ctx, packs, packListKeyboard, packListMessageId).catch(() => {});
-  } else {
-    replyPackList(ctx, packs, packListKeyboard);
+  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
   }
 
-  ctx.answerCbQuery();
+  await ctx.answerCbQuery();
+
+  const cbBtnText = pack.isHidden ? 'actions.pack.btn.restore' : 'actions.pack.btn.hide';
   return ctx.replyWithHTML(
     ctx.i18n.t('actions.pack.reply.selected', {
       title: escapeHTML(pack.title),
       link: `${packLinkPrefix}${pack.name}`,
     }),
     {
-      reply_to_message_id: packListMessageId,
+      reply_to_message_id: prevPackListMessageId,
       reply_markup: Markup.inlineKeyboard([
         [Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${pack.id}`)],
       ]),
@@ -63,41 +65,65 @@ const replyPackSelectAction = async (ctx, pack) => {
   );
 };
 
-const replyPackHideRestoreAction = async (ctx, pack) => {
+const replyPackHideAction = async (ctx, pack) => {
   const { user } = ctx.session;
-  const answerText = pack.isHidden ? 'actions.pack.answer.hidden' : 'actions.pack.answer.restored';
-  const cbBtnText = pack.isHidden ? 'actions.pack.btn.restore' : 'actions.pack.btn.hide';
-
   const packs = await getVisiblePacks(user.id);
   const selectedPackId = getSelectedPackId(user);
+  const packListText = getPackListText(ctx, packs);
   const packListKeyboard = getPackListKeyboard(packs, selectedPackId);
-  const packListMessageId = ctx.callbackQuery.message.reply_to_message.message_id;
+  const prevPackListMessage = ctx.callbackQuery.message.reply_to_message;
+  const prevPackListMessageId = prevPackListMessage.message_id;
+  const prevPackListMessageKeyboard =
+    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
 
-  if (packListMessageId) {
-    await editPackList(ctx, packs, packListKeyboard, packListMessageId).catch(() => {});
-  } else {
-    await replyPackList(ctx, packs, packListKeyboard);
+  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
   }
 
-  await ctx
-    .editMessageReplyMarkup(
-      Markup.inlineKeyboard([Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${pack.id}`)]),
-    )
-    .catch(() => {});
+  await ctx.editMessageReplyMarkup(
+    Markup.inlineKeyboard([
+      Markup.callbackButton(ctx.i18n.t('actions.pack.btn.restore'), `pack_restore:${pack.id}`),
+    ]),
+  );
 
-  return ctx.answerCbQuery(ctx.i18n.t(answerText));
+  return ctx.answerCbQuery(ctx.i18n.t('actions.pack.answer.hidden'));
+};
+
+const replyPackRestoreAction = async (ctx, pack) => {
+  const { user } = ctx.session;
+  const packs = await getVisiblePacks(user.id);
+  const selectedPackId = getSelectedPackId(user);
+  const packListText = getPackListText(ctx, packs);
+  const packListKeyboard = getPackListKeyboard(packs, selectedPackId);
+  const prevPackListMessage = ctx.callbackQuery.message.reply_to_message;
+  const prevPackListMessageId = prevPackListMessage.message_id;
+  const prevPackListMessageKeyboard =
+    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
+
+  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
+  }
+
+  await ctx.editMessageReplyMarkup(
+    Markup.inlineKeyboard([
+      Markup.callbackButton(ctx.i18n.t('actions.pack.btn.hide'), `pack_hide:${pack.id}`),
+    ]),
+  );
+
+  return ctx.answerCbQuery(ctx.i18n.t('actions.pack.answer.restored'));
 };
 
 const replyErrorAccessDenied = async ctx => {
-  ctx.answerCbQuery();
+  await ctx.answerCbQuery();
   return replyError(ctx, errorTypes.ACCESS_DENIED);
 };
 
 module.exports = {
   replyPackList,
-  editPackList,
   replyPackSelectAction,
-  replyPackHideRestoreAction,
+  replyPackHideAction,
+  replyPackRestoreAction,
+  getPackListText,
   getPackListKeyboard,
   errorTypes,
   replyErrorAccessDenied,

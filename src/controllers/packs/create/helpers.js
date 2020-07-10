@@ -36,21 +36,29 @@ const createPack = async (ctx, user, packToCreate, nextOperation) => {
 
     return await replies.replySuccess(ctx, user.selectedPack);
   } catch (error) {
-    logger.error(error);
-
-    const errorDescription = error.description;
-    if (/name.*occupied/.test(errorDescription)) {
-      await replies.replyErrorNameOccupied(ctx);
+    // Bad Request: invalid sticker set name is specified
+    if (/invalid.*name/i.test(error.description)) {
+      logger.error(error, { sentry: false });
+      await replies.replyErrorNameInvalid(ctx);
       ctx.scene.reenter();
-      return { error };
+      throw error;
     }
 
+    // Bad Request: sticker set name is already occupied
+    if (/name.*occupied/i.test(error.description)) {
+      logger.error(error, { sentry: false });
+      await replies.replyErrorNameOccupied(ctx);
+      ctx.scene.reenter();
+      throw error;
+    }
+
+    logger.error(error);
     await replyErrorTelegram(ctx, error, {
       reply_to_message_id: ctx.message.message_id,
       ...getMainKeyboard(ctx),
     });
     ctx.scene.leave();
-    return { error };
+    throw error;
   }
 };
 

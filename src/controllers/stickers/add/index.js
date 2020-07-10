@@ -47,7 +47,17 @@ module.exports = async ctx => {
       },
     );
   } catch (error) {
-    logger.error(error);
+    // Bad Request: STICKERS_TOO_MUCH
+    // Bad Request: STICKERSET_INVALID
+    if (
+      /stickers.*too.*much/i.test(error.description) ||
+      /stickerset.*invalid/i.test(error.description)
+    ) {
+      logger.error(error, { sentry: false });
+    } else {
+      logger.error(error);
+    }
+
     return replyErrorAddSticker(ctx, error);
   }
 };

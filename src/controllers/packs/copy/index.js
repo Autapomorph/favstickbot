@@ -12,7 +12,13 @@ const command = async ctx => {
   try {
     packToCopy = await ctx.getStickerSet(packName);
   } catch (error) {
-    logger.error(error);
+    // Bad Request: STICKERSET_INVALID
+    if (/stickerset.*invalid/i.test(error.description)) {
+      logger.error(error, { sentry: false });
+    } else {
+      logger.error(error);
+    }
+
     return replyErrorCopy(ctx);
   }
 
