@@ -28,6 +28,7 @@
     "lint:staged": "lint-staged --relative"
   },
   "dependencies": {
+    "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "mongoose": "^5.9.21",
     "nanoid": "^3.1.10",
@@ -35,7 +36,7 @@
     "sharp": "^0.25.4",
     "telegraf": "^3.38.0",
     "telegraf-i18n": "^6.6.0",
-    "telegraf-ratelimit": "^2.0.0",
+    "telegraf-throttler": "^0.2.0",
     "telegraf-update-logger": "^1.1.7",
     "winston": "^3.3.3",
     "winston-transport-sentry-node": "^0.6.0"
