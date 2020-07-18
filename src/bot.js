@@ -35,17 +35,16 @@ bot.use(
   compose([logUpdate, setBotInfo, session, i18n, rateLimit, updateUser, updateLocale, stage]),
 );
 
-// handle /start & /help commands
+// handle commands with i18n support
 bot.start(controllers.start);
 bot.help(controllers.start);
-
-// handle commands with i18n support
 bot.hears(['/packs', match('cmd.start.btn.packs')], controllers.packs.list.command);
 bot.hears(['/new', match('cmd.start.btn.new')], ctx => ctx.scene.enter('PACKS_CREATE'));
 bot.command('copy', controllers.packs.copy.enter);
 bot.command('restore', controllers.packs.restore.enter);
 bot.command('original', ctx => ctx.scene.enter('STICKERS_ORIGINAL'));
 bot.command('lang', controllers.language.enter);
+bot.command('deleteme', controllers.deleteme);
 
 // handle messages with sticker/document/photo subtype
 bot.on(['sticker', 'document', 'photo'], isDocumentValid, controllers.stickers.add);

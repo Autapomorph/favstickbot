@@ -39,6 +39,9 @@ cmd:
 
       Copy every sticker from any sticker pack!
       Just send me a link to it)
+  deleteme:
+    reply: |
+      All data associated with you has been eliminated
 
 actions:
   pack:
