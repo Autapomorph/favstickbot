@@ -1,21 +1,23 @@
-const botInfo = require('./botInfo');
+const logUpdate = require('./logUpdate');
+const setBotInfo = require('./setBotInfo');
 const session = require('./session');
 const updateUser = require('./updateUser');
 const updateLocale = require('./updateLocale');
 const isStickersBot = require('./isStickersBot');
 const hasPackLink = require('./hasPackLink');
-const i18n = require('./i18n');
+const isDocumentValid = require('./isDocumentValid');
 const rateLimit = require('./rateLimit');
-const logUpdate = require('./logUpdate');
+const i18n = require('./i18n');
 
 module.exports = {
-  botInfo,
+  logUpdate,
+  setBotInfo,
   session,
   updateUser,
   updateLocale,
   isStickersBot,
   hasPackLink,
-  i18n,
+  isDocumentValid,
   rateLimit,
-  logUpdate,
+  i18n,
 };

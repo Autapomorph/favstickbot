@@ -3,12 +3,13 @@ const { compose } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
-  botInfo,
+  setBotInfo,
   session,
   updateUser,
   updateLocale,
   isStickersBot,
   hasPackLink,
+  isDocumentValid,
   i18n,
   rateLimit,
   logUpdate,
@@ -30,7 +31,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 commands.register(commandsList);
 
 // register middlewares
-bot.use(compose([logUpdate, botInfo, session, i18n, rateLimit, updateUser, updateLocale, stage]));
+bot.use(
+  compose([logUpdate, setBotInfo, session, i18n, rateLimit, updateUser, updateLocale, stage]),
+);
 
 // handle /start & /help commands
 bot.start(controllers.start);
@@ -44,14 +47,14 @@ bot.command('restore', controllers.packs.restore.enter);
 bot.command('original', ctx => ctx.scene.enter('STICKERS_ORIGINAL'));
 bot.command('lang', controllers.language.enter);
 
+// handle messages with sticker/document/photo subtype
+bot.on(['sticker', 'document', 'photo'], isDocumentValid, controllers.stickers.add);
+
 // handle messages with pack URL
 bot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy.command));
 
 // handle forward messages from @Stickers bot with pack URL to restore packs
 bot.on('forward', isStickersBot, hasPackLink, controllers.packs.restore.command);
-
-// handle messages with sticker/document/photo subtype
-bot.on(['sticker', 'document', 'photo'], controllers.stickers.add);
 
 // handle callback queries
 bot.action(/pack_select:(?<packId>.+)/, controllers.packs.list.actions.select);

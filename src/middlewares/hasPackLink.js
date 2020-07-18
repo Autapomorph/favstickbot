@@ -1,5 +1,9 @@
 const packLinkRegex = /addstickers\/(?<packName>.+)/;
-const testEntityType = type => type === 'text_link';
+
+const isTextLink = entity => entity.type === 'text_link';
+
+const isPackLink = entity => packLinkRegex.test(entity.url);
+
 const getPackNameFromURL = url => {
   const reExecRes = packLinkRegex.exec(url);
   return reExecRes && reExecRes.groups.packName;
@@ -8,20 +12,20 @@ const getPackNameFromURL = url => {
 module.exports = async (ctx, next) => {
   const { entities } = ctx.message;
 
-  if (!entities) {
+  if (!entities || !entities.length) {
     return;
   }
 
-  const packLinkEntities = entities.filter(entity => testEntityType(entity.type));
-  if (!packLinkEntities.length) {
+  const packLinkEntity = entities.filter(isTextLink).find(isPackLink);
+  if (!packLinkEntity) {
     return;
   }
 
-  const packName = getPackNameFromURL(packLinkEntities[0].url);
+  const packName = getPackNameFromURL(packLinkEntity.url);
   if (!packName) {
     return;
   }
 
-  ctx.state.packName = packName;
+  ctx.state.packToRestoreName = packName;
   return next();
 };

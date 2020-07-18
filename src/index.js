@@ -6,10 +6,12 @@ const WEBHOOK_OPTIONS = require('./config/webhook');
 const logger = require('./utils/logger');
 const { isProd } = require('./utils');
 
-const { MONGODB_URI, WEBHOOK_DOMAIN } = process.env;
+const { NODE_ENV, MONGODB_URI, WEBHOOK_DOMAIN } = process.env;
+
+logger.info(`Application is running in ${NODE_ENV} mode`);
 
 if (!isProd) {
-  logger.debug('Logging initialized at debug level');
+  logger.info('Logging initialized at debug level');
 }
 
 database.connect(MONGODB_URI);

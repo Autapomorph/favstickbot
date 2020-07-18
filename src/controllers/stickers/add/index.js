@@ -1,4 +1,4 @@
-const { replyErrorFileType, replyErrorAddSticker } = require('./helpers');
+const { replyErrorAddSticker } = require('./helpers');
 const Pack = require('../../../models/Pack');
 const { getStickerFile } = require('../../../utils/stickers');
 const addSticker = require('../../../utils/stickers/add');
@@ -13,10 +13,6 @@ module.exports = async ctx => {
   await ctx.replyWithChatAction('upload_document');
 
   const inputFile = getStickerFile(ctx);
-  if (!inputFile) {
-    return replyErrorFileType(ctx);
-  }
-
   const isAnimated = inputFile.is_animated;
   if (user.selectedPack && user.selectedPack.isAnimated !== isAnimated) {
     user.selectedPack = await getPackByType(user.id, isAnimated);

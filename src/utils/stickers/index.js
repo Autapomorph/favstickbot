@@ -8,42 +8,31 @@ const getOriginalStickerByFileId = async fileUniqueId => {
 };
 
 const getStickerFile = ctx => {
-  const updateSubType = ctx.updateSubTypes[0];
-  const { sticker, document, photo, caption } = ctx.message;
-  const stickerMimeTypes = ['image/jpeg', 'image/png'];
+  const { sticker, photo, document, caption } = ctx.message;
 
-  switch (updateSubType) {
-    case 'sticker': {
-      return {
-        ...sticker,
-        type: 'sticker',
-      };
-    }
+  if (sticker) {
+    return {
+      ...sticker,
+      type: 'sticker',
+    };
+  }
 
-    case 'photo': {
-      return {
-        ...photo.slice(-1)[0],
-        is_animated: false,
-        type: 'photo',
-        emoji: caption,
-      };
-    }
+  if (photo) {
+    return {
+      ...photo.slice(-1)[0],
+      is_animated: false,
+      type: 'photo',
+      emoji: caption,
+    };
+  }
 
-    case 'document': {
-      // Mime type in invalid
-      if (!stickerMimeTypes.includes(document.mime_type)) {
-        return;
-      }
-
-      return {
-        ...document,
-        is_animated: false,
-        type: 'document',
-        emoji: caption,
-      };
-    }
-
-    default:
+  if (document) {
+    return {
+      ...document,
+      is_animated: false,
+      type: 'document',
+      emoji: caption,
+    };
   }
 };
 

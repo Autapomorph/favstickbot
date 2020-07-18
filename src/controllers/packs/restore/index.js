@@ -7,9 +7,9 @@ const enter = async ctx => {
 
 const command = async ctx => {
   const { user } = ctx.session;
-  const { packName } = ctx.state;
+  const { packToRestoreName } = ctx.state;
 
-  const packToRestore = await getHiddenPackByName(user.id, packName);
+  const packToRestore = await getHiddenPackByName(user.id, packToRestoreName);
   if (!packToRestore) {
     return replyErrorRestore(ctx);
   }

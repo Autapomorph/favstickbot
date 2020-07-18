@@ -1,12 +1,7 @@
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/replyError');
 
 const errorTypes = {
-  FILE_TYPE: 'stickers.add.reply.error.file_type',
   STICKERS_TOO_MUCH: 'stickers.add.reply.error.stickers_too_much',
-};
-
-const replyErrorFileType = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.FILE_TYPE);
 };
 
 const replyErrorAddSticker = (ctx, error) => {
@@ -19,6 +14,5 @@ const replyErrorAddSticker = (ctx, error) => {
 
 module.exports = {
   errorTypes,
-  replyErrorFileType,
   replyErrorAddSticker,
 };

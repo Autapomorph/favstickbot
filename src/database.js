@@ -11,7 +11,7 @@ const connect = uri => {
   });
 
   mongoose.connection.on('error', error => {
-    logger.error(error, { description: 'Error during connection to the database:' });
+    logger.error(error);
     process.exit(1);
   });
 };
@@ -19,7 +19,7 @@ const connect = uri => {
 const addConnectListener = onSuccess => {
   mongoose.connection.once('open', async () => {
     logger.info('Connected to database');
-    return onSuccess();
+    return onSuccess(mongoose.connection);
   });
 };
 
