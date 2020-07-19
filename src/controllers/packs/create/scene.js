@@ -18,7 +18,7 @@ packsCreateScene.enter(async ctx => {
   const { packToCreate, packToCopy } = ctx.scene.state;
 
   if (packToCopy) {
-    packToCreate.isAnimated = packToCopy.is_animated || false;
+    packToCreate.isAnimated = packToCopy.isAnimated;
     return ctx.scene.enter('PACKS_CREATE/TITLE', ctx.scene.state);
   }
 

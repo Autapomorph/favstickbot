@@ -10,13 +10,11 @@ const StickerSchema = mongoose.Schema(
     },
     fileId: {
       type: String,
-      index: true,
       unique: true,
       required: true,
     },
     fileUniqueId: {
       type: String,
-      index: true,
       unique: true,
       required: true,
     },
@@ -24,7 +22,6 @@ const StickerSchema = mongoose.Schema(
     original: {
       fileId: String,
       fileUniqueId: String,
-      packName: String,
       fileType: String,
     },
   },
@@ -36,13 +33,12 @@ const StickerSchema = mongoose.Schema(
 StickerSchema.statics.createNew = async function createNew(pack, emojis, inputFile, uploadedFile) {
   const sticker = await this.create({
     pack,
-    fileId: uploadedFile.file_id,
-    fileUniqueId: uploadedFile.file_unique_id,
+    fileId: uploadedFile.fileId,
+    fileUniqueId: uploadedFile.fileUniqueId,
     emojis,
     original: {
-      fileId: inputFile.file_id,
-      fileUniqueId: inputFile.file_unique_id,
-      packName: inputFile.set_name,
+      fileId: inputFile.fileId,
+      fileUniqueId: inputFile.fileUniqueId,
       fileType: inputFile.type,
     },
   });

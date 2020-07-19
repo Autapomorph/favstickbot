@@ -3,10 +3,20 @@ const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
   const { packName } = ctx.match.groups;
-  let packToCopy;
+  const packToCopy = {};
 
   try {
-    packToCopy = await ctx.getStickerSet(packName);
+    const { title, name, is_animated: isAnimated, stickers } = await ctx.getStickerSet(packName);
+    packToCopy.title = title;
+    packToCopy.name = name;
+    packToCopy.isAnimated = isAnimated;
+    packToCopy.stickers = stickers.map(sticker => ({
+      fileId: sticker.file_id,
+      fileUniqueId: sticker.file_unique_id,
+      emoji: sticker.emoji,
+      isAnimated: sticker.is_animated,
+      type: 'sticker',
+    }));
   } catch (error) {
     // Bad Request: STICKERSET_INVALID
     if (/stickerset.*invalid/i.test(error.description)) {
@@ -18,7 +28,7 @@ module.exports = async ctx => {
     return replyErrorCopy(ctx);
   }
 
-  if (!packToCopy || !packToCopy.stickers.length) {
+  if (!packToCopy.stickers || !packToCopy.stickers.length) {
     return replyErrorCopy(ctx);
   }
 

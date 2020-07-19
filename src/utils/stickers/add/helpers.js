@@ -4,7 +4,7 @@ const downloadFile = require('../../common/downloadFile');
 const { getNormalizedImage } = require('../../common/image');
 
 const downloadSticker = async (ctx, inputFile) => {
-  const fileUrl = await ctx.telegram.getFileLink(inputFile);
+  const fileUrl = await ctx.telegram.getFileLink(inputFile.fileId);
   return downloadFile(fileUrl);
 };
 
@@ -22,7 +22,11 @@ const addSticker = async (ctx, source, emojis, isAnimated, packName) => {
     emojis,
   });
 
-  return getUploadedStickerFile(ctx, packName);
+  const uploadedFile = await getUploadedStickerFile(ctx, packName);
+  return {
+    fileId: uploadedFile.file_id,
+    fileUniqueId: uploadedFile.file_unique_id,
+  };
 };
 
 const addStatic = async (ctx, inputFile, pack, emojis) => {

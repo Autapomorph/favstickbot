@@ -14,7 +14,7 @@ module.exports = async ctx => {
   await ctx.replyWithChatAction('upload_document');
 
   const inputFile = getStickerFile(ctx);
-  const isAnimated = inputFile.is_animated;
+  const { isAnimated } = inputFile;
   if (user.selectedPack && user.selectedPack.isAnimated !== isAnimated) {
     user.selectedPack = await getPackByType(user.id, isAnimated);
     await user.save();

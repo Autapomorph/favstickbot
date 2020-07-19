@@ -11,7 +11,6 @@ const PackSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      index: true,
       unique: true,
       required: true,
     },

@@ -12,26 +12,32 @@ const getStickerFile = ctx => {
 
   if (sticker) {
     return {
-      ...sticker,
       type: 'sticker',
+      fileId: sticker.file_id,
+      fileUniqueId: sticker.file_unique_id,
+      emoji: sticker.emoji,
+      isAnimated: sticker.is_animated,
     };
   }
 
   if (photo) {
+    const photoSize = photo[photo.length - 1];
     return {
-      ...photo.slice(-1)[0],
-      is_animated: false,
       type: 'photo',
+      fileId: photoSize.file_id,
+      fileUniqueId: photoSize.file_unique_id,
       emoji: caption,
+      isAnimated: false,
     };
   }
 
   if (document) {
     return {
-      ...document,
-      is_animated: false,
       type: 'document',
+      fileId: document.file_id,
+      fileUniqueId: document.file_unique_id,
       emoji: caption,
+      isAnimated: false,
     };
   }
 };

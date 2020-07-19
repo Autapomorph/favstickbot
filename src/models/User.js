@@ -8,7 +8,6 @@ const UserSchema = mongoose.Schema(
   {
     telegramId: {
       type: Number,
-      index: true,
       unique: true,
       required: true,
     },
@@ -55,22 +54,17 @@ UserSchema.statics.createNew = async function createNew(tgUser) {
 };
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
-  const updatedUser = await this.findOneAndUpdate(
+  const user = await this.findOneAndUpdate(
     { telegramId: tgUser.id },
     {
       firstName: tgUser.first_name,
       lastName: tgUser.last_name,
       username: tgUser.username,
-      updatedAt: new Date(),
     },
     { new: true },
   );
 
-  if (updatedUser) {
-    return updatedUser;
-  }
-
-  return this.createNew(tgUser);
+  return user || this.createNew(tgUser);
 };
 
 const User = mongoose.model('User', UserSchema);
