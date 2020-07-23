@@ -24,13 +24,17 @@
     "start": "cross-env NODE_ENV=development npm run watch",
     "serve": "cross-env NODE_ENV=production npm run watch",
     "watch": "nodemon src/index.js -e js,mjs,json,yaml",
+    "migrate": "migrate -s ./src/utils/migrations/store",
+    "migrate:create": "migrate create -t ./src/utils/migrations/template.js",
     "lint": "eslint .",
     "lint:staged": "lint-staged --relative"
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.21",
+    "migrate": "^1.7.0",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.25",
     "nanoid": "^3.1.10",
     "node-fetch": "^2.6.0",
     "sharp": "^0.25.4",
