@@ -5,9 +5,7 @@ const logger = require('../logger');
 
 module.exports = async (error, ctx) => {
   const {
-    session: {
-      user: { id, telegramId, firstName, lastName, username, locale, selectedPack } = {},
-    } = {},
+    session: { user: { id, username, firstName, lastName, locale, selectedPack } = {} } = {},
     scene: { state: sceneState } = {},
     match,
     update,
@@ -17,7 +15,7 @@ module.exports = async (error, ctx) => {
 
   logger.error(error, {
     description: 'Bot caught an unexpected exception:',
-    user: { id, telegramId, firstName, lastName, username, locale, selectedPack },
+    user: { id, username, firstName, lastName, locale, selectedPack },
     tags: {
       unexpected: true,
     },

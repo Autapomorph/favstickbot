@@ -6,14 +6,12 @@ const { packLinkPrefix } = require('../../config');
 
 const createSticker = async (packId, userFile, stickerFile) => {
   return Sticker.create({
+    _id: stickerFile.fileId,
     packId,
-    fileId: stickerFile.fileId,
     fileUniqueId: stickerFile.fileUniqueId,
-    emojis: stickerFile.emojis,
     original: {
       fileId: userFile.fileId,
-      fileUniqueId: userFile.fileUniqueId,
-      fileType: userFile.type,
+      type: userFile.type,
     },
   });
 };
@@ -27,7 +25,6 @@ const addStatic = async (ctx, userFile, pack) => {
   return {
     title: pack.title,
     link: `${packLinkPrefix}${pack.name}`,
-    sticker: stickerFile,
   };
 };
 
@@ -39,7 +36,6 @@ const addAnimated = async (ctx, userFile, pack) => {
   return {
     title: pack.title,
     link: `${packLinkPrefix}${pack.name}`,
-    sticker: stickerFile,
   };
 };
 

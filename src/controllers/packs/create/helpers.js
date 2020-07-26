@@ -20,7 +20,7 @@ const createPack = async (ctx, user, packToCreate, nextOperation) => {
 
     // eslint-disable-next-line no-param-reassign
     user.selectedPack = await Pack.create({
-      owner: user.id,
+      userId: user.id,
       name: packToCreate.name,
       title: packToCreate.title,
       isAnimated: packToCreate.isAnimated,

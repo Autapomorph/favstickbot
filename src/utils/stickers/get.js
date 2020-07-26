@@ -1,11 +1,4 @@
-const Sticker = require('../../models/Sticker');
 const { defaultEmojis } = require('../../config');
-
-const getStickerByFileUniqueId = async fileUniqueId => {
-  return Sticker.findOne({
-    fileUniqueId,
-  });
-};
 
 const getUploadedStickerFile = async (ctx, packName) => {
   const pack = await ctx.getStickerSet(packName);
@@ -50,5 +43,4 @@ const getUserFile = ctx => {
 module.exports = {
   getUserFile,
   getUploadedStickerFile,
-  getStickerByFileUniqueId,
 };

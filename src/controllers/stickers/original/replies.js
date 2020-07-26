@@ -12,7 +12,7 @@ const replyOriginal = async (ctx, { type, fileId }) => {
   };
 
   try {
-    switch (fileType) {
+    switch (type) {
       case 'sticker':
         return await ctx.replyWithSticker(fileId, replyExtra);
 

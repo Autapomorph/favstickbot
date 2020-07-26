@@ -4,29 +4,34 @@ const logger = require('../utils/logger');
 
 const StickerSchema = mongoose.Schema(
   {
-    pack: {
-      type: mongoose.Schema.Types.ObjectId,
+    _id: {
+      type: String,
+      alias: 'fileId',
+    },
+    packId: {
+      type: String,
       ref: 'Pack',
     },
-    fileId: {
+    uid: {
       type: String,
       unique: true,
       required: true,
+      alias: 'fileUniqueId',
     },
-    fileUniqueId: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    emojis: String,
     original: {
-      fileId: String,
-      fileUniqueId: String,
-      fileType: String,
+      id: {
+        type: String,
+        required: true,
+        alias: 'original.fileId',
+      },
+      type: {
+        type: String,
+        required: true,
+      },
     },
   },
   {
-    timestamps: true,
+    timestamps: { createdAt: true, updatedAt: false },
   },
 );
 
@@ -39,6 +44,10 @@ StickerSchema.post('save', function post() {
     logger.debug('New sticker has been created: %s', this.id);
   }
 });
+
+StickerSchema.statics.findOneByUID = async function findOneByUID(uid) {
+  return this.findOne({ uid });
+};
 
 const Sticker = mongoose.model('Sticker', StickerSchema);
 

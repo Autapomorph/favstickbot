@@ -13,7 +13,6 @@ const uploadSticker = async (ctx, source, emojis, isAnimated, packName) => {
   return {
     fileId: uploadedFile.file_id,
     fileUniqueId: uploadedFile.file_unique_id,
-    emojis: uploadedFile.emoji,
   };
 };
 

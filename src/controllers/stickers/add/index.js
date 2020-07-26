@@ -1,9 +1,7 @@
-const { replyErrorAddSticker } = require('./helpers');
 const Pack = require('../../../models/Pack');
 const { replyErrorAddSticker } = require('./replies');
 const { getUserFile } = require('../../../utils/stickers/get');
 const addSticker = require('../../../utils/stickers/add');
-const { getPackByType } = require('../../../utils/packs/get');
 const createPackTg = require('../../../utils/packs/create');
 const generateDefaultPack = require('../../../utils/packs/default');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
@@ -18,7 +16,7 @@ module.exports = async ctx => {
   const userFile = getUserFile(ctx);
   const { isAnimated } = userFile;
   if (user.selectedPack && user.selectedPack.isAnimated !== isAnimated) {
-    user.selectedPack = await getPackByType(user.id, isAnimated);
+    user.selectedPack = await Pack.findOneByType(user.id, isAnimated);
     await user.save();
   }
 

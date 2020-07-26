@@ -5,12 +5,12 @@ module.exports = async ctx => {
   const { user } = ctx.session;
   const { packToRestoreName } = ctx.state;
 
-  const packToRestore = await getHiddenPackByName(user.id, packToRestoreName);
+  const packToRestore = await Pack.findOneHidden(user.id, packToRestoreName);
   if (!packToRestore) {
     return replyErrorRestore(ctx);
   }
 
-  const visiblePacks = await getVisiblePacks(user.id);
+  const visiblePacks = await Pack.findVisible(user.id);
   if (!visiblePacks.length) {
     // set pack to be selected one if there are no visible packs
     user.selectedPack = packToRestore;

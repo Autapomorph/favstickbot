@@ -1,3 +1,4 @@
+const Pack = require('../../../models/Pack');
 const {
   replyPackSelectAction,
   replyPackHideAction,
@@ -10,9 +11,9 @@ const { validateOwner } = require('../../../utils/packs/validate');
 // Mark pack as selected
 const selectPack = async ctx => {
   const { user } = ctx.session;
-  const packToSelect = await getPackById(ctx.match.groups.packId);
+  const packToSelect = await Pack.findById(ctx.match.groups.packId);
 
-  if (!validateOwner(packToSelect, user)) {
+  if (!validateOwner(packToSelect.userId, user.id)) {
     return replyErrorAccessDenied(ctx);
   }
 
@@ -27,10 +28,10 @@ const selectPack = async ctx => {
 // Hide pack from pack list
 const hidePack = async ctx => {
   const { user } = ctx.session;
-  const packToModify = await getPackById(ctx.match.groups.packId);
+  const packToModify = await Pack.findById(ctx.match.groups.packId);
   const selectedPackId = getSelectedPackId(user);
 
-  if (!validateOwner(packToModify, user)) {
+  if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorAccessDenied(ctx);
   }
 
@@ -40,7 +41,13 @@ const hidePack = async ctx => {
   // If pack is selected
   if (String(packToModify.id) === String(selectedPackId)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
-    user.selectedPack = await getVisiblePack(user.id);
+    user.selectedPack = await Pack.findOneVisible(user.id);
+
+    // Delete field `selectedPack` if no visible packs exist
+    if (user.selectedPack === null) {
+      user.selectedPack = undefined;
+    }
+
     await user.save();
   }
 
@@ -50,10 +57,10 @@ const hidePack = async ctx => {
 // Restore pack to pack list
 const restorePack = async ctx => {
   const { user } = ctx.session;
-  const packToModify = await getPackById(ctx.match.groups.packId);
-  const visiblePacks = await getVisiblePacks(user.id);
+  const packToModify = await Pack.findById(ctx.match.groups.packId);
+  const visiblePacks = await Pack.findVisible(user.id);
 
-  if (!validateOwner(packToModify, user)) {
+  if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorAccessDenied(ctx);
   }
 

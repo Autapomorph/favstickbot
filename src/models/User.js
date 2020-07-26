@@ -6,19 +6,12 @@ const logger = require('../utils/logger');
 
 const UserSchema = mongoose.Schema(
   {
-    telegramId: {
-      type: Number,
-      unique: true,
-      required: true,
-    },
-    firstName: {
-      type: String,
-      required: true,
-    },
+    _id: Number,
+    firstName: String,
     lastName: String,
     username: String,
     selectedPack: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'Pack',
     },
     locale: {
@@ -36,12 +29,12 @@ UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
 });
 
 UserSchema.pre('deleteOne', { document: true }, async function pre() {
-  await Pack.deleteMany({ owner: this.id });
+  await Pack.deleteMany({ userId: this.id });
 });
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
-  const userResult = await this.findOneAndUpdate(
-    { telegramId: tgUser.id },
+  const userResult = await this.findByIdAndUpdate(
+    tgUser.id,
     {
       firstName: tgUser.first_name,
       lastName: tgUser.last_name,

@@ -5,14 +5,13 @@ const logger = require('../utils/logger');
 
 const PackSchema = mongoose.Schema(
   {
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    name: {
+    _id: {
       type: String,
-      unique: true,
-      required: true,
+      alias: 'name',
+    },
+    userId: {
+      type: Number,
+      ref: 'User',
     },
     title: {
       type: String,
@@ -58,13 +57,47 @@ PackSchema.post('save', function post() {
 });
 
 PackSchema.pre('deleteOne', { document: true }, async function pre() {
-  await Sticker.deleteMany({ pack: this.id });
+  await Sticker.deleteMany({ packId: this.id });
 });
 
 PackSchema.pre('deleteMany', async function pre() {
   const userPacksIds = await this.model.find(this.getFilter()).distinct('_id');
-  await Sticker.deleteMany({ pack: { $in: userPacksIds } });
+  await Sticker.deleteMany({ packId: { $in: userPacksIds } });
 });
+
+PackSchema.statics.findOneVisible = async function findOneVisible(userId) {
+  return this.findOne({
+    userId,
+    isHidden: false,
+    hasTgInstance: true,
+  });
+};
+
+PackSchema.statics.findVisible = async function findVisible(userId) {
+  return this.find({
+    userId,
+    isHidden: false,
+    hasTgInstance: true,
+  });
+};
+
+PackSchema.statics.findOneHidden = async function findOneHidden(userId, name) {
+  return this.findOne({
+    _id: name,
+    userId,
+    isHidden: true,
+    hasTgInstance: true,
+  });
+};
+
+PackSchema.statics.findOneByType = async function findOneByType(userId, isAnimated) {
+  return this.findOne({
+    userId,
+    isAnimated,
+    isHidden: false,
+    hasTgInstance: true,
+  });
+};
 
 const Pack = mongoose.model('Pack', PackSchema);
 
