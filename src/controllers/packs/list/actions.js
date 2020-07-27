@@ -3,13 +3,8 @@ const {
   replyPackHideAction,
   replyPackRestoreAction,
   replyErrorAccessDenied,
-} = require('./helpers');
-const {
-  getPackById,
-  getVisiblePack,
-  getVisiblePacks,
-  getSelectedPackId,
-} = require('../../../utils/packs');
+} = require('./replies');
+const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 const { validateOwner } = require('../../../utils/packs/validate');
 
 // Mark pack as selected

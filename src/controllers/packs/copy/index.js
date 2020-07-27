@@ -1,11 +1,7 @@
-const { replyEnter, replyErrorCopy } = require('./helpers');
+const { replyEnter, replyErrorCopy } = require('./replies');
 const logger = require('../../../utils/logger');
 
-const enter = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('cmd.copy.reply'));
-};
-
-const command = async ctx => {
+module.exports = async ctx => {
   const { packName } = ctx.match.groups;
   let packToCopy;
 
@@ -33,7 +29,6 @@ const command = async ctx => {
   });
 };
 
-module.exports = {
-  enter,
-  command,
+module.exports.reply = async ctx => {
+  return ctx.replyWithHTML(ctx.i18n.t('cmd.copy.reply'));
 };

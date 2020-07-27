@@ -1,8 +1,8 @@
 const Stage = require('telegraf/stage');
 const { match } = require('telegraf-i18n');
 
-const packCreateScenes = require('./packs/create');
-const stickerOriginalScene = require('./stickers/original');
+const packCreateScenes = require('./packs/create/scene');
+const stickerOriginalScene = require('./stickers/original/scene');
 const getMainKeyboard = require('../keyboards/main');
 
 const stage = new Stage([...packCreateScenes, stickerOriginalScene]);

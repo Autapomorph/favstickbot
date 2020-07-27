@@ -38,22 +38,22 @@ bot.use(
 // handle commands with i18n support
 bot.start(controllers.start);
 bot.help(controllers.start);
-bot.hears(['/packs', match('cmd.start.btn.packs')], controllers.packs.list.command);
-bot.hears(['/new', match('cmd.start.btn.new')], ctx => ctx.scene.enter('PACKS_CREATE'));
-bot.command('copy', controllers.packs.copy.enter);
-bot.command('restore', controllers.packs.restore.enter);
-bot.command('original', ctx => ctx.scene.enter('STICKERS_ORIGINAL'));
-bot.command('lang', controllers.language.enter);
+bot.hears(['/packs', match('cmd.start.btn.packs')], controllers.packs.list);
+bot.hears(['/new', match('cmd.start.btn.new')], controllers.packs.create);
+bot.command('copy', controllers.packs.copy.reply);
+bot.command('restore', controllers.packs.restore.reply);
+bot.command('original', controllers.stickers.original);
+bot.command('lang', controllers.language);
 bot.command('deleteme', controllers.deleteme);
 
 // handle messages with sticker/document/photo subtype
 bot.on(['sticker', 'document', 'photo'], isDocumentValid, controllers.stickers.add);
 
 // handle messages with pack URL
-bot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy.command));
+bot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
 
 // handle forward messages from @Stickers bot with pack URL to restore packs
-bot.on('forward', isStickersBot, hasPackLink, controllers.packs.restore.command);
+bot.on('forward', isStickersBot, hasPackLink, controllers.packs.restore);
 
 // handle callback queries
 bot.action(/pack_select:(?<packId>.+)/, controllers.packs.list.actions.select);

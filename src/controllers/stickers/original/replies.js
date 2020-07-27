@@ -12,7 +12,6 @@ const replyErrorNotFound = async ctx => {
 const replyOriginal = async (ctx, sticker) => {
   const { fileType, fileId } = sticker.original;
   const replyExtra = {
-    caption: sticker.emojis,
     reply_to_message_id: ctx.message.message_id,
   };
 

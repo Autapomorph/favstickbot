@@ -1,6 +1,7 @@
 const { replyErrorAddSticker } = require('./helpers');
 const Pack = require('../../../models/Pack');
-const { getStickerFile } = require('../../../utils/stickers');
+const { replyErrorAddSticker } = require('./replies');
+const { getUserFile } = require('../../../utils/stickers/get');
 const addSticker = require('../../../utils/stickers/add');
 const { getPackByType } = require('../../../utils/packs');
 const createPackTg = require('../../../utils/packs/create');

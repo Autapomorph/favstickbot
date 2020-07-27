@@ -1,8 +1,9 @@
 const actions = require('./actions');
-const { getPackListText, getPackListKeyboard, replyPackList } = require('./helpers');
-const { getSelectedPackId, getVisiblePacks } = require('../../../utils/packs');
+const { getPackListText, getPackListKeyboard } = require('./helpers');
+const { replyPackList } = require('./replies');
+const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 
-const command = async ctx => {
+module.exports = async ctx => {
   const { user } = ctx.session;
   const visiblePacks = await getVisiblePacks(user.id);
   const selectedPackId = getSelectedPackId(user);
@@ -11,7 +12,4 @@ const command = async ctx => {
   return replyPackList(ctx, packListText, packListKeyboard);
 };
 
-module.exports = {
-  command,
-  actions,
-};
+module.exports.actions = actions;

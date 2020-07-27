@@ -1,6 +1,7 @@
 const Scene = require('telegraf/scenes/base');
+const { drop } = require('telegraf/composer');
 
-const { copyPack } = require('./helpers');
+const { copyPack } = require('../helpers');
 
 const packsCreateCopyScene = new Scene('PACKS_CREATE/COPY');
 
@@ -10,7 +11,7 @@ packsCreateCopyScene.enter(async ctx => {
   return copyPack(ctx, packToCopy, user.selectedPack);
 });
 
-// prevent bot from listening commands while copying stickers
-packsCreateCopyScene.on('text', () => {});
+// Drop any updates
+packsCreateCopyScene.use(drop(true));
 
 module.exports = packsCreateCopyScene;

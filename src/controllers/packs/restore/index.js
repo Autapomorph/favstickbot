@@ -1,11 +1,7 @@
-const { replySuccess, replyErrorRestore } = require('./helpers');
-const { getHiddenPackByName, getVisiblePacks } = require('../../../utils/packs');
+const Pack = require('../../../models/Pack');
+const { replySuccess, replyErrorRestore } = require('./replies');
 
-const enter = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('cmd.restore.reply'));
-};
-
-const command = async ctx => {
+module.exports = async ctx => {
   const { user } = ctx.session;
   const { packToRestoreName } = ctx.state;
 
@@ -28,7 +24,6 @@ const command = async ctx => {
   return replySuccess(ctx, packToRestore);
 };
 
-module.exports = {
-  enter,
-  command,
+module.exports.reply = async ctx => {
+  return ctx.replyWithHTML(ctx.i18n.t('cmd.restore.reply'));
 };

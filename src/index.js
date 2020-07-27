@@ -14,8 +14,7 @@ if (!isProd) {
   logger.info('Logging initialized at debug level');
 }
 
-database.connect(MONGODB_URI);
-database.addConnectListener(async () => {
+database.connect(MONGODB_URI).then(() => {
   if (WEBHOOK_DOMAIN) {
     return launchWebhookMode(bot);
   }

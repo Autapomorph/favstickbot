@@ -4,7 +4,7 @@ const replies = require('./replies');
 const Pack = require('../../../models/Pack');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 const getMainKeyboard = require('../../../keyboards/main');
-const { replyProgress, editProgress, replySuccess } = require('../copy/helpers');
+const { replyProgress, editProgress, replySuccess } = require('../copy/replies');
 const copyPackHelper = require('../../../utils/packs/copy');
 const createPackTg = require('../../../utils/packs/create');
 const { validateNameLength, validateNameSymbols } = require('../../../utils/packs/validate');
@@ -136,5 +136,4 @@ module.exports = {
   validatePackTitle,
   validatePackName,
   packTypes,
-  ...replies,
 };
