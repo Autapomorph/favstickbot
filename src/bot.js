@@ -5,11 +5,11 @@ const { match } = require('telegraf-i18n');
 const {
   setBotInfo,
   session,
-  updateUser,
-  updateLocale,
+  getUser,
+  setLocale,
   isStickersBot,
   hasPackLink,
-  isDocumentValid,
+  validateDocument,
   i18n,
   rateLimit,
   logUpdate,
@@ -45,7 +45,7 @@ bot.command('lang', controllers.language);
 bot.command('deleteme', controllers.deleteme);
 
 // handle messages with sticker/document/photo subtype
-bot.on(['sticker', 'document', 'photo'], isDocumentValid, controllers.stickers.add);
+bot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
 
 // handle messages with pack URL
 bot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
