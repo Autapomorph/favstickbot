@@ -1,4 +1,4 @@
-const isNextKeyboardDifferent = (prevKbd = [], nextKbd = []) => {
+const isDifferent = (prevKbd = [], nextKbd = []) => {
   const prevKbdFlattened = prevKbd.flat(Infinity);
   const nextKbdFlattened = nextKbd.flat(Infinity);
 
@@ -14,4 +14,4 @@ const isNextKeyboardDifferent = (prevKbd = [], nextKbd = []) => {
   });
 };
 
-module.exports = { isNextKeyboardDifferent };
+module.exports = isDifferent;

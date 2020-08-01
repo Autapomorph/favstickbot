@@ -1,7 +1,8 @@
 const Scene = require('telegraf/scenes/base');
 const { match } = require('telegraf-i18n');
 
-const { packTypes, validatePackType } = require('../helpers');
+const PACK_TYPES = require('../../../../utils/packs/packTypes');
+const { validatePackType } = require('../helpers');
 const { replyPackType } = require('../replies');
 
 const packsCreateTypeScene = new Scene('PACKS_CREATE/TYPE');
@@ -10,7 +11,7 @@ packsCreateTypeScene.enter(async ctx => {
   return replyPackType(ctx);
 });
 
-packsCreateTypeScene.hears([match(packTypes.STATIC), match(packTypes.ANIMATED)], async ctx => {
+packsCreateTypeScene.hears([match(PACK_TYPES.STATIC), match(PACK_TYPES.ANIMATED)], async ctx => {
   const packType = ctx.message.text;
   const { packToCreate } = ctx.scene.state;
 
@@ -18,7 +19,7 @@ packsCreateTypeScene.hears([match(packTypes.STATIC), match(packTypes.ANIMATED)],
     return ctx.scene.reenter();
   }
 
-  packToCreate.isAnimated = Boolean(match(packTypes.ANIMATED)(packType, ctx));
+  packToCreate.isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(packType, ctx));
   return ctx.scene.enter('PACKS_CREATE/TITLE', ctx.scene.state);
 });
 

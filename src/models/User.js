@@ -39,32 +39,24 @@ UserSchema.pre('deleteOne', { document: true }, async function pre() {
   await Pack.deleteMany({ owner: this.id });
 });
 
-UserSchema.statics.createNew = async function createNew(tgUser) {
-  const user = await this.create({
-    telegramId: tgUser.id,
-    firstName: tgUser.first_name,
-    lastName: tgUser.last_name,
-    username: tgUser.username,
-    locale: tgUser.language_code,
-    selectedPack: null,
-  });
-
-  logger.debug('New user has been created: %s', user.id);
-  return user;
-};
-
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
-  const user = await this.findOneAndUpdate(
+  const userResult = await this.findOneAndUpdate(
     { telegramId: tgUser.id },
     {
       firstName: tgUser.first_name,
       lastName: tgUser.last_name,
       username: tgUser.username,
+      $setOnInsert: { locale: tgUser.language_code },
     },
-    { new: true },
+    { new: true, upsert: true, setDefaultsOnInsert: true, rawResult: true },
   );
 
-  return user || this.createNew(tgUser);
+  const { upserted: upsertedId } = userResult.lastErrorObject;
+  if (upsertedId) {
+    logger.debug('New user has been created: %s', upsertedId);
+  }
+
+  return userResult.value;
 };
 
 const User = mongoose.model('User', UserSchema);

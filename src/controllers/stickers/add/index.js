@@ -3,9 +3,11 @@ const Pack = require('../../../models/Pack');
 const { replyErrorAddSticker } = require('./replies');
 const { getUserFile } = require('../../../utils/stickers/get');
 const addSticker = require('../../../utils/stickers/add');
-const { getPackByType } = require('../../../utils/packs');
+const { getPackByType } = require('../../../utils/packs/get');
 const createPackTg = require('../../../utils/packs/create');
-const prepareDefaultPack = require('../../../utils/packs/default');
+const generateDefaultPack = require('../../../utils/packs/default');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const validateError = require('../../../utils/errors/validateRegexErrorType');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
@@ -13,16 +15,16 @@ module.exports = async ctx => {
 
   await ctx.replyWithChatAction('upload_document');
 
-  const inputFile = getStickerFile(ctx);
-  const { isAnimated } = inputFile;
+  const userFile = getUserFile(ctx);
+  const { isAnimated } = userFile;
   if (user.selectedPack && user.selectedPack.isAnimated !== isAnimated) {
     user.selectedPack = await getPackByType(user.id, isAnimated);
     await user.save();
   }
 
   if (!user.selectedPack) {
-    const defaultPack = prepareDefaultPack(user.id, ctx.botInfo.username, isAnimated);
-    user.selectedPack = await Pack.createNew(defaultPack);
+    const defaultPack = generateDefaultPack(user.id, ctx.botInfo.username, isAnimated);
+    user.selectedPack = await Pack.create(defaultPack);
     await user.save();
   }
 
@@ -33,7 +35,7 @@ module.exports = async ctx => {
   }
 
   try {
-    const { title, link } = await addSticker(ctx, inputFile, user.selectedPack);
+    const { title, link } = await addSticker(ctx, userFile, user.selectedPack);
     return await ctx.replyWithHTML(
       ctx.i18n.t('stickers.add.reply.ok', {
         title,
@@ -44,12 +46,8 @@ module.exports = async ctx => {
       },
     );
   } catch (error) {
-    // Bad Request: STICKERS_TOO_MUCH
-    // Bad Request: STICKERSET_INVALID
-    if (
-      /stickers.*too.*much/i.test(error.description) ||
-      /stickerset.*invalid/i.test(error.description)
-    ) {
+    const { STICKERSET_INVALID, STICKERS_TOO_MUCH } = ERROR_TYPES.TELEGRAM;
+    if (validateError(STICKERSET_INVALID, error) || validateError(STICKERS_TOO_MUCH, error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error);

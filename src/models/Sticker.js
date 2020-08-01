@@ -30,22 +30,15 @@ const StickerSchema = mongoose.Schema(
   },
 );
 
-StickerSchema.statics.createNew = async function createNew(pack, emojis, inputFile, uploadedFile) {
-  const sticker = await this.create({
-    pack,
-    fileId: uploadedFile.fileId,
-    fileUniqueId: uploadedFile.fileUniqueId,
-    emojis,
-    original: {
-      fileId: inputFile.fileId,
-      fileUniqueId: inputFile.fileUniqueId,
-      fileType: inputFile.type,
-    },
-  });
+StickerSchema.pre('save', function pre() {
+  this.wasJustCreated = this.isNew;
+});
 
-  logger.debug('New sticker has been created: %s', sticker.id);
-  return sticker;
-};
+StickerSchema.post('save', function post() {
+  if (this.wasJustCreated) {
+    logger.debug('New sticker has been created: %s', this.id);
+  }
+});
 
 const Sticker = mongoose.model('Sticker', StickerSchema);
 

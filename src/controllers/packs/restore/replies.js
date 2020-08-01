@@ -1,9 +1,6 @@
 const { packLinkPrefix } = require('../../../config');
-const { replyErrorToMessage } = require('../../../utils/errors/replyError');
-
-const errorTypes = {
-  RESTORE: 'actions.pack.reply.error.restore',
-};
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replySuccess = async (ctx, pack) => {
   return ctx.replyWithHTML(
@@ -18,11 +15,10 @@ const replySuccess = async (ctx, pack) => {
 };
 
 const replyErrorRestore = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.RESTORE);
+  return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.RESTORE);
 };
 
 module.exports = {
   replySuccess,
-  errorTypes,
   replyErrorRestore,
 };

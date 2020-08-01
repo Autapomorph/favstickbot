@@ -2,14 +2,8 @@ const getMainKeyboard = require('../../../keyboards/main');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 const getPackTypeKeyboard = require('../../../keyboards/packType');
 const { packNameMaxLength, packLinkPrefix } = require('../../../config');
-const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/replyError');
-
-const errorTypes = {
-  TITLE_TOO_LONG: 'scenes.pack_create.reply.error.title_long',
-  NAME_TOO_LONG: 'scenes.pack_create.reply.error.name_long',
-  NAME_INVALID: 'scenes.pack_create.reply.error.name_invalid',
-  NAME_OCCUPIED: 'scenes.pack_create.reply.error.name_occupied',
-};
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
 
 const replyPackType = async ctx => {
   const packNewTypeKeyboard = getPackTypeKeyboard(ctx, {
@@ -69,19 +63,19 @@ const replyErrorPackType = async ctx => {
 };
 
 const replyErrorTitleTooLong = async ctx => {
-  return replyErrorTooLong(ctx, errorTypes.TITLE_TOO_LONG);
+  return replyErrorTooLong(ctx, ERROR_TYPES.PACKS.TITLE_TOO_LONG);
 };
 
 const replyErrorNameTooLong = async ctx => {
-  return replyErrorTooLong(ctx, errorTypes.NAME_TOO_LONG);
+  return replyErrorTooLong(ctx, ERROR_TYPES.PACKS.NAME_TOO_LONG);
 };
 
 const replyErrorNameInvalid = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.NAME_INVALID);
+  return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.NAME_INVALID);
 };
 
 const replyErrorNameOccupied = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.NAME_OCCUPIED);
+  return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.NAME_OCCUPIED);
 };
 
 module.exports = {
@@ -89,7 +83,6 @@ module.exports = {
   replyPackTitle,
   replyPackName,
   replySuccess,
-  errorTypes,
   replyErrorPackType,
   replyErrorTooLong,
   replyErrorTitleTooLong,

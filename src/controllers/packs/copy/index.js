@@ -1,4 +1,6 @@
 const { replyEnter, replyErrorCopy } = require('./replies');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const validateError = require('../../../utils/errors/validateRegexErrorType');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
@@ -18,8 +20,7 @@ module.exports = async ctx => {
       type: 'sticker',
     }));
   } catch (error) {
-    // Bad Request: STICKERSET_INVALID
-    if (/stickerset.*invalid/i.test(error.description)) {
+    if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error);

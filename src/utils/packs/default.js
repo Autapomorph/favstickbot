@@ -1,12 +1,22 @@
 const generateID = require('../common/generateID');
 
-const prepareDefaultPack = (ownerId, botUsername, isAnimated = false) => {
+const DEFAULT_PACK_TITLES = {
+  STATIC: 'Favorite stickers',
+  ANIMATED: 'Animated favorite stickers',
+};
+
+const generatePackName = botUsername => `fs${generateID()}_by_${botUsername}`;
+
+const generatePackTitle = isAnimated =>
+  isAnimated ? DEFAULT_PACK_TITLES.ANIMATED : DEFAULT_PACK_TITLES.STATIC;
+
+const generateDefaultPack = (ownerId, botUsername, isAnimated = false) => {
   return {
     owner: ownerId,
-    name: `fs${generateID()}_by_${botUsername}`,
-    title: isAnimated ? 'Animated favorite stickers' : 'Favorite stickers',
+    name: generatePackName(botUsername),
+    title: generatePackTitle(isAnimated),
     isAnimated,
   };
 };
 
-module.exports = prepareDefaultPack;
+module.exports = generateDefaultPack;

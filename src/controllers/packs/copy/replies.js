@@ -1,9 +1,6 @@
 const { packLinkPrefix } = require('../../../config');
-const { replyErrorToMessage } = require('../../../utils/errors/replyError');
-
-const errorTypes = {
-  COPY: 'actions.pack.reply.error.copy',
-};
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyEnter = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scenes.copy.reply.enter'), {
@@ -12,7 +9,7 @@ const replyEnter = async ctx => {
 };
 
 const replyErrorCopy = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.COPY);
+  return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.COPY);
 };
 
 const replyProgress = async (ctx, packToCopy, newPack) => {
@@ -63,6 +60,5 @@ module.exports = {
   replyProgress,
   editProgress,
   replySuccess,
-  errorTypes,
   replyErrorCopy,
 };

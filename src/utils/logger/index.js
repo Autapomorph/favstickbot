@@ -1,7 +1,7 @@
 const winston = require('winston');
 const SentryTransport = require('winston-transport-sentry-node').default;
 
-const { isProd, name, version } = require('./index');
+const { isProd, name, version } = require('../index');
 
 const { npm_package_name: npmPackageName, npm_package_version: npmPackageVersion } = process.env;
 

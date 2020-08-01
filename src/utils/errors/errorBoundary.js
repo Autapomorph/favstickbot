@@ -1,5 +1,7 @@
+const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
+const ERROR_TYPES = require('./errorTypes');
+const validateError = require('./validateRegexErrorType');
 const logger = require('../logger');
-const { replyErrorTelegram, replyErrorUnknown } = require('../errors/replyError');
 
 module.exports = async (error, ctx) => {
   const {
@@ -28,13 +30,13 @@ module.exports = async (error, ctx) => {
 
   // Error sent from Telegram
   if (error.description) {
-    // Forbidden: bot was blocked by the user
-    if (/forbidden.*bot.*blocked.*user/i.test(error.description)) {
+    const { TOO_MANY_REQUESTS, BLOCKED_BY_USER } = ERROR_TYPES.TELEGRAM;
+
+    if (validateError(TOO_MANY_REQUESTS, error)) {
       return;
     }
 
-    // Too Many Requests: retry after *
-    if (/too.*many.*requests/i.test(error.description)) {
+    if (validateError(BLOCKED_BY_USER, error)) {
       return;
     }
 

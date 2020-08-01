@@ -1,14 +1,19 @@
 const Sticker = require('../../models/Sticker');
+const { defaultEmojis } = require('../../config');
 
-const getOriginalStickerByFileId = async fileUniqueId => {
+const getStickerByFileUniqueId = async fileUniqueId => {
   return Sticker.findOne({
     fileUniqueId,
-    original: { $ne: null },
   });
 };
 
-const getStickerFile = ctx => {
-  const { sticker, photo, document, caption } = ctx.message;
+const getUploadedStickerFile = async (ctx, packName) => {
+  const pack = await ctx.getStickerSet(packName);
+  return pack.stickers[pack.stickers.length - 1];
+};
+
+const getUserFile = ctx => {
+  const { sticker, photo, document, caption = defaultEmojis } = ctx.message;
 
   if (sticker) {
     return {
@@ -43,6 +48,7 @@ const getStickerFile = ctx => {
 };
 
 module.exports = {
-  getStickerFile,
-  getOriginalStickerByFileId,
+  getUserFile,
+  getUploadedStickerFile,
+  getStickerByFileUniqueId,
 };

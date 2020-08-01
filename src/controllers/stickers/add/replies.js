@@ -1,18 +1,15 @@
-const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/replyError');
-
-const errorTypes = {
-  STICKERS_TOO_MUCH: 'stickers.add.reply.error.stickers_too_much',
-};
+const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const validateError = require('../../../utils/errors/validateRegexErrorType');
 
 const replyErrorAddSticker = (ctx, error) => {
-  if (error.description === 'Bad Request: STICKERS_TOO_MUCH') {
-    return replyErrorToMessage(ctx, errorTypes.STICKERS_TOO_MUCH);
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKERS_TOO_MUCH, error)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.TOO_MUCH);
   }
 
   return replyErrorTelegram(ctx, error);
 };
 
 module.exports = {
-  errorTypes,
   replyErrorAddSticker,
 };

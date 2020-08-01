@@ -8,20 +8,18 @@ const { replyProgress, editProgress, replySuccess } = require('../copy/replies')
 const copyPackHelper = require('../../../utils/packs/copy');
 const createPackTg = require('../../../utils/packs/create');
 const { validateNameLength, validateNameSymbols } = require('../../../utils/packs/validate');
-const { replyErrorTelegram } = require('../../../utils/errors/replyError');
+const { replyErrorTelegram } = require('../../../utils/errors/reply');
+const PACK_TYPES = require('../../../utils/packs/packTypes');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const validateError = require('../../../utils/errors/validateRegexErrorType');
 const logger = require('../../../utils/logger');
-
-const packTypes = {
-  STATIC: 'scenes.pack_create.btn.static',
-  ANIMATED: 'scenes.pack_create.btn.anim',
-};
 
 const createPack = async (ctx, user, packToCreate, nextOperation) => {
   try {
     await createPackTg(ctx, packToCreate);
 
     // eslint-disable-next-line no-param-reassign
-    user.selectedPack = await Pack.createNew({
+    user.selectedPack = await Pack.create({
       owner: user.id,
       name: packToCreate.name,
       title: packToCreate.title,
@@ -36,16 +34,16 @@ const createPack = async (ctx, user, packToCreate, nextOperation) => {
 
     return await replies.replySuccess(ctx, user.selectedPack);
   } catch (error) {
-    // Bad Request: invalid sticker set name is specified
-    if (/invalid.*name/i.test(error.description)) {
+    const { STICKERSET_INVALID_NAME, STICKERSET_NAME_OCCUPIED } = ERROR_TYPES.TELEGRAM;
+
+    if (validateError(STICKERSET_INVALID_NAME, error)) {
       logger.error(error, { sentry: false });
       await replies.replyErrorNameInvalid(ctx);
       ctx.scene.reenter();
       throw error;
     }
 
-    // Bad Request: sticker set name is already occupied
-    if (/name.*occupied/i.test(error.description)) {
+    if (validateError(STICKERSET_NAME_OCCUPIED, error)) {
       logger.error(error, { sentry: false });
       await replies.replyErrorNameOccupied(ctx);
       ctx.scene.reenter();
@@ -95,8 +93,8 @@ const copyPack = async (ctx, packToCopy, newPack) => {
 };
 
 const validatePackType = async (ctx, type) => {
-  const isStatic = Boolean(match(packTypes.STATIC)(type, ctx));
-  const isAnimated = Boolean(match(packTypes.ANIMATED)(type, ctx));
+  const isStatic = Boolean(match(PACK_TYPES.STATIC)(type, ctx));
+  const isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(type, ctx));
 
   // none of pack types was chosen (none of keyboard btns was clicked)
   if (!isStatic && !isAnimated) {
@@ -135,5 +133,4 @@ module.exports = {
   validatePackType,
   validatePackTitle,
   validatePackName,
-  packTypes,
 };

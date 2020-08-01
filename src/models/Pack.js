@@ -16,12 +16,11 @@ const PackSchema = mongoose.Schema(
     },
     title: {
       type: String,
-      index: true,
       required: true,
     },
     isAnimated: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     isHidden: {
       type: Boolean,
@@ -37,6 +36,27 @@ const PackSchema = mongoose.Schema(
   },
 );
 
+PackSchema.pre('save', async function pre() {
+  if (this.isNew) {
+    // if user tries to create pack with name that already exists in database
+    // (e.g. it was deleted using @Stickers bot),
+    // we should delete this pack
+    // eslint-disable-next-line no-use-before-define
+    const oldPack = await Pack.findById(this.id);
+    if (oldPack) {
+      await oldPack.deleteOne();
+    }
+  }
+
+  this.wasJustCreated = this.isNew;
+});
+
+PackSchema.post('save', function post() {
+  if (this.wasJustCreated) {
+    logger.debug('New pack has been created: %s', this.id);
+  }
+});
+
 PackSchema.pre('deleteOne', { document: true }, async function pre() {
   await Sticker.deleteMany({ pack: this.id });
 });
@@ -45,29 +65,6 @@ PackSchema.pre('deleteMany', async function pre() {
   const userPacksIds = await this.model.find(this.getFilter()).distinct('_id');
   await Sticker.deleteMany({ pack: { $in: userPacksIds } });
 });
-
-PackSchema.statics.createNew = async function createNew(packData) {
-  const { owner, name, title, isAnimated = false, hasTgInstance = false } = packData;
-
-  // if user tries to create pack with name that already exists in database
-  // (e.g. user has deleted pack using @Stickers bot),
-  // we should delete existing pack and stickers added to it
-  const oldPack = await this.findOne({ name });
-  if (oldPack) {
-    await oldPack.deleteOne();
-  }
-
-  const newPack = await this.create({
-    owner,
-    name,
-    title,
-    isAnimated,
-    hasTgInstance,
-  });
-
-  logger.debug('New sticker pack has been created: %s', newPack.id);
-  return newPack;
-};
 
 const Pack = mongoose.model('Pack', PackSchema);
 

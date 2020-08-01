@@ -18,7 +18,7 @@ const controllers = require('./controllers');
 const stage = require('./controllers/stage');
 const commandsList = require('./config/commands');
 const commands = require('./utils/bot/commands');
-const errorBoundary = require('./utils/bot/errorBoundary');
+const errorBoundary = require('./utils/errors/errorBoundary');
 
 // init bot
 const bot = new Telegraf(process.env.BOT_TOKEN, {
@@ -31,9 +31,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 commands.register(commandsList);
 
 // register middlewares
-bot.use(
-  compose([logUpdate, setBotInfo, session, i18n, rateLimit, updateUser, updateLocale, stage]),
-);
+bot.use(compose([logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale, stage]));
 
 // handle commands with i18n support
 bot.start(controllers.start);

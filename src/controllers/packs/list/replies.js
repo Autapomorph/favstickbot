@@ -5,12 +5,7 @@ const { getPackListText, getPackListKeyboard } = require('./helpers');
 const { packLinkPrefix } = require('../../../config');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
-const { isNextKeyboardDifferent } = require('../../../utils/keyboards');
-const { replyError } = require('../../../utils/errors/replyError');
-
-const errorTypes = {
-  ACCESS_DENIED: 'actions.pack.reply.error.access_denied',
-};
+const isKeyboardDifferent = require('../../../utils/keyboards/isDifferent');
 
 const replyPackList = async (ctx, text, keyboard, messageId) => {
   if (messageId !== undefined) {
@@ -35,7 +30,7 @@ const replyPackSelectAction = async (ctx, pack) => {
   const prevPackListMessageKeyboard =
     prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
 
-  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
     await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
   }
 
@@ -67,7 +62,7 @@ const replyPackHideAction = async (ctx, pack) => {
   const prevPackListMessageKeyboard =
     prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
 
-  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
     await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
   }
 
@@ -91,7 +86,7 @@ const replyPackRestoreAction = async (ctx, pack) => {
   const prevPackListMessageKeyboard =
     prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
 
-  if (isNextKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
+  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
     await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
   }
 
@@ -104,16 +99,9 @@ const replyPackRestoreAction = async (ctx, pack) => {
   return ctx.answerCbQuery(ctx.i18n.t('actions.pack.answer.restored'));
 };
 
-const replyErrorAccessDenied = async ctx => {
-  await ctx.answerCbQuery();
-  return replyError(ctx, errorTypes.ACCESS_DENIED);
-};
-
 module.exports = {
   replyPackList,
   replyPackSelectAction,
   replyPackHideAction,
   replyPackRestoreAction,
-  errorTypes,
-  replyErrorAccessDenied,
 };

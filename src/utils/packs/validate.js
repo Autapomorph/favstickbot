@@ -1,16 +1,10 @@
 const { packNameMaxLength } = require('../../config');
 
-const validateNameLength = name => {
-  return name && name.length > 0 && name.length <= packNameMaxLength;
-};
+const validateNameLength = name => name && name.length > 0 && name.length <= packNameMaxLength;
 
-const validateNameSymbols = name => {
-  return name && /^(?!.*__)[a-zA-Z]\w*$/.test(name);
-};
+const validateNameSymbols = name => name && /^(?!.*__)[a-zA-Z]\w*$/.test(name);
 
-const validateOwner = (pack, user) => {
-  return String(pack.owner) === String(user.id);
-};
+const validateOwner = (ownerId, userId) => String(ownerId) === String(userId);
 
 module.exports = {
   validateNameLength,

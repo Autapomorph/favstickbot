@@ -1,16 +1,12 @@
-const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/replyError');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
 const logger = require('../../../utils/logger');
 
-const errorTypes = {
-  NOT_FOUND: 'scenes.original.reply.error.not_found',
-};
-
 const replyErrorNotFound = async ctx => {
-  return replyErrorToMessage(ctx, errorTypes.NOT_FOUND);
+  return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.NOT_FOUND);
 };
 
-const replyOriginal = async (ctx, sticker) => {
-  const { fileType, fileId } = sticker.original;
+const replyOriginal = async (ctx, { type, fileId }) => {
   const replyExtra = {
     reply_to_message_id: ctx.message.message_id,
   };
@@ -37,6 +33,5 @@ const replyOriginal = async (ctx, sticker) => {
 
 module.exports = {
   replyOriginal,
-  errorTypes,
   replyErrorNotFound,
 };
