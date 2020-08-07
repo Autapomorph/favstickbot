@@ -13,12 +13,12 @@ cmd:
 
       /lang - change bot language
     btn:
-      packs: 🌟 Sticker packs
+      packs: 🪐 Sticker packs
       new: 🆕 Create new sticker pack
   packs:
     reply:
       list: |
-        <b>🌟 Sticker packs:</b>
+        <b>🪐 Sticker packs:</b>
       empty: |
         <b>You have no sticker packs yet</b>
         Send /new to create one
