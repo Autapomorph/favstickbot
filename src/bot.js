@@ -59,6 +59,10 @@ bot.action(/pack_hide:(?<packId>.+)/, controllers.packs.list.actions.hide);
 bot.action(/pack_restore:(?<packId>.+)/, controllers.packs.list.actions.restore);
 bot.action(/language_set:(?<langCode>.+)/, controllers.language.actions.setLanguage);
 
+// handle unknown commands/messages
+bot.hears(/\/.+/g, controllers.unknown);
+bot.on('message', controllers.start);
+
 // register error handler
 bot.catch(errorBoundary);
 

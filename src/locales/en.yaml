@@ -42,6 +42,10 @@ cmd:
   deleteme:
     reply: |
       All data associated with you has been eliminated
+  unknown:
+    reply: |
+      Unfortunately I am not familiar with this command
+      Use /help command
 
 actions:
   pack:
