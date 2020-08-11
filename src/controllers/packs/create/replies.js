@@ -1,3 +1,5 @@
+const Extra = require('telegraf/extra');
+
 const getMainKeyboard = require('../../../keyboards/main');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 const getPackTypeKeyboard = require('../../../keyboards/packType');
@@ -6,42 +8,31 @@ const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
 
 const replyPackType = async ctx => {
-  const packNewTypeKeyboard = getPackTypeKeyboard(ctx, {
-    reply_to_message_id: ctx.message.message_id,
-  });
-
+  const packNewTypeKeyboard = Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(
+    ctx.message.message_id,
+  );
   return ctx.replyWithHTML(ctx.i18n.t('scenes.pack_create.pack_type'), packNewTypeKeyboard);
 };
 
 const replyPackTitle = async ctx => {
-  const cancelKeyboard = getCancelKeyboard(ctx, {
-    reply_to_message_id: ctx.message.message_id,
-  });
-
+  const cancelKeyboard = Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id);
   return ctx.replyWithHTML(ctx.i18n.t('scenes.pack_create.pack_title'), cancelKeyboard);
 };
 
 const replyPackName = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scenes.pack_create.pack_name'), {
-    reply_to_message_id: ctx.message.message_id,
-  });
+  return ctx.replyWithHTML(
+    ctx.i18n.t('scenes.pack_create.pack_name'),
+    Extra.inReplyTo(ctx.message.message_id),
+  );
 };
 
-const replySuccess = async (ctx, createdPack, extra) => {
-  if (!extra) {
-    // eslint-disable-next-line no-param-reassign
-    extra = getMainKeyboard(ctx);
-  }
-
+const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) => {
   return ctx.replyWithHTML(
     ctx.i18n.t('scenes.pack_create.reply.ok', {
       title: createdPack.title,
       link: `${packLinkPrefix}${createdPack.name}`,
     }),
-    {
-      reply_to_message_id: ctx.message.message_id,
-      ...extra,
-    },
+    Extra.inReplyTo(ctx.message.message_id).markup(keyboard),
   );
 };
 
@@ -52,9 +43,7 @@ const replyErrorTooLong = async (ctx, tKey) => {
     {
       max: packNameMaxLength,
     },
-    {
-      reply_to_message_id: ctx.message.message_id,
-    },
+    Extra.inReplyTo(ctx.message.message_id),
   );
 };
 

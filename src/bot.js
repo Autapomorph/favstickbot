@@ -31,9 +31,12 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 commands.register(commandsList);
 
 // register middlewares
-bot.use(compose([logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale, stage]));
+bot.use(compose([logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
 
-// handle commands with i18n support
+// handle updates with stage
+bot.use(stage);
+
+// handle commands
 bot.start(controllers.start);
 bot.help(controllers.start);
 bot.hears(['/packs', match('cmd.start.btn.packs')], controllers.packs.list);

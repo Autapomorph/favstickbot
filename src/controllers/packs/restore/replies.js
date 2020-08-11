@@ -1,3 +1,5 @@
+const Extra = require('telegraf/extra');
+
 const { packLinkPrefix } = require('../../../config');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
@@ -8,9 +10,7 @@ const replySuccess = async (ctx, pack) => {
       title: pack.title,
       link: `${packLinkPrefix}${pack.name}`,
     }),
-    {
-      reply_to_message_id: ctx.message.message_id,
-    },
+    Extra.inReplyTo(ctx.message.message_id),
   );
 };
 

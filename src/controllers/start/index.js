@@ -6,6 +6,6 @@ module.exports = async ctx => {
     ctx.i18n.t('cmd.start.reply', {
       name: getUserName(ctx.from),
     }),
-    getMainKeyboard(ctx),
+    getMainKeyboard(ctx).extra(),
   );
 };

@@ -1,3 +1,4 @@
+const Extra = require('telegraf/extra');
 const Markup = require('telegraf/markup');
 
 const Pack = require('../../../models/Pack');
@@ -42,12 +43,11 @@ const replyPackSelectAction = async (ctx, pack) => {
       title: escapeHTML(pack.title),
       link: `${packLinkPrefix}${pack.name}`,
     }),
-    {
-      reply_to_message_id: prevPackListMessageId,
-      reply_markup: Markup.inlineKeyboard([
+    Extra.inReplyTo(prevPackListMessageId).markup(
+      Markup.inlineKeyboard([
         [Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${pack.id}`)],
       ]),
-    },
+    ),
   );
 };
 

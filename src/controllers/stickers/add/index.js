@@ -1,3 +1,5 @@
+const Extra = require('telegraf/extra');
+
 const Pack = require('../../../models/Pack');
 const { replyErrorAddSticker } = require('./replies');
 const { getUserFile } = require('../../../utils/stickers/get');
@@ -39,9 +41,7 @@ module.exports = async ctx => {
         title,
         link,
       }),
-      {
-        reply_to_message_id: ctx.message.message_id,
-      },
+      Extra.inReplyTo(ctx.message.message_id),
     );
   } catch (error) {
     const { STICKERSET_INVALID, STICKERS_TOO_MUCH } = ERROR_TYPES.TELEGRAM;

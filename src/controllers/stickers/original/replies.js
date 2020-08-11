@@ -1,3 +1,5 @@
+const Extra = require('telegraf/extra');
+
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
 const logger = require('../../../utils/logger');
@@ -7,9 +9,7 @@ const replyErrorNotFound = async ctx => {
 };
 
 const replyOriginal = async (ctx, { type, fileId }) => {
-  const replyExtra = {
-    reply_to_message_id: ctx.message.message_id,
-  };
+  const replyExtra = Extra.inReplyTo(ctx.message.message_id);
 
   try {
     switch (type) {

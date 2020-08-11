@@ -1,11 +1,14 @@
+const Extra = require('telegraf/extra');
+
 const { packLinkPrefix } = require('../../../config');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyEnter = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scenes.copy.reply.enter'), {
-    reply_to_message_id: ctx.message.message_id,
-  });
+  return ctx.replyWithHTML(
+    ctx.i18n.t('scenes.copy.reply.enter'),
+    Extra.inReplyTo(ctx.message.message_id),
+  );
 };
 
 const replyErrorCopy = async ctx => {
@@ -42,7 +45,7 @@ const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
   );
 };
 
-const replySuccess = async (ctx, message, packToCopy, newPack, extra = {}) => {
+const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
   ctx.deleteMessage(message.message_id);
   return ctx.replyWithHTML(
     ctx.i18n.t('scenes.copy.reply.done', {

@@ -8,7 +8,10 @@ const getCancelKeyboard = require('../../../keyboards/cancel');
 const stickersOriginalScene = new Scene('STICKERS_ORIGINAL');
 
 stickersOriginalScene.enter(async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scenes.original.reply.enter'), getCancelKeyboard(ctx));
+  return ctx.replyWithHTML(
+    ctx.i18n.t('scenes.original.reply.enter'),
+    getCancelKeyboard(ctx).extra(),
+  );
 });
 
 stickersOriginalScene.on('sticker', async ctx => {

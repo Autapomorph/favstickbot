@@ -1,3 +1,4 @@
+const Extra = require('telegraf/extra');
 const { match } = require('telegraf-i18n');
 
 const replies = require('./replies');
@@ -51,10 +52,12 @@ const createPack = async (ctx, user, packToCreate, nextOperation) => {
     }
 
     logger.error(error);
-    await replyErrorTelegram(ctx, error, {
-      reply_to_message_id: ctx.message.message_id,
-      ...getMainKeyboard(ctx),
-    });
+
+    await replyErrorTelegram(
+      ctx,
+      error,
+      Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    );
     ctx.scene.leave();
     throw error;
   }
@@ -82,12 +85,12 @@ const copyPack = async (ctx, packToCopy, newPack) => {
       editProgress.bind(null, ctx, packToCopy, newPack, message),
     );
     const successCallback = () =>
-      replySuccess(ctx, message, packToCopy, newPack, getMainKeyboard(ctx));
+      replySuccess(ctx, message, packToCopy, newPack, getMainKeyboard(ctx).extra());
 
     copyStickerByOne(copyPackGen, ctx, successCallback);
   } catch (error) {
     logger.error(error);
-    await replyErrorTelegram(ctx, error, getMainKeyboard(ctx));
+    await replyErrorTelegram(ctx, error, getMainKeyboard(ctx).extra());
     return ctx.scene.leave();
   }
 };

@@ -8,7 +8,7 @@ const langButtons = Object.values(locales).map(locale =>
 
 const langKeyboard = Markup.inlineKeyboard(langButtons, {
   columns: 5,
-}).extra();
+});
 
 module.exports = {
   locales,

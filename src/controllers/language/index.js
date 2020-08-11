@@ -6,7 +6,7 @@ module.exports = async ctx => {
   const messageText = Object.values(locales)
     .map(locale => locale.selectTextWithSymbol)
     .join('\n');
-  return ctx.reply(messageText, langKeyboard);
+  return ctx.reply(messageText, langKeyboard.extra());
 };
 
 module.exports.actions = actions;
