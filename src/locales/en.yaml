@@ -4,40 +4,40 @@ cmd:
       Hi, <b>${name}</b>!
       Send me a sticker or photo and I will add it to your sticker pack
 
-      /packs - get your packs
-      /new - create a new sticker pack
+      /packs - list your packs
+      /new - create a new pack
 
-      /copy - copy a sticker pack
+      /copy - copy a pack
       /original - find original sticker
-      /restore - restore a sticker pack
+      /restore - restore hidden pack
 
       /lang - change bot language
     btn:
-      packs: 🪐 Sticker packs
-      new: 🆕 Create new sticker pack
+      packs: 🪐 Packs
+      new: 🆕 Create a new pack
   packs:
     reply:
       list: |
-        <b>🪐 Sticker packs:</b>
+        <b>🪐 Packs:</b>
       empty: |
-        <b>You have no sticker packs yet</b>
+        <b>You have no packs for now</b>
         Send /new to create one
   restore:
     reply: |
-      <b>🗃 Sticker pack restoration</b>
+      <b>🗃 Pack restoration</b>
 
       Can't find your pack using /packs command?
       I'll help you to restore it!
 
       <b>To do this, you need to perform these steps:</b>
       1. Send <code>/packstats</code> command to @Stickers bot
-      2. Select sticker pack you want to restore
+      2. Select pack you want to restore
       3. Forward the received message to me)
   copy:
     reply: |
-      <b>🗄 Copy sticker pack</b>
+      <b>🗄 Copy pack</b>
 
-      Copy every sticker from any sticker pack!
+      Get a full copy of every pack!
       Just send me a link to it)
   deleteme:
     reply: |
@@ -50,35 +50,35 @@ cmd:
 actions:
   pack:
     answer:
-      hidden: Sticker pack successfully hidden
-      restored: Sticker pack successfully restored
+      hidden: Pack hidden
+      restored: Pack restored
     reply:
-      selected: Selected sticker pack <a href="${link}">${title}</a>
-      restored: Sticker pack <a href="${link}">${title}</a> was restored
+      selected: Selected pack <a href="${link}">${title}</a>
+      restored: Pack <a href="${link}">${title}</a> restored
       error:
         access_denied: |
           <b>Error!</b>
-          You can't modify this sticker pack
+          You can't modify this pack
         restore: |
           <b>Error!</b>
-          Cannot restore sticker pack
+          Cannot restore pack
         copy: |
           <b>Error!</b>
-          Cannot find sticker pack
+          Cannot find pack
     btn:
-      hide: ❌ Hide sticker pack
+      hide: ❌ Hide
       restore: ✅ Restore
 
 stickers:
   add:
     reply:
       ok: |
-        <b>Sticker successfully added to sticker pack:</b>
+        <b>Sticker successfully added to pack:</b>
         <a href="${link}">${title}</a>
       error:
         stickers_too_much: |
           <b>Error!</b>
-          This sticker pack has the maximum number of stickers
+          This pack has the maximum number of stickers
           But you can create a /new one!
         file_type: |
           <b>Error!</b>
@@ -87,56 +87,59 @@ stickers:
 scenes:
   pack_create:
     pack_type: |
-      <b>Choose sticker pack type:</b>
+      <b>Choose type for the new pack:</b>
     pack_title: |
-      <b>Enter new sticker pack name:</b>
+      <b>Send the new pack title:</b>
     pack_name: |
-      <b>Enter a short link for new sticker pack:</b>
+      <b>Send a short link for the new pack</b>
 
-      <i>Follow these rules:</i>
+      It will be used as <code>t.me/addstickers/</code> URL
+      Example: <code>animals</code>
+
+      <b><i>Follow these rules:</i></b>
       <i>1. Use only english letters, digits and underscores</i>
       <i>2. Link must begin with a letter</i>
       <i>3. Link can't end with an underscore</i>
       <i>4. Link can't contain consecutive underscores</i>
     btn:
-      static: 🆕 Static
-      anim: 🅰️ Animated
+      normal: 🆕 Normal
+      animated: 🅰️ Animated
     reply:
       ok: |
-        Sticker pack <a href="${link}">${title}</a> successfully created!
+        Pack <a href="${link}">${title}</a> created!
 
-        <b>Sticker pack link:</b> <pre>${link}</pre>
+        <b>Pack link:</b> <pre>${link}</pre>
 
-        You can edit it in the official @Stickers bot
+        You can edit it with the official @Stickers bot
       error:
-        title_long: Name can contain ${max} symbols at most
-        name_long: Name can contain ${max} symbols at most
-        name_invalid: This name cannot be used
-        name_occupied: This name is already occupied
+        title_long: Title can contain ${max} symbols at most
+        name_long: Link can contain ${max} symbols at most
+        name_invalid: This link cannot be used
+        name_occupied: This link is already occupied
   copy:
     reply:
       enter: |
-        I can copy this sticker pack, you need to create a new one
+        I can copy this pack, you need to create a new one
       progress: |
-        Copying sticker pack from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a>
+        Copying stickers from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a>
 
         Progress: ${current}/${total}
       done: |
-        Sticker pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
+        Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
   original:
     reply:
       enter: |
-        Send the sticker that was added using me and I will show its original
+        Send sticker that was added using me and I will show its original
       error:
         not_found: |
           <b>Error!</b>
-          Couldn't find the original sticker
+          Couldn't find original sticker
 
 shared:
   scene:
     leave:
       reply: |
-        Action canceled
+        Operation canceled
       btn:
         cancel: ❌ Cancel
   error:

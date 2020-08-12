@@ -1,6 +1,6 @@
 const PACK_TYPES = {
-  STATIC: 'scenes.pack_create.btn.static',
-  ANIMATED: 'scenes.pack_create.btn.anim',
+  NORMAL: 'scenes.pack_create.btn.normal',
+  ANIMATED: 'scenes.pack_create.btn.animated',
 };
 
 module.exports = PACK_TYPES;

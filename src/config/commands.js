@@ -1,15 +1,15 @@
 const commands = [
   {
     command: 'packs',
-    description: 'Get your sticker packs',
+    description: 'List your packs',
   },
   {
     command: 'new',
-    description: 'Create a sticker pack',
+    description: 'Create a new pack',
   },
   {
     command: 'copy',
-    description: 'Copy existing sticker pack',
+    description: 'Copy existing pack',
   },
   {
     command: 'original',
@@ -17,15 +17,15 @@ const commands = [
   },
   {
     command: 'restore',
-    description: 'Restore sticker pack',
+    description: 'Restore hidden pack',
   },
   {
     command: 'lang',
-    description: 'Select language',
+    description: 'Select bot language',
   },
   {
     command: 'cancel',
-    description: 'Cancel action',
+    description: 'Cancel current operation',
   },
   {
     command: 'help',

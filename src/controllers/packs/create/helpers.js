@@ -96,11 +96,11 @@ const copyPack = async (ctx, packToCopy, newPack) => {
 };
 
 const validatePackType = async (ctx, type) => {
-  const isStatic = Boolean(match(PACK_TYPES.STATIC)(type, ctx));
+  const isNormal = Boolean(match(PACK_TYPES.NORMAL)(type, ctx));
   const isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(type, ctx));
 
   // none of pack types was chosen (none of keyboard btns was clicked)
-  if (!isStatic && !isAnimated) {
+  if (!isNormal && !isAnimated) {
     await replies.replyErrorPackType(ctx);
     return false;
   }

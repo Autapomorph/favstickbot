@@ -11,7 +11,7 @@ packsCreateTypeScene.enter(async ctx => {
   return replyPackType(ctx);
 });
 
-packsCreateTypeScene.hears([match(PACK_TYPES.STATIC), match(PACK_TYPES.ANIMATED)], async ctx => {
+packsCreateTypeScene.hears([match(PACK_TYPES.NORMAL), match(PACK_TYPES.ANIMATED)], async ctx => {
   const packType = ctx.message.text;
   const { packToCreate } = ctx.scene.state;
 
