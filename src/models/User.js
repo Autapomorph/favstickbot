@@ -42,7 +42,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       username: tgUser.username,
       $setOnInsert: { locale: tgUser.language_code },
     },
-    { new: true, upsert: true, setDefaultsOnInsert: true, rawResult: true },
+    { upsert: true, setDefaultsOnInsert: true, rawResult: true },
   );
 
   const { upserted: upsertedId } = userResult.lastErrorObject;

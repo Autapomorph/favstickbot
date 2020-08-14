@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const logger = require('./utils/logger');
 
+mongoose.set('returnOriginal', false);
+
 mongoose.connection.once('open', () => {
   logger.info('Connected to database');
 });
