@@ -11,7 +11,13 @@ const addSticker = async (ctx, userFile, pack) => {
     fileBuffer = await normalizeImage(fileBuffer);
   }
 
-  const stickerFile = await uploadSticker(ctx, fileBuffer, userFile.emoji, true, pack.name);
+  const stickerFile = await uploadSticker(
+    ctx,
+    fileBuffer,
+    userFile.emoji,
+    userFile.isAnimated,
+    pack.name,
+  );
 
   await createSticker(pack.id, userFile, stickerFile);
 
