@@ -63,31 +63,18 @@ const createPack = async (ctx, user, packToCreate, nextOperation) => {
   }
 };
 
-const copyStickerByOne = async (copyPackGen, ctx, successCallback) => {
-  if (!ctx.scene.state.packToCopy) {
-    return ctx.scene.leave();
-  }
-
-  if (!(await copyPackGen.next()).done) {
-    return copyStickerByOne(copyPackGen, ctx, successCallback);
-  }
-
-  await successCallback();
-  return ctx.scene.leave();
-};
-
-const copyPack = async (ctx, packToCopy, newPack) => {
+const copyPack = async (ctx, packToCopy, newPack, checkAborted) => {
   try {
     const message = await replyProgress(ctx, packToCopy, newPack);
-    const copyPackGen = copyPackHelper(
-      ctx,
-      packToCopy,
-      editProgress.bind(null, ctx, packToCopy, newPack, message),
-    );
-    const successCallback = () =>
-      replySuccess(ctx, message, packToCopy, newPack, getMainKeyboard(ctx).extra());
+    const onProgress = async index => {
+      await editProgress(ctx, packToCopy, newPack, message, index);
+    };
+    const onSuccess = async () => {
+      await replySuccess(ctx, message, packToCopy, newPack, getMainKeyboard(ctx).extra());
+      return ctx.scene.leave();
+    };
 
-    copyStickerByOne(copyPackGen, ctx, successCallback);
+    copyPackHelper(ctx, packToCopy, checkAborted, onProgress, onSuccess);
   } catch (error) {
     logger.error(error);
     await replyErrorTelegram(ctx, error, getMainKeyboard(ctx).extra());

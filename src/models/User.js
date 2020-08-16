@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Pack = require('./Pack');
+const Session = require('./Session');
 const { defaultLocale } = require('../config/i18n');
 const logger = require('../utils/logger');
 
@@ -30,6 +31,7 @@ UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
 
 UserSchema.pre('deleteOne', { document: true }, async function pre() {
   await Pack.deleteMany({ userId: this.id });
+  await Session.deleteOne({ 'data.user._id': this.id });
   logger.debug('User data has been deleted: %s', this.id);
 });
 
