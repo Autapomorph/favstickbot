@@ -21,7 +21,6 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
       name: packToCreate.name,
       title: packToCreate.title,
       isAnimated: packToCreate.isAnimated,
-      hasTgInstance: true,
     });
     await user.save();
 

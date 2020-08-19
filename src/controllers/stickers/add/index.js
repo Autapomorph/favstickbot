@@ -28,16 +28,8 @@ module.exports = async ctx => {
   if (!user.selectedPack) {
     const defaultPack = generateDefaultPack(user.id, ctx.botInfo.username, userFile.isAnimated);
     await createPackTg(ctx, defaultPack);
-    user.selectedPack = await Pack.create({ ...defaultPack, hasTgInstance: true });
+    user.selectedPack = await Pack.create(defaultPack);
     await user.save();
-  }
-
-  // If there's a selected pack but it doesn't have its Telegram instance
-  // Create pack using Telegram API and make it the selected one
-  if (!user.selectedPack.hasTgInstance) {
-    await createPackTg(ctx, user.selectedPack);
-    user.selectedPack.hasTgInstance = true;
-    await user.selectedPack.save();
   }
 
   try {

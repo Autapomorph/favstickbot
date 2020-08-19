@@ -25,10 +25,6 @@ const PackSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    hasTgInstance: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,
@@ -69,7 +65,6 @@ PackSchema.statics.findOneVisible = async function findOneVisible(userId) {
   return this.findOne({
     userId,
     isHidden: false,
-    hasTgInstance: true,
   });
 };
 
@@ -77,7 +72,6 @@ PackSchema.statics.findVisible = async function findVisible(userId) {
   return this.find({
     userId,
     isHidden: false,
-    hasTgInstance: true,
   });
 };
 
@@ -86,7 +80,6 @@ PackSchema.statics.findOneHidden = async function findOneHidden(userId, name) {
     _id: name,
     userId,
     isHidden: true,
-    hasTgInstance: true,
   });
 };
 
@@ -95,7 +88,6 @@ PackSchema.statics.findOneByType = async function findOneByType(userId, isAnimat
     userId,
     isAnimated,
     isHidden: false,
-    hasTgInstance: true,
   });
 };
 
