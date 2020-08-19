@@ -1,6 +1,6 @@
 const Scene = require('telegraf/scenes/base');
 
-const { validatePackTitle } = require('../helpers');
+const { validatePackTitle } = require('../helpers/validators');
 const { replyPackTitle } = require('../replies');
 
 const packsCreateTitleScene = new Scene('PACKS_CREATE/TITLE');

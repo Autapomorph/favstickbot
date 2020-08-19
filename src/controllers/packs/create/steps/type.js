@@ -2,7 +2,7 @@ const Scene = require('telegraf/scenes/base');
 const { match } = require('telegraf-i18n');
 
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
-const { validatePackType } = require('../helpers');
+const { validatePackType } = require('../helpers/validators');
 const { replyPackType } = require('../replies');
 
 const packsCreateTypeScene = new Scene('PACKS_CREATE/TYPE');

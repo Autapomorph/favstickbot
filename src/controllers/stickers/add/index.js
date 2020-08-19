@@ -11,23 +11,29 @@ const validateError = require('../../../utils/errors/validateRegexErrorType');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
-  const { user } = ctx.session;
-
   await ctx.replyWithChatAction('upload_document');
 
+  const { user } = ctx.session;
   const userFile = getUserFile(ctx);
-  const { isAnimated } = userFile;
-  if (user.selectedPack && user.selectedPack.isAnimated !== isAnimated) {
-    user.selectedPack = await Pack.findOneByType(user.id, isAnimated);
+
+  // If user's selected pack has improper `isAnimated` prop
+  // Try to find a pack with proper `isAnimated` prop and make it the selected one
+  if (user.selectedPack && user.selectedPack.isAnimated !== userFile.isAnimated) {
+    user.selectedPack = await Pack.findOneByType(user.id, userFile.isAnimated);
     await user.save();
   }
 
+  // If there's no selected pack for user
+  // Create a new pack using defaults and make it the selected one
   if (!user.selectedPack) {
-    const defaultPack = generateDefaultPack(user.id, ctx.botInfo.username, isAnimated);
-    user.selectedPack = await Pack.create(defaultPack);
+    const defaultPack = generateDefaultPack(user.id, ctx.botInfo.username, userFile.isAnimated);
+    await createPackTg(ctx, defaultPack);
+    user.selectedPack = await Pack.create({ ...defaultPack, hasTgInstance: true });
     await user.save();
   }
 
+  // If there's a selected pack but it doesn't have its Telegram instance
+  // Create pack using Telegram API and make it the selected one
   if (!user.selectedPack.hasTgInstance) {
     await createPackTg(ctx, user.selectedPack);
     user.selectedPack.hasTgInstance = true;

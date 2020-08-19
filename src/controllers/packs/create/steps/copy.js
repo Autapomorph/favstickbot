@@ -1,7 +1,7 @@
 const Scene = require('telegraf/scenes/base');
 const { drop } = require('telegraf/composer');
 
-const { copyPack } = require('../helpers');
+const copyPack = require('../helpers/copyPack');
 const getSessionKey = require('../../../../utils/sessions/getKey');
 const deleteSceneData = require('../../../../utils/sessions/deleteSceneData');
 
