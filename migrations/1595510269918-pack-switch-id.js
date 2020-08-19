@@ -3,7 +3,7 @@ const { ObjectID } = require('mongodb');
 
 const connect = require('../src/utils/migrations/connect');
 
-module.exports.description = 'Set `name` as `_id`';
+module.exports.description = 'Pack: set `name` as `_id`';
 
 module.exports.up = async () => {
   const client = await connect();

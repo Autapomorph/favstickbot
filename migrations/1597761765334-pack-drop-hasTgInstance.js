@@ -1,6 +1,6 @@
 const connect = require('../src/utils/migrations/connect');
 
-module.exports.description = 'Drop `hasTgInstance`';
+module.exports.description = 'Pack: drop `hasTgInstance`';
 
 module.exports.up = async () => {
   const client = await connect();
