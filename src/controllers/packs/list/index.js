@@ -1,7 +1,8 @@
 const Pack = require('../../../models/Pack');
 const actions = require('./actions');
-const { getPackListText, getPackListKeyboard } = require('./helpers');
+const { getPackListText } = require('./helpers');
 const { replyPackList } = require('./replies');
+const getPackListKeyboard = require('../../../keyboards/inline/packList');
 const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 
 module.exports = async ctx => {

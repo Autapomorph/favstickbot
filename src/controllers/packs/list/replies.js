@@ -2,7 +2,8 @@ const Extra = require('telegraf/extra');
 const Markup = require('telegraf/markup');
 
 const Pack = require('../../../models/Pack');
-const { getPackListText, getPackListKeyboard } = require('./helpers');
+const { getPackListText } = require('./helpers');
+const getPackListKeyboard = require('../../../keyboards/inline/packList');
 const { packLinkPrefix } = require('../../../config');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
@@ -10,30 +11,39 @@ const isKeyboardDifferent = require('../../../utils/keyboards/isDifferent');
 
 const replyPackList = async (ctx, text, keyboard, messageId) => {
   if (messageId !== undefined) {
-    return ctx.telegram.editMessageText(ctx.chat.id, messageId, null, text, {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard(keyboard),
-    });
+    return ctx.telegram.editMessageText(
+      ctx.chat.id,
+      messageId,
+      null,
+      text,
+      Extra.HTML().markup(Markup.inlineKeyboard(keyboard)),
+    );
   }
 
-  return ctx.replyWithHTML(text, {
-    reply_markup: Markup.inlineKeyboard(keyboard),
-  });
+  return ctx.replyWithHTML(text, Markup.inlineKeyboard(keyboard).extra());
+};
+
+const replyPackListOnAction = async (ctx, pack) => {
+  const { user } = ctx.session;
+  const packs = await Pack.findVisible(user.id);
+  const selectedPackId = getSelectedPackId(user);
+
+  const messageText = getPackListText(ctx, packs);
+  const keyboard = getPackListKeyboard(packs, pack ? pack.id : selectedPackId);
+
+  const prevMessage = pack ? ctx.callbackQuery.message : ctx.callbackQuery.message.reply_to_message;
+  const prevMessageId = prevMessage.message_id;
+  const prevKeyboard = prevMessage.reply_markup && prevMessage.reply_markup.inline_keyboard;
+
+  if (isKeyboardDifferent(prevKeyboard, keyboard)) {
+    await replyPackList(ctx, messageText, keyboard, prevMessageId);
+  }
+
+  return prevMessageId;
 };
 
 const replyPackSelectAction = async (ctx, pack) => {
-  const { user } = ctx.session;
-  const packs = await Pack.findVisible(user.id);
-  const packListText = getPackListText(ctx, packs);
-  const packListKeyboard = getPackListKeyboard(packs, pack.id);
-  const prevPackListMessage = ctx.callbackQuery.message;
-  const prevPackListMessageId = prevPackListMessage.message_id;
-  const prevPackListMessageKeyboard =
-    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
-
-  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
-    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
-  }
+  const prevMessageId = await replyPackListOnAction(ctx, pack);
 
   await ctx.answerCbQuery();
 
@@ -43,7 +53,7 @@ const replyPackSelectAction = async (ctx, pack) => {
       title: escapeHTML(pack.title),
       link: `${packLinkPrefix}${pack.name}`,
     }),
-    Extra.inReplyTo(prevPackListMessageId).markup(
+    Extra.inReplyTo(prevMessageId).markup(
       Markup.inlineKeyboard([
         [Markup.callbackButton(ctx.i18n.t(cbBtnText), `pack_hide:${pack.id}`)],
       ]),
@@ -52,19 +62,7 @@ const replyPackSelectAction = async (ctx, pack) => {
 };
 
 const replyPackHideAction = async (ctx, pack) => {
-  const { user } = ctx.session;
-  const packs = await Pack.findVisible(user.id);
-  const selectedPackId = getSelectedPackId(user);
-  const packListText = getPackListText(ctx, packs);
-  const packListKeyboard = getPackListKeyboard(packs, selectedPackId);
-  const prevPackListMessage = ctx.callbackQuery.message.reply_to_message;
-  const prevPackListMessageId = prevPackListMessage.message_id;
-  const prevPackListMessageKeyboard =
-    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
-
-  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
-    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
-  }
+  await replyPackListOnAction(ctx);
 
   await ctx.editMessageReplyMarkup(
     Markup.inlineKeyboard([
@@ -76,19 +74,7 @@ const replyPackHideAction = async (ctx, pack) => {
 };
 
 const replyPackRestoreAction = async (ctx, pack) => {
-  const { user } = ctx.session;
-  const packs = await Pack.findVisible(user.id);
-  const selectedPackId = getSelectedPackId(user);
-  const packListText = getPackListText(ctx, packs);
-  const packListKeyboard = getPackListKeyboard(packs, selectedPackId);
-  const prevPackListMessage = ctx.callbackQuery.message.reply_to_message;
-  const prevPackListMessageId = prevPackListMessage.message_id;
-  const prevPackListMessageKeyboard =
-    prevPackListMessage.reply_markup && prevPackListMessage.reply_markup.inline_keyboard;
-
-  if (isKeyboardDifferent(prevPackListMessageKeyboard, packListKeyboard)) {
-    await replyPackList(ctx, packListText, packListKeyboard, prevPackListMessageId);
-  }
+  await replyPackListOnAction(ctx);
 
   await ctx.editMessageReplyMarkup(
     Markup.inlineKeyboard([

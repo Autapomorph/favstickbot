@@ -1,3 +1,5 @@
+const Extra = require('telegraf/extra');
+
 const ERROR_TYPES = require('./errorTypes');
 
 // Base reply error
@@ -13,7 +15,7 @@ const replyErrorWithResource = async (ctx, tKey, resource, extra = {}) => {
 // Reply error to specified message
 const replyErrorToMessage = async (ctx, tKey, messageId = ctx.message.message_id, extra = {}) => {
   return replyError(ctx, tKey, {
-    reply_to_message_id: messageId,
+    ...Extra.inReplyTo(messageId),
     ...extra,
   });
 };

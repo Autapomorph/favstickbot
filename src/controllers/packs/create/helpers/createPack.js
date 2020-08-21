@@ -5,7 +5,7 @@ const Pack = require('../../../../models/Pack');
 const getCancelKeyboard = require('../../../../keyboards/cancel');
 const getMainKeyboard = require('../../../../keyboards/main');
 
-const createPackTg = require('../../../../utils/packs/create');
+const createPack = require('../../../../utils/packs/create');
 const { replyErrorTelegram } = require('../../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../../utils/errors/errorTypes');
 const validateError = require('../../../../utils/errors/validateRegexErrorType');
@@ -13,7 +13,7 @@ const logger = require('../../../../utils/logger');
 
 module.exports = async (ctx, user, packToCreate, nextOperation) => {
   try {
-    await createPackTg(ctx, packToCreate);
+    await createPack(ctx, packToCreate);
 
     // eslint-disable-next-line no-param-reassign
     user.selectedPack = await Pack.create({

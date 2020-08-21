@@ -8,15 +8,13 @@ const packsCopyScene = require('./steps/copy');
 const packsCreateScene = new Scene('PACKS_CREATE');
 
 packsCreateScene.enter(async ctx => {
-  const defaultPackToCreate = {
+  ctx.scene.state.packToCreate = {
     isAnimated: false,
     title: '',
     name: '',
   };
 
-  ctx.scene.state.packToCreate = defaultPackToCreate;
   const { packToCreate, packToCopy } = ctx.scene.state;
-
   if (packToCopy) {
     packToCreate.isAnimated = packToCopy.isAnimated;
     return ctx.scene.enter('PACKS_CREATE/TITLE', ctx.scene.state);

@@ -8,21 +8,23 @@ const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
 
 const replyPackType = async ctx => {
-  const packNewTypeKeyboard = Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(
-    ctx.message.message_id,
+  return ctx.replyWithHTML(
+    ctx.i18n.t('scenes.pack_create.pack_type'),
+    Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(ctx.message.message_id),
   );
-  return ctx.replyWithHTML(ctx.i18n.t('scenes.pack_create.pack_type'), packNewTypeKeyboard);
 };
 
 const replyPackTitle = async ctx => {
-  const cancelKeyboard = Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id);
-  return ctx.replyWithHTML(ctx.i18n.t('scenes.pack_create.pack_title'), cancelKeyboard);
+  return ctx.replyWithHTML(
+    ctx.i18n.t('scenes.pack_create.pack_title'),
+    Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+  );
 };
 
 const replyPackName = async ctx => {
   return ctx.replyWithHTML(
     ctx.i18n.t('scenes.pack_create.pack_name'),
-    Extra.inReplyTo(ctx.message.message_id),
+    Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
   );
 };
 
@@ -32,7 +34,7 @@ const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) =
       title: createdPack.title,
       link: `${packLinkPrefix}${createdPack.name}`,
     }),
-    Extra.inReplyTo(ctx.message.message_id).markup(keyboard),
+    Extra.markup(keyboard).inReplyTo(ctx.message.message_id),
   );
 };
 

@@ -4,7 +4,7 @@ const Pack = require('../../../models/Pack');
 const { replyErrorAddSticker } = require('./replies');
 const { getUserFile } = require('../../../utils/stickers/get');
 const addSticker = require('../../../utils/stickers/add');
-const createPackTg = require('../../../utils/packs/create');
+const createPack = require('../../../utils/packs/create');
 const generateDefaultPack = require('../../../utils/packs/default');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const validateError = require('../../../utils/errors/validateRegexErrorType');
@@ -23,11 +23,11 @@ module.exports = async ctx => {
     await user.save();
   }
 
-  // If there's no selected pack for user
+  // If user has no selected pack
   // Create a new pack using defaults and make it the selected one
   if (!user.selectedPack) {
     const defaultPack = generateDefaultPack(user.id, ctx.botInfo.username, userFile.isAnimated);
-    await createPackTg(ctx, defaultPack);
+    await createPack(ctx, defaultPack);
     user.selectedPack = await Pack.create(defaultPack);
     await user.save();
   }

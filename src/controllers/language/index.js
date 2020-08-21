@@ -1,5 +1,5 @@
 const actions = require('./actions');
-const { langKeyboard } = require('./helpers');
+const langKeyboard = require('../../keyboards/inline/language');
 const { locales } = require('../../config');
 
 module.exports = async ctx => {

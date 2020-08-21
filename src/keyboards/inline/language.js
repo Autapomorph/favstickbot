@@ -10,7 +10,4 @@ const langKeyboard = Markup.inlineKeyboard(langButtons, {
   columns: 5,
 });
 
-module.exports = {
-  locales,
-  langKeyboard,
-};
+module.exports = langKeyboard;
