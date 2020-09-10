@@ -43,7 +43,7 @@
     "telegraf-throttler": "^0.2.0",
     "telegraf-update-logger": "^1.2.0",
     "winston": "^3.3.3",
-    "winston-transport-sentry-node": "^0.6.0"
+    "winston-transport-sentry-node": "^0.7.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
