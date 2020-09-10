@@ -33,30 +33,30 @@
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "migrate": "^1.7.0",
-    "mongodb": "^3.6.0",
-    "mongoose": "^5.10.0",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.4",
     "nanoid": "^3.1.12",
-    "node-fetch": "^2.6.0",
-    "sharp": "^0.25.4",
+    "node-fetch": "^2.6.1",
+    "sharp": "^0.26.0",
     "telegraf": "^3.38.0",
     "telegraf-i18n": "^6.6.0",
     "telegraf-throttler": "^0.2.0",
     "telegraf-update-logger": "^1.2.0",
     "winston": "^3.3.3",
-    "winston-transport-sentry-node": "^0.6.0"
+    "winston-transport-sentry-node": "^0.7.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "eslint": "^7.7.0",
+    "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "ignore": "^5.1.8",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.3.0",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.1.1"
   },
   "husky": {
     "hooks": {
