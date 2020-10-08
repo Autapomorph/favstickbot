@@ -1,6 +1,6 @@
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
 const ERROR_TYPES = require('./errorTypes');
-const validateError = require('./validateRegexErrorType');
+const validateError = require('./validateErrorType');
 const logger = require('../logger');
 
 module.exports = async (error, ctx) => {
@@ -30,11 +30,7 @@ module.exports = async (error, ctx) => {
   if (error.description) {
     const { TOO_MANY_REQUESTS, BLOCKED_BY_USER } = ERROR_TYPES.TELEGRAM;
 
-    if (validateError(TOO_MANY_REQUESTS, error)) {
-      return;
-    }
-
-    if (validateError(BLOCKED_BY_USER, error)) {
+    if (validateError([TOO_MANY_REQUESTS, BLOCKED_BY_USER], error)) {
       return;
     }
 

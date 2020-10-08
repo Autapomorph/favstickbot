@@ -7,7 +7,7 @@ const addSticker = require('../../../utils/stickers/add');
 const createPack = require('../../../utils/packs/create');
 const generateDefaultPack = require('../../../utils/packs/default');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
-const validateError = require('../../../utils/errors/validateRegexErrorType');
+const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
@@ -43,11 +43,7 @@ module.exports = async ctx => {
     );
   } catch (error) {
     const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;
-    if (
-      validateError(STICKERSET_INVALID, error) ||
-      validateError(STICKERS_TOO_MUCH, error) ||
-      validateError(STICKER_INVALID_EMOJIS, error)
-    ) {
+    if (validateError([STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS], error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error);

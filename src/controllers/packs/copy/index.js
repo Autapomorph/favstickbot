@@ -1,6 +1,6 @@
 const { replyEnter, replyErrorCopy } = require('./replies');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
-const validateError = require('../../../utils/errors/validateRegexErrorType');
+const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {

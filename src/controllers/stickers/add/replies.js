@@ -1,6 +1,6 @@
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
-const validateError = require('../../../utils/errors/validateRegexErrorType');
+const validateError = require('../../../utils/errors/validateErrorType');
 
 const replyErrorAddSticker = (ctx, error) => {
   if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
