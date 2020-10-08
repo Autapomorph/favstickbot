@@ -76,6 +76,10 @@ stickers:
         <b>Sticker successfully added to pack:</b>
         <a href="${link}">${title}</a>
       error:
+        stickerset_invalid: |
+          <b>Error!</b>
+          Can't add sticker to the pack
+          If you deleted it via @Stickers, please hide it with /packs
         stickers_too_much: |
           <b>Error!</b>
           This pack has the maximum number of stickers

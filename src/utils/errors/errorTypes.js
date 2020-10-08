@@ -4,6 +4,7 @@ const ERROR_TYPES = {
   RATELIMIT: 'shared.error.reply.ratelimit',
   UNKNOWN: 'shared.error.reply.unknown',
   PACKS: {
+    INVALID: 'stickers.add.reply.error.stickerset_invalid',
     ACCESS_DENIED: 'actions.pack.reply.error.access_denied',
     TITLE_TOO_LONG: 'scenes.pack_create.reply.error.title_long',
     NAME_TOO_LONG: 'scenes.pack_create.reply.error.name_long',
