@@ -15,6 +15,7 @@ const ERROR_TYPES = {
   STICKERS: {
     FILE_TYPE: 'stickers.add.reply.error.file_type',
     TOO_MUCH: 'stickers.add.reply.error.stickers_too_much',
+    INVALID_EMOJIS: 'stickers.add.reply.error.invalid_emojis',
     NOT_FOUND: 'scenes.original.reply.error.not_found',
   },
   TELEGRAM: {
@@ -36,6 +37,8 @@ const ERROR_TYPES = {
     STICKERSET_NAME_OCCUPIED: /name.*occupied/i,
     // Bad Request: STICKERS_TOO_MUCH
     STICKERS_TOO_MUCH: /stickers.*too.*much/i,
+    // Bad Request: invalid sticker emojis
+    STICKER_INVALID_EMOJIS: /invalid.*sticker.*emoji/i,
     // Forbidden: bot was blocked by the user
     BLOCKED_BY_USER: /forbidden.*bot.*block.*user/i,
     // Forbidden: user is deactivated

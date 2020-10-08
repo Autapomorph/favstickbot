@@ -42,8 +42,12 @@ module.exports = async ctx => {
       Extra.inReplyTo(ctx.message.message_id),
     );
   } catch (error) {
-    const { STICKERSET_INVALID, STICKERS_TOO_MUCH } = ERROR_TYPES.TELEGRAM;
-    if (validateError(STICKERSET_INVALID, error) || validateError(STICKERS_TOO_MUCH, error)) {
+    const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;
+    if (
+      validateError(STICKERSET_INVALID, error) ||
+      validateError(STICKERS_TOO_MUCH, error) ||
+      validateError(STICKER_INVALID_EMOJIS, error)
+    ) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error);

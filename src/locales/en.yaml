@@ -83,6 +83,9 @@ stickers:
         file_type: |
           <b>Error!</b>
           This file type is not supported
+        invalid_emojis: |
+          <b>Error!</b>
+          Only emojis are supported as file caption
 
 scenes:
   pack_create:

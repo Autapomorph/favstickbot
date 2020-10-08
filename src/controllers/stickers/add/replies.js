@@ -7,6 +7,10 @@ const replyErrorAddSticker = (ctx, error) => {
     return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.TOO_MUCH);
   }
 
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKER_INVALID_EMOJIS, error)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.INVALID_EMOJIS);
+  }
+
   return replyErrorTelegram(ctx, error);
 };
 
