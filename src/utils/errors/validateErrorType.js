@@ -1,15 +1,20 @@
-const validateTelegramErrorType = (errorRegex, error) => {
-  if (!errorRegex) return false;
-  if (!error || (typeof error !== 'string' && typeof error !== 'object')) return false;
-  if (typeof error === 'object' && !error.description) return false;
+const TelegramError = require('telegraf/core/network/error');
 
-  const errorToTest = typeof error === 'object' ? error.description : error;
+/**
+ * Validate Telegram error description by regex
+ * @param {RegExp | RegExp[]} errorDescriptionRegex - Regex or array of regex to test error against
+ * @param {TelegramError} error - Error to be tested
+ * @return {boolean} Whether or not (one of) regex pattern exists in error description
+ */
+const validateTelegramErrorType = (errorDescriptionRegex, error) => {
+  if (!errorDescriptionRegex) return false;
+  if (!(error instanceof TelegramError)) return false;
 
-  if (Array.isArray(errorRegex)) {
-    return errorRegex.some(re => re.test(errorToTest));
+  if (Array.isArray(errorDescriptionRegex)) {
+    return errorDescriptionRegex.some(re => re.test(error.description));
   }
 
-  return errorRegex.test(errorToTest);
+  return errorDescriptionRegex.test(error.description);
 };
 
 module.exports = validateTelegramErrorType;

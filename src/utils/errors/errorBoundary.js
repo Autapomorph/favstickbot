@@ -1,3 +1,5 @@
+const TelegramError = require('telegraf/core/network/error');
+
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
 const ERROR_TYPES = require('./errorTypes');
 const validateError = require('./validateErrorType');
@@ -26,8 +28,7 @@ module.exports = async (error, ctx) => {
     sceneState,
   });
 
-  // Error sent from Telegram
-  if (error.description) {
+  if (error instanceof TelegramError) {
     const { TOO_MANY_REQUESTS, BLOCKED_BY_USER } = ERROR_TYPES.TELEGRAM;
 
     if (validateError([TOO_MANY_REQUESTS, BLOCKED_BY_USER], error)) {

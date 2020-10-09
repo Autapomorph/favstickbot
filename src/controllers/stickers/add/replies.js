@@ -3,15 +3,17 @@ const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const validateError = require('../../../utils/errors/validateErrorType');
 
 const replyErrorAddSticker = (ctx, error) => {
-  if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
+  const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;
+
+  if (validateError(STICKERSET_INVALID, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.INVALID);
   }
 
-  if (validateError(ERROR_TYPES.TELEGRAM.STICKERS_TOO_MUCH, error)) {
+  if (validateError(STICKERS_TOO_MUCH, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.TOO_MUCH);
   }
 
-  if (validateError(ERROR_TYPES.TELEGRAM.STICKER_INVALID_EMOJIS, error)) {
+  if (validateError(STICKER_INVALID_EMOJIS, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.INVALID_EMOJIS);
   }
 
