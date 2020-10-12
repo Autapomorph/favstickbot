@@ -27,7 +27,8 @@
     "migrate": "migrate -s ./src/utils/migrations/store",
     "migrate:create": "migrate create -t ./src/utils/migrations/template.js",
     "lint": "eslint .",
-    "lint:staged": "lint-staged --relative"
+    "lint:staged": "lint-staged --relative",
+    "cm": "cz"
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
@@ -46,7 +47,10 @@
     "winston-transport-sentry-node": "^0.7.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-prettier": "^6.12.0",
@@ -58,8 +62,19 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2"
   },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run lint:staged"
     }
   }
