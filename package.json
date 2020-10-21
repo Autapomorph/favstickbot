@@ -38,7 +38,7 @@
     "mongoose": "^5.10.9",
     "nanoid": "^3.1.12",
     "node-fetch": "^2.6.1",
-    "sharp": "^0.26.1",
+    "sharp": "^0.26.2",
     "telegraf": "^3.38.0",
     "telegraf-i18n": "^6.6.0",
     "telegraf-throttler": "^0.2.0",
