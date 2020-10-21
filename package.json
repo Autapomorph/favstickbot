@@ -59,7 +59,7 @@
     "husky": "^4.3.0",
     "ignore": "^5.1.8",
     "lint-staged": "^10.4.2",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.6",
     "prettier": "^2.1.2"
   },
   "config": {
