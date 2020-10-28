@@ -5,7 +5,7 @@ const logger = require('./utils/logger');
 mongoose.set('returnOriginal', false);
 
 mongoose.connection.once('open', () => {
-  logger.info('Connected to database');
+  logger.info('Mongoose connected to database');
 });
 
 mongoose.connection.on('error', error => {
