@@ -35,7 +35,7 @@
     "dotenv": "^8.2.0",
     "migrate": "^1.7.0",
     "mongodb": "^3.6.2",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.10.12",
     "nanoid": "^3.1.16",
     "node-fetch": "^2.6.1",
     "sharp": "^0.26.2",
