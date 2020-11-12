@@ -1,9 +1,10 @@
 const Markup = require('telegraf/markup');
 
 const getMainKeyboard = ctx => {
-  const packListBtn = ctx.i18n.t('cmd.start.btn.packs');
-  const newPackBtn = ctx.i18n.t('cmd.start.btn.new');
-  return Markup.keyboard([[packListBtn], [newPackBtn]]).resize();
+  const packListBtn = ctx.i18n.t('keyboard.main.packs');
+  const newPackBtn = ctx.i18n.t('keyboard.main.new');
+  const settingsBtn = ctx.i18n.t('keyboard.main.settings');
+  return Markup.keyboard([[packListBtn], [newPackBtn], [settingsBtn]]).resize();
 };
 
 module.exports = getMainKeyboard;

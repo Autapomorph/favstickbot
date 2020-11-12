@@ -16,6 +16,7 @@ const replyErrorWithResource = async (ctx, tKey, resource, extra = {}) => {
 const replyErrorToMessage = async (ctx, tKey, messageId = ctx.message.message_id, extra = {}) => {
   return replyError(ctx, tKey, {
     ...Extra.inReplyTo(messageId),
+    allow_sending_without_reply: true,
     ...extra,
   });
 };

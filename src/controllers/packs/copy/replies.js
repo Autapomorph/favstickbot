@@ -5,10 +5,10 @@ const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyEnter = async ctx => {
-  return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.copy.reply.enter'),
-    Extra.inReplyTo(ctx.message.message_id),
-  );
+  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_copy.reply.enter'), {
+    ...Extra.inReplyTo(ctx.message.message_id),
+    allow_sending_without_reply: true,
+  });
 };
 
 const replyErrorCopy = async ctx => {
@@ -17,7 +17,7 @@ const replyErrorCopy = async ctx => {
 
 const replyProgress = async (ctx, packToCopy, newPack) => {
   return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.copy.reply.progress', {
+    ctx.i18n.t('scene.pack_copy.reply.progress', {
       originalTitle: packToCopy.title,
       originalLink: `${packLinkPrefix}${packToCopy.name}`,
       title: newPack.title,
@@ -33,7 +33,7 @@ const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
     message.chat.id,
     message.message_id,
     null,
-    ctx.i18n.t('scenes.copy.reply.progress', {
+    ctx.i18n.t('scene.pack_copy.reply.progress', {
       originalTitle: packToCopy.title,
       originalLink: `${packLinkPrefix}${packToCopy.name}`,
       title: newPack.title,
@@ -48,7 +48,7 @@ const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
 const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
   ctx.deleteMessage(message.message_id);
   return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.copy.reply.done', {
+    ctx.i18n.t('scene.pack_copy.reply.done', {
       originalTitle: packToCopy.title,
       originalLink: `${packLinkPrefix}${packToCopy.name}`,
       title: newPack.title,

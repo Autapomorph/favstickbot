@@ -21,7 +21,7 @@ const PackSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    isHidden: {
+    isArchived: {
       type: Boolean,
       default: false,
     },
@@ -61,33 +61,46 @@ PackSchema.pre('deleteMany', async function pre() {
   await Sticker.deleteMany({ packId: { $in: userPacksIds } });
 });
 
-PackSchema.statics.findOneVisible = async function findOneVisible(userId) {
-  return this.findOne({
+PackSchema.statics.findAll = async function findVisible(userId) {
+  return this.find({
     userId,
-    isHidden: false,
   });
 };
 
 PackSchema.statics.findVisible = async function findVisible(userId) {
   return this.find({
     userId,
-    isHidden: false,
+    isArchived: false,
   });
 };
 
-PackSchema.statics.findOneHidden = async function findOneHidden(userId, name) {
+PackSchema.statics.findArchived = async function findArchived(userId) {
+  return this.find({
+    userId,
+    isArchived: true,
+  });
+};
+
+PackSchema.statics.findOneVisible = async function findOneVisible(userId) {
+  return this.findOne({
+    userId,
+    isArchived: false,
+  });
+};
+
+PackSchema.statics.findOneArchived = async function findOneArchived(userId, name) {
   return this.findOne({
     _id: name,
     userId,
-    isHidden: true,
+    isArchived: true,
   });
 };
 
-PackSchema.statics.findOneByType = async function findOneByType(userId, isAnimated) {
+PackSchema.statics.findOneVisibleByType = async function findOneVisibleByType(userId, isAnimated) {
   return this.findOne({
     userId,
     isAnimated,
-    isHidden: false,
+    isArchived: false,
   });
 };
 

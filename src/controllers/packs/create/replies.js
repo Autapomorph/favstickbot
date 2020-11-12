@@ -8,33 +8,39 @@ const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
 
 const replyPackType = async ctx => {
-  return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.pack_create.pack_type'),
-    Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-  );
+  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_type'), {
+    ...Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    allow_sending_without_reply: true,
+  });
 };
 
 const replyPackTitle = async ctx => {
-  return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.pack_create.pack_title'),
-    Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-  );
+  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_title'), {
+    ...Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    allow_sending_without_reply: true,
+  });
 };
 
 const replyPackName = async ctx => {
   return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.pack_create.pack_name'),
-    Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    ctx.i18n.t('scene.pack_create.pack_name', { botUsername: ctx.options.username }),
+    {
+      ...Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+      allow_sending_without_reply: true,
+    },
   );
 };
 
 const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) => {
   return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.pack_create.reply.ok', {
+    ctx.i18n.t('scene.pack_create.reply.ok', {
       title: createdPack.title,
       link: `${packLinkPrefix}${createdPack.name}`,
     }),
-    Extra.markup(keyboard).inReplyTo(ctx.message.message_id),
+    {
+      ...Extra.markup(keyboard).inReplyTo(ctx.message.message_id),
+      allow_sending_without_reply: true,
+    },
   );
 };
 
@@ -45,7 +51,7 @@ const replyErrorTooLong = async (ctx, tKey) => {
     {
       max: packNameMaxLength,
     },
-    Extra.inReplyTo(ctx.message.message_id),
+    { ...Extra.inReplyTo(ctx.message.message_id), allow_sending_without_reply: true },
   );
 };
 

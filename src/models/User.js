@@ -15,9 +15,15 @@ const UserSchema = mongoose.Schema(
       type: String,
       ref: 'Pack',
     },
-    locale: {
-      type: String,
-      default: defaultLocale.code,
+    settings: {
+      locale: {
+        type: String,
+        default: defaultLocale.code,
+      },
+      showArchivedPacks: {
+        type: Boolean,
+        default: false,
+      },
     },
   },
   {
@@ -42,7 +48,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       firstName: tgUser.first_name,
       lastName: tgUser.last_name,
       username: tgUser.username,
-      $setOnInsert: { locale: tgUser.language_code },
+      $setOnInsert: { 'settings.locale': tgUser.language_code },
     },
     { upsert: true, setDefaultsOnInsert: true, rawResult: true },
   );

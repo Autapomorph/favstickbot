@@ -9,7 +9,7 @@ const stickersOriginalScene = new Scene('STICKERS_ORIGINAL');
 
 stickersOriginalScene.enter(async ctx => {
   return ctx.replyWithHTML(
-    ctx.i18n.t('scenes.original.reply.enter'),
+    ctx.i18n.t('scene.sticker_original.reply.enter'),
     getCancelKeyboard(ctx).extra(),
   );
 });

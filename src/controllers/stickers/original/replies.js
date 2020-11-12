@@ -9,7 +9,10 @@ const replyErrorNotFound = async ctx => {
 };
 
 const replyOriginal = async (ctx, { type, fileId }) => {
-  const replyExtra = Extra.inReplyTo(ctx.message.message_id);
+  const replyExtra = {
+    ...Extra.inReplyTo(ctx.message.message_id),
+    allow_sending_without_reply: true,
+  };
 
   try {
     switch (type) {

@@ -9,89 +9,125 @@ cmd:
 
       /copy - copy a pack
       /original - find original sticker
-      /restore - restore hidden pack
 
-      /lang - change bot language
-    btn:
-      packs: 🪐 Packs
-      new: 🆕 Create a new pack
+      /settings - open bot settings
   packs:
     reply:
       list: |
         <b>🪐 Packs:</b>
       empty: |
         <b>You have no packs for now</b>
-        Send /new to create one
-  restore:
-    reply: |
-      <b>🗃 Pack restoration</b>
-
-      Can't find your pack using /packs command?
-      I'll help you to restore it!
-
-      <b>To do this, you need to perform these steps:</b>
-      1. Send <code>/packstats</code> command to @Stickers bot
-      2. Select pack you want to restore
-      3. Forward the received message to me)
+        Try to create a /new one
+      selected: 'Selected pack: <a href="${link}">${title}</a>'
   copy:
     reply: |
       <b>🗄 Copy pack</b>
 
-      Get a full copy of every pack!
+      Get a full copy of any pack!
       Just send me a link to it)
   deleteme:
     reply: |
-      All data associated with you has been eliminated
+      All the data associated with you has been eliminated
   unknown:
     reply: |
-      Unfortunately I am not familiar with this command
-      Use /help command
+      I am not familiar with this command
+      Use /help
 
-actions:
+keyboard:
+  main:
+    packs: 🪐 Packs
+    new: 🆕 Create a new pack
+    settings: ⚙️ Settings
+  pack_type:
+    normal: 🆕 Normal
+    animated: 🅰️ Animated
+  shared:
+    cancel: ❌ Cancel
+
+menu:
+  packs_list:
+    single_pack:
+      body: What do you want to do with pack <a href="${link}">${title}</a>?
+      actions:
+        select: ☑️ Mark as Selected
+        archive: 🗃 Archive
+        restore: ♻ Restore
+        delete: 🗑 Delete
+        back: 🔙 Back to Packs List
+      delete_confirm:
+        body: |
+          Do you really want to delete pack <a href="${link}">${title}</a>?
+          This action can't be reverted!
+        actions:
+          yes: ⚠ Yes
+          back: 🔙 Back to Pack
+  settings:
+    body: ⚙️ Settings
+    actions:
+      show_archived_packs: Show archived packs
+      language: 🌎 Set language
+    language:
+      actions:
+        back: 🔙 Back to Settings
+  deleteme:
+    body: |
+      Do you really want to erase all the data?
+      This action can't be reverted!
+    actions:
+      yes: ⚠ Yes
+      no: No
+
+operation:
   pack:
-    answer:
-      hidden: Pack hidden
-      restored: Pack restored
-    reply:
-      selected: Selected pack <a href="${link}">${title}</a>
-      restored: Pack <a href="${link}">${title}</a> restored
-      error:
-        access_denied: |
-          <b>Error!</b>
-          You can't modify this pack
-        restore: |
-          <b>Error!</b>
-          Cannot restore pack
-        copy: |
+    select:
+      answer: Selected pack ${title}
+    archive:
+      answer: Pack ${title} archived
+    restore:
+      answer: Pack ${title} restored
+    delete:
+      answer: Pack ${title} deleted
+    copy:
+      reply:
+        error: |
           <b>Error!</b>
           Cannot find pack
-    btn:
-      hide: ❌ Hide
-      restore: ✅ Restore
+    shared:
+      reply:
+        error:
+          access_denied: |
+            <b>Error!</b>
+            You can't modify this pack
+  sticker:
+    add:
+      reply:
+        ok: |
+          <b>Sticker successfully added to pack:</b>
+          <a href="${link}">${title}</a>
+        error:
+          stickerset_invalid: |
+            <b>Error!</b>
+            Can't add sticker to the pack
+            If you deleted it via @Stickers, please delete it with /packs
+          stickers_too_much: |
+            <b>Error!</b>
+            This pack has the maximum number of stickers
+            But you can create a /new one!
+          file_type: |
+            <b>Error!</b>
+            This file type is not supported
+          invalid_emojis: |
+            <b>Error!</b>
+            Only emojis are supported as file caption
+  settings:
+    language:
+      select:
+        answer: Bot will use ${lang} language
 
-stickers:
-  add:
-    reply:
-      ok: |
-        <b>Sticker successfully added to pack:</b>
-        <a href="${link}">${title}</a>
-      error:
-        stickerset_invalid: |
-          <b>Error!</b>
-          Can't add sticker to the pack
-          If you deleted it via @Stickers, please hide it with /packs
-        stickers_too_much: |
-          <b>Error!</b>
-          This pack has the maximum number of stickers
-          But you can create a /new one!
-        file_type: |
-          <b>Error!</b>
-          This file type is not supported
-        invalid_emojis: |
-          <b>Error!</b>
-          Only emojis are supported as file caption
-
-scenes:
+scene:
+  shared:
+    leave:
+      reply: Operation canceled
   pack_create:
     pack_type: |
       <b>Choose type for the new pack:</b>
@@ -100,7 +136,7 @@ scenes:
     pack_name: |
       <b>Send a short link for the new pack</b>
 
-      It will be used as <code>t.me/addstickers/</code> URL
+      It will be used as <code>t.me/addstickers/name_by_${botUsername}</code> URL
       Example: <code>animals</code>
 
       <b><i>Follow these rules:</i></b>
@@ -108,9 +144,6 @@ scenes:
       <i>2. Link must begin with a letter</i>
       <i>3. Link can't end with an underscore</i>
       <i>4. Link can't contain consecutive underscores</i>
-    btn:
-      normal: 🆕 Normal
-      animated: 🅰️ Animated
     reply:
       ok: |
         Pack <a href="${link}">${title}</a> created!
@@ -123,7 +156,7 @@ scenes:
         name_long: Link can contain ${max} symbols at most
         name_invalid: This link cannot be used
         name_occupied: This link is already occupied
-  copy:
+  pack_copy:
     reply:
       enter: |
         I can copy this pack, you need to create a new one
@@ -133,7 +166,7 @@ scenes:
         Progress: ${current}/${total}
       done: |
         Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
-  original:
+  sticker_original:
     reply:
       enter: |
         Send sticker that was added using me and I will show its original
@@ -143,20 +176,17 @@ scenes:
           Couldn't find original sticker
 
 shared:
-  scene:
-    leave:
-      reply: |
-        Operation canceled
-      btn:
-        cancel: ❌ Cancel
-  error:
-    reply:
-      ratelimit: Not so often!
+  reply:
+    error:
+      ratelimit: |
+        Yor'are sending to much request!
+        Please wait and try again later
       telegram: |
         <b>Telegram returned an error!</b>
         <code>${error}</code>
       unknown: Unknown error
-    answer:
+  answer:
+    error:
       telegram: |
         Telegram returned an error:
         ${error}

@@ -8,6 +8,7 @@ const hasPackLink = require('./hasPackLink');
 const validateDocument = require('./validateDocument');
 const rateLimit = require('./rateLimit');
 const i18n = require('./i18n');
+const menu = require('./menu');
 
 module.exports = {
   logUpdate,
@@ -20,4 +21,5 @@ module.exports = {
   validateDocument,
   rateLimit,
   i18n,
+  menu,
 };

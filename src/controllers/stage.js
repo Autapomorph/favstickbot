@@ -8,11 +8,11 @@ const getMainKeyboard = require('../keyboards/main');
 
 const stage = new Stage([...packCreateScenes, stickerOriginalScene]);
 
-stage.hears(['/cancel', match('shared.scene.leave.btn.cancel')], async ctx => {
-  await ctx.reply(
-    ctx.i18n.t('shared.scene.leave.reply'),
-    Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-  );
+stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
+  await ctx.reply(ctx.i18n.t('scene.shared.leave.reply'), {
+    ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    allow_sending_without_reply: true,
+  });
 
   return ctx.scene.leave();
 });

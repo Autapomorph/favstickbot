@@ -26,17 +26,15 @@ module.exports = telegrafThrottler({
     reservoirRefreshInterval: 60 * 1000,
   },
   onThrottlerError: async (ctx, next, throttlerName, error) => {
-    if (error instanceof Bottleneck.BottleneckError) {
-      logger.warn(`${throttlerName} | ${error.message}`);
-
-      // Reply only for incoming requests
-      if (/inbound/i.test(throttlerName)) {
-        return replyError(ctx, ERROR_TYPES.RATELIMIT);
-      }
-
-      return;
+    if (!(error instanceof Bottleneck.BottleneckError)) {
+      throw error;
     }
 
-    throw error;
+    logger.warn(`${throttlerName} | ${error.message}`);
+
+    // Reply only for incoming requests
+    if (/inbound/i.test(throttlerName)) {
+      return replyError(ctx, ERROR_TYPES.RATELIMIT);
+    }
   },
 });

@@ -48,11 +48,10 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
 
     logger.error(error);
 
-    await replyErrorTelegram(
-      ctx,
-      error,
-      Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-    );
+    await replyErrorTelegram(ctx, error, {
+      ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+      allow_sending_without_reply: true,
+    });
     ctx.scene.leave();
     throw error;
   }

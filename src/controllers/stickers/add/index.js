@@ -19,7 +19,7 @@ module.exports = async ctx => {
   // If user's selected pack has improper `isAnimated` prop
   // Try to find a pack with proper `isAnimated` prop and make it the selected one
   if (user.selectedPack && user.selectedPack.isAnimated !== userFile.isAnimated) {
-    user.selectedPack = await Pack.findOneByType(user.id, userFile.isAnimated);
+    user.selectedPack = await Pack.findOneVisibleByType(user.id, userFile.isAnimated);
     await user.save();
   }
 
@@ -35,11 +35,11 @@ module.exports = async ctx => {
   try {
     const { title, link } = await addSticker(ctx, userFile, user.selectedPack);
     return await ctx.replyWithHTML(
-      ctx.i18n.t('stickers.add.reply.ok', {
+      ctx.i18n.t('operation.sticker.add.reply.ok', {
         title,
         link,
       }),
-      Extra.inReplyTo(ctx.message.message_id),
+      { ...Extra.inReplyTo(ctx.message.message_id), allow_sending_without_reply: true },
     );
   } catch (error) {
     const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;

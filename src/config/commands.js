@@ -16,12 +16,8 @@ const commands = [
     description: 'Find original sticker',
   },
   {
-    command: 'restore',
-    description: 'Restore hidden pack',
-  },
-  {
-    command: 'lang',
-    description: 'Select bot language',
+    command: 'settings',
+    description: 'Open bot settings',
   },
   {
     command: 'cancel',
