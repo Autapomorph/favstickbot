@@ -6,14 +6,14 @@ const getUploadedStickerFile = async (ctx, packName) => {
 };
 
 const getUserFile = ctx => {
-  const { sticker, photo, document, caption = defaultEmojis } = ctx.message;
+  const { sticker, photo, document, emoji = defaultEmojis, caption = defaultEmojis } = ctx.message;
 
   if (sticker) {
     return {
       type: 'sticker',
       fileId: sticker.file_id,
       fileUniqueId: sticker.file_unique_id,
-      emoji: sticker.emoji,
+      emoji,
       isAnimated: sticker.is_animated,
     };
   }
