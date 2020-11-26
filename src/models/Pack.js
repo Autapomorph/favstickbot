@@ -61,49 +61,6 @@ PackSchema.pre('deleteMany', async function pre() {
   await Sticker.deleteMany({ packId: { $in: userPacksIds } });
 });
 
-PackSchema.statics.findAll = async function findVisible(userId) {
-  return this.find({
-    userId,
-  });
-};
-
-PackSchema.statics.findVisible = async function findVisible(userId) {
-  return this.find({
-    userId,
-    isArchived: false,
-  });
-};
-
-PackSchema.statics.findArchived = async function findArchived(userId) {
-  return this.find({
-    userId,
-    isArchived: true,
-  });
-};
-
-PackSchema.statics.findOneVisible = async function findOneVisible(userId) {
-  return this.findOne({
-    userId,
-    isArchived: false,
-  });
-};
-
-PackSchema.statics.findOneArchived = async function findOneArchived(userId, name) {
-  return this.findOne({
-    _id: name,
-    userId,
-    isArchived: true,
-  });
-};
-
-PackSchema.statics.findOneVisibleByType = async function findOneVisibleByType(userId, isAnimated) {
-  return this.findOne({
-    userId,
-    isAnimated,
-    isArchived: false,
-  });
-};
-
 const Pack = mongoose.model('Pack', PackSchema);
 
 module.exports = Pack;

@@ -19,7 +19,11 @@ module.exports = async ctx => {
   // If user's selected pack has improper `isAnimated` prop
   // Try to find a pack with proper `isAnimated` prop and make it the selected one
   if (user.selectedPack && user.selectedPack.isAnimated !== userFile.isAnimated) {
-    user.selectedPack = await Pack.findOneVisibleByType(user.id, userFile.isAnimated);
+    user.selectedPack = await Pack.findOne({
+      userId: user.id,
+      isArchived: false,
+      isAnimated: userFile.isAnimated,
+    });
     await user.save();
   }
 
