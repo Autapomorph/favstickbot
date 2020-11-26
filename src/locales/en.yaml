@@ -105,6 +105,9 @@ operation:
           <b>Sticker successfully added to pack:</b>
           <a href="${link}">${title}</a>
         error:
+          no_suitable_packs: |
+            <b>No suitable ${isAnimated ? 'animated' : 'static'} packs found</b>
+            Try to create a /new one
           stickerset_invalid: |
             <b>Error!</b>
             Can't add sticker to the pack
