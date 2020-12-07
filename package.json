@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "agenda": "^3.1.0",
-    "agendash2": "^0.8.1",
+    "agendash2": "^0.8.2",
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
