@@ -31,6 +31,12 @@ const PackSchema = mongoose.Schema(
   },
 );
 
+PackSchema.virtual('stickers', {
+  ref: 'Sticker',
+  localField: '_id',
+  foreignField: 'packId',
+});
+
 PackSchema.pre('save', async function pre() {
   if (this.isNew) {
     // if user tries to create pack with name that already exists in database
@@ -60,6 +66,18 @@ PackSchema.pre('deleteMany', async function pre() {
   const userPacksIds = await this.model.find(this.getFilter()).distinct('_id');
   await Sticker.deleteMany({ packId: { $in: userPacksIds } });
 });
+
+PackSchema.query.byUserId = function byUserId(userId) {
+  return this.where({ userId });
+};
+
+PackSchema.query.byIsArchived = function byIsArchived(isArchived = false) {
+  return this.where({ isArchived });
+};
+
+PackSchema.query.byIsAnimated = function byIsAnimated(isAnimated = false) {
+  return this.where({ isAnimated: Boolean(isAnimated) });
+};
 
 const Pack = mongoose.model('Pack', PackSchema);
 

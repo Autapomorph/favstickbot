@@ -42,7 +42,7 @@ const archivePack = async (ctx, packId) => {
   // If pack is selected
   if (String(packToModify.id) === String(selectedPackId)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
-    user.selectedPack = await Pack.findOne({ userId: user.id, isArchived: false });
+    user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
     // Delete field `selectedPack` if no visible packs exist
     if (user.selectedPack === null) {
@@ -63,7 +63,7 @@ const archivePack = async (ctx, packId) => {
 const restorePack = async (ctx, packId) => {
   const { user } = ctx.session;
   const packToModify = await Pack.findById(packId);
-  const visiblePacks = await Pack.find({ userId: user.id, isArchived: false });
+  const visiblePacks = await Pack.find().byUser(user.id).byIsArchived(false);
 
   if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
@@ -100,7 +100,7 @@ const deletePack = async (ctx, packId) => {
   // If pack is selected
   if (String(packToDelete.id) === String(selectedPackId)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
-    user.selectedPack = await Pack.findOne({ userId: user.id, isArchived: false });
+    user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
     // Delete field `selectedPack` if no visible packs exist
     if (user.selectedPack === null) {

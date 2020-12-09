@@ -18,7 +18,10 @@ const SessionSchema = mongoose.Schema(
 );
 
 SessionSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
-  this.populate('data.user');
+  this.populate({
+    path: 'data.user',
+    model: 'User',
+  });
 });
 
 SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) {

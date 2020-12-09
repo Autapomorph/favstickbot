@@ -21,7 +21,7 @@ const getBodyText = (ctx, packs, selectedPack) => {
 
 const getMenuBody = async ctx => {
   const { user } = ctx.session;
-  const visiblePacks = await Pack.find({ userId: user.id, isArchived: false });
+  const visiblePacks = await Pack.find().byUser(user.id).byIsArchived(false);
   const text = getBodyText(ctx, visiblePacks, user.selectedPack);
   return {
     text,
@@ -40,8 +40,8 @@ const getChoiceText = (user, { _id: id, title, isAnimated, isArchived }) => {
 const getMenuChoices = async ctx => {
   const { user } = ctx.session;
   const packs = await (user.settings.showArchivedPacks
-    ? Pack.find({ userId: user.id })
-    : Pack.find({ userId: user.id, isArchived: false }));
+    ? Pack.find().byUser(user.id)
+    : Pack.find().byUser(user.id).byIsArchived(false));
   packs.sort((a, b) => Boolean(a.isArchived) - Boolean(b.isArchived));
   return packs.reduce((acc, pack) => {
     const trimmedPackId = packPostfix.trim(pack.id, ctx.options.username);
