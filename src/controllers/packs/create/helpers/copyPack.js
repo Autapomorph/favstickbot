@@ -13,13 +13,15 @@ const onSuccess = (ctx, message, packToCopy, newPack, extra) => async () => {
   return ctx.scene.leave();
 };
 
-module.exports = async (ctx, packToCopy, newPack, checkAborted) => {
+module.exports = async (ctx, packToCopy, newPack, getIsAborted) => {
   try {
     const extra = getMainKeyboard(ctx).extra();
     const message = await replyProgress(ctx, packToCopy, newPack);
     const onProgressCb = onProgress(ctx, packToCopy, newPack, message);
     const onSuccessCb = onSuccess(ctx, message, packToCopy, newPack, extra);
-    copyPackHelper(ctx, packToCopy, checkAborted, onProgressCb, onSuccessCb);
+    copyPackHelper(ctx, packToCopy, getIsAborted, onProgressCb).then(
+      result => result && onSuccessCb(),
+    );
   } catch (error) {
     logger.error(error);
     await replyErrorTelegram(ctx, error, getMainKeyboard(ctx).extra());
