@@ -67,7 +67,7 @@ PackSchema.pre('deleteMany', async function pre() {
   await Sticker.deleteMany({ packId: { $in: userPacksIds } });
 });
 
-PackSchema.query.byUserId = function byUserId(userId) {
+PackSchema.query.byUser = function byUserId(userId) {
   return this.where({ userId });
 };
 
