@@ -89,9 +89,12 @@ operation:
       answer: Pack ${title} deleted
     copy:
       reply:
-        error: |
-          <b>Error!</b>
-          Cannot find pack
+        error:
+          not_found: |
+            <b>Error!</b>
+            Cannot find pack
+          unknown: |
+            An error occurred while copying pack
     shared:
       reply:
         error:

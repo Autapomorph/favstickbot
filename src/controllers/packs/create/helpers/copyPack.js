@@ -1,7 +1,11 @@
 const getMainKeyboard = require('../../../../keyboards/main');
-const { replyProgress, editProgress, replySuccess } = require('../../copy/replies');
+const {
+  replyProgress,
+  editProgress,
+  replySuccess,
+  replyErrorUnknown,
+} = require('../../copy/replies');
 const copyPackHelper = require('../../../../utils/packs/copy');
-const { replyErrorTelegram } = require('../../../../utils/errors/reply');
 const logger = require('../../../../utils/logger');
 
 const onProgress = (ctx, packToCopy, newPack, message) => async index => {
@@ -13,18 +17,25 @@ const onSuccess = (ctx, message, packToCopy, newPack, extra) => async () => {
   return ctx.scene.leave();
 };
 
+const onFail = (ctx, extra) => async error => {
+  logger.error(error);
+  await replyErrorUnknown(ctx, extra);
+  return ctx.scene.leave();
+};
+
 module.exports = async (ctx, packToCopy, newPack, getIsAborted) => {
-  try {
-    const extra = getMainKeyboard(ctx).extra();
-    const message = await replyProgress(ctx, packToCopy, newPack);
-    const onProgressCb = onProgress(ctx, packToCopy, newPack, message);
-    const onSuccessCb = onSuccess(ctx, message, packToCopy, newPack, extra);
-    copyPackHelper(ctx, packToCopy, getIsAborted, onProgressCb).then(
-      result => result && onSuccessCb(),
-    );
-  } catch (error) {
-    logger.error(error);
-    await replyErrorTelegram(ctx, error, getMainKeyboard(ctx).extra());
-    return ctx.scene.leave();
-  }
+  const extra = getMainKeyboard(ctx).extra();
+  const message = await replyProgress(ctx, packToCopy, newPack);
+
+  const onProgressCb = onProgress(ctx, packToCopy, newPack, message);
+  const onSuccessCb = onSuccess(ctx, message, packToCopy, newPack, extra);
+  const onFailCb = onFail(ctx, extra);
+
+  copyPackHelper(ctx, packToCopy, getIsAborted, onProgressCb)
+    .then(result => {
+      if (result) {
+        return onSuccessCb();
+      }
+    })
+    .catch(onFailCb);
 };

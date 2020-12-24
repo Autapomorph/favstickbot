@@ -89,9 +89,12 @@ operation:
       answer: Пак ${title} удален
     copy:
       reply:
-        error: |
-          <b>Ошибка!</b>
-          Не удалось найти стикерпак
+        error:
+          not_found: |
+            <b>Ошибка!</b>
+            Не удалось найти стикерпак
+          unknown: |
+            Во время копирования пака произошла ошибка
     shared:
       reply:
         error:

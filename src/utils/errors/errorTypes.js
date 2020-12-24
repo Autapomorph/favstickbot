@@ -10,7 +10,10 @@ const ERROR_TYPES = {
     NAME_TOO_LONG: 'scene.pack_create.reply.error.name_long',
     NAME_INVALID: 'scene.pack_create.reply.error.name_invalid',
     NAME_OCCUPIED: 'scene.pack_create.reply.error.name_occupied',
-    COPY: 'operation.pack.copy.reply.error',
+    COPY: {
+      NOT_FOUND: 'operation.pack.copy.reply.error.not_found',
+      UNKNOWN: 'operation.pack.copy.reply.error.unknown',
+    },
   },
   STICKERS: {
     FILE_TYPE: 'operation.sticker.add.reply.error.file_type',

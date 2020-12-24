@@ -1,4 +1,4 @@
-const { replyEnter, replyErrorCopy } = require('./replies');
+const { replyEnter, replyErrorNotFound } = require('./replies');
 const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
@@ -26,11 +26,11 @@ module.exports = async ctx => {
       logger.error(error);
     }
 
-    return replyErrorCopy(ctx);
+    return replyErrorNotFound(ctx);
   }
 
   if (!packToCopy.stickers || !packToCopy.stickers.length) {
-    return replyErrorCopy(ctx);
+    return replyErrorNotFound(ctx);
   }
 
   await replyEnter(ctx);
