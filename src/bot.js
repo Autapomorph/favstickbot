@@ -3,6 +3,7 @@ const { compose, drop } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
+  devGuard,
   setBotInfo,
   session,
   getUser,
@@ -32,7 +33,7 @@ commands.register(commandsList);
 bot.on(['channel_post', 'edited_channel_post'], drop(true));
 
 // Register middlewares
-bot.use(compose([logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
+bot.use(compose([devGuard, logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
 bot.use(...menu);
 bot.use(stage);
 

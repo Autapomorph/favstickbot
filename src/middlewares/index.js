@@ -1,3 +1,4 @@
+const devGuard = require('./devGuard');
 const logUpdate = require('./logUpdate');
 const setBotInfo = require('./setBotInfo');
 const session = require('./session');
@@ -11,6 +12,7 @@ const i18n = require('./i18n');
 const menu = require('./menu');
 
 module.exports = {
+  devGuard,
   logUpdate,
   setBotInfo,
   session,
