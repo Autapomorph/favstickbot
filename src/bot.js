@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf');
-const { compose } = require('telegraf/composer');
+const { compose, drop } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
@@ -27,6 +27,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 
 // Register bot commands
 commands.register(commandsList);
+
+// Disallow channels
+bot.on(['channel_post', 'edited_channel_post'], drop(true));
 
 // Register middlewares
 bot.use(compose([logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
