@@ -44,8 +44,20 @@ const ERROR_TYPES = {
     STICKER_INVALID_EMOJIS: /invalid.*sticker.*emoji/i,
     // Forbidden: bot was blocked by the user
     BLOCKED_BY_USER: /forbidden.*bot.*block.*user/i,
+    // Forbidden: bot was kicked from the group chat
+    KICKED_FROM_GROUP: /forbidden.*bot.*kick.*group/i,
+    // Forbidden: bot was kicked from the supergroup chat
+    KICKED_FROM_SUPERGROUP: /forbidden.*bot.*kick.*supergroup/i,
+    // Forbidden: bot was kicked from the channel chat
+    KICKED_FROM_CHANNEL: /forbidden.*bot.*kick.*channel/i,
     // Forbidden: user is deactivated
     USER_DEACTIVATED: /forbidden.*user.*deactivated/i,
+    // Forbidden: bot is not a member of the group chat
+    NOT_GROUP_MEMBER: /forbidden.*bot.*not.*member.*group/i,
+    // Forbidden: bot is not a member of the supergroup chat
+    NOT_SUPERGROUP_MEMBER: /forbidden.*bot.*not.*member.*supergroup/i,
+    // Forbidden: bot is not a member of the channel chat
+    NOT_CHANNEL_MEMBER: /forbidden.*bot.*not.*member.*channel/i,
   },
 };
 

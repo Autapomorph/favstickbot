@@ -29,9 +29,22 @@ module.exports = async (error, ctx) => {
   });
 
   if (error instanceof TelegramError) {
-    const { TOO_MANY_REQUESTS, BLOCKED_BY_USER } = ERROR_TYPES.TELEGRAM;
-
-    if (validateError([TOO_MANY_REQUESTS, BLOCKED_BY_USER], error)) {
+    if (
+      validateError(
+        [
+          ERROR_TYPES.TELEGRAM.TOO_MANY_REQUESTS,
+          ERROR_TYPES.TELEGRAM.BLOCKED_BY_USER,
+          ERROR_TYPES.TELEGRAM.KICKED_FROM_GROUP,
+          ERROR_TYPES.TELEGRAM.KICKED_FROM_SUPERGROUP,
+          ERROR_TYPES.TELEGRAM.KICKED_FROM_CHANNEL,
+          ERROR_TYPES.TELEGRAM.USER_DEACTIVATED,
+          ERROR_TYPES.TELEGRAM.NOT_GROUP_MEMBER,
+          ERROR_TYPES.TELEGRAM.NOT_SUPERGROUP_MEMBER,
+          ERROR_TYPES.TELEGRAM.NOT_CHANNEL_MEMBER,
+        ],
+        error,
+      )
+    ) {
       return;
     }
 
