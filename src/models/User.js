@@ -55,7 +55,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       firstName: tgUser.first_name,
       lastName: tgUser.last_name,
       username: tgUser.username,
-      $setOnInsert: { 'settings.locale': tgUser.language_code },
+      $setOnInsert: { 'settings.locale': tgUser.language_code || defaultLocale.code },
     },
     { upsert: true, setDefaultsOnInsert: true, rawResult: true },
   );
