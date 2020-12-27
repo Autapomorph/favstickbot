@@ -7,7 +7,7 @@ const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 // Mark pack as selected
 const selectPack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToSelect = await Pack.findById(packId);
 
   if (!validateOwner(packToSelect.userId, user.id)) {
@@ -28,7 +28,7 @@ const selectPack = async (ctx, packId) => {
 
 // Archive pack
 const archivePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
   const selectedPackId = getSelectedPackId(user);
 
@@ -61,7 +61,7 @@ const archivePack = async (ctx, packId) => {
 
 // Restore pack from archive
 const restorePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
   const visiblePacks = await Pack.find().byUser(user.id).byIsArchived(false);
 
@@ -87,7 +87,7 @@ const restorePack = async (ctx, packId) => {
 
 // Delete pack
 const deletePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
   const selectedPackId = getSelectedPackId(user);
 

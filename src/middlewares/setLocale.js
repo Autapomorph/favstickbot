@@ -1,4 +1,4 @@
 module.exports = async (ctx, next) => {
-  ctx.i18n.locale(ctx.session.user.settings.locale);
+  ctx.i18n.locale(ctx.state.user.settings.locale);
   return next();
 };

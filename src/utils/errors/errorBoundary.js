@@ -7,8 +7,9 @@ const logger = require('../logger');
 
 module.exports = async (error, ctx) => {
   const {
-    session: { user: { id, username, firstName, lastName, settings, selectedPack } = {} } = {},
+    state: { user: { id, username, firstName, lastName, settings, selectedPack } = {} } = {},
     scene: { state: sceneState } = {},
+    session,
     match,
     update,
     updateType,
@@ -26,6 +27,7 @@ module.exports = async (error, ctx) => {
     updateType,
     updateSubTypes,
     sceneState,
+    session,
   });
 
   if (error instanceof TelegramError) {

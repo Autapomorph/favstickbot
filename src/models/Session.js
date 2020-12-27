@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 const SessionSchema = mongoose.Schema(
   {
-    _id: String,
+    _id: Number,
     data: Object,
     updatedAt: {
       type: Date,
@@ -17,19 +17,7 @@ const SessionSchema = mongoose.Schema(
   },
 );
 
-SessionSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
-  this.populate({
-    path: 'data.user',
-    model: 'User',
-  });
-});
-
 SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) {
-  if (data && data.user) {
-    // eslint-disable-next-line no-param-reassign, no-underscore-dangle
-    data.user = data.user._id;
-  }
-
   const sessionResult = await this.findByIdAndUpdate(
     key,
     {

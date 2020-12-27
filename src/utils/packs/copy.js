@@ -1,7 +1,7 @@
 const addSticker = require('../stickers/add');
 
 module.exports = async (ctx, packToCopy, getIsAborted, onProgress) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
 
   /* eslint-disable no-restricted-syntax, no-await-in-loop */
   for (const [index, sticker] of packToCopy.stickers.entries()) {

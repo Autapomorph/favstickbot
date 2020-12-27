@@ -10,7 +10,7 @@ const menu = new MenuTemplate(getMenuBody);
 
 menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), 's', {
   hide: async ctx => {
-    const { user } = ctx.session;
+    const { user } = ctx.state;
     const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
     const pack = await Pack.findById(packId);
     if (!user.selectedPack) return false;

@@ -9,7 +9,7 @@ const logger = require('../../../utils/logger');
 module.exports = async ctx => {
   await ctx.replyWithChatAction('upload_document');
 
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const userFile = getUserFile(ctx);
 
   // If user's selected pack has improper `isAnimated` prop
