@@ -40,9 +40,8 @@ const getChoiceText = (user, { _id: id, title, isAnimated, isArchived }) => {
 const getMenuChoices = async ctx => {
   const { user } = ctx.state;
   const packs = await (user.settings.showArchivedPacks
-    ? Pack.find().byUser(user.id)
+    ? Pack.find().byUser(user.id).sort({ isArchived: 'asc' })
     : Pack.find().byUser(user.id).byIsArchived(false));
-  packs.sort((a, b) => Boolean(a.isArchived) - Boolean(b.isArchived));
   return packs.reduce((acc, pack) => {
     const trimmedPackId = packPostfix.trim(pack.id, ctx.options.username);
     const choiceText = getChoiceText(user, pack);
