@@ -39,7 +39,7 @@ keyboard:
     new: 🆕 Create a new pack
     settings: ⚙️ Settings
   pack_type:
-    normal: 🆕 Normal
+    static: 🆕 Static
     animated: 🅰️ Animated
   shared:
     cancel: ❌ Cancel
@@ -57,7 +57,7 @@ menu:
       delete_confirm:
         body: |
           Do you really want to delete pack <a href="${link}">${title}</a>?
-          This action can't be reverted!
+          This action can't be undone!
         actions:
           yes: ⚠ Yes
           back: 🔙 Back to Pack
@@ -72,7 +72,7 @@ menu:
   deleteme:
     body: |
       Do you really want to erase all the data?
-      This action can't be reverted!
+      This action can't be undone!
     actions:
       yes: ⚠ Yes
       no: No

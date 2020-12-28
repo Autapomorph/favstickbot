@@ -5,11 +5,11 @@ const { validateNameLength, validateNameSymbols } = require('../../../../utils/p
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
 
 const validatePackType = async (ctx, type) => {
-  const isNormal = Boolean(match(PACK_TYPES.NORMAL)(type, ctx));
+  const isStatic = Boolean(match(PACK_TYPES.STATIC)(type, ctx));
   const isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(type, ctx));
 
   // None of pack types was chosen (none of keyboard btns was clicked)
-  if (!isNormal && !isAnimated) {
+  if (!isStatic && !isAnimated) {
     await replies.replyErrorPackType(ctx);
     return false;
   }

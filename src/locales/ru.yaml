@@ -39,7 +39,7 @@ keyboard:
     new: 🆕 Создать стикерпак
     settings: ⚙️ Настройки
   pack_type:
-    normal: 🆕 Обычный
+    static: 🆕 Обычный
     animated: 🅰️ Анимированный
   shared:
     cancel: ❌ Отменить
