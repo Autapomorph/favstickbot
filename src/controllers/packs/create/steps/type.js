@@ -8,19 +8,27 @@ const { replyPackType } = require('../replies');
 const packsCreateTypeScene = new Scene('PACKS_CREATE/TYPE');
 
 packsCreateTypeScene.enter(async ctx => {
+  const { state } = ctx.scene;
+  const { packToCreate } = state;
+
+  if (typeof packToCreate.isAnimated === 'boolean') {
+    return ctx.scene.enter('PACKS_CREATE/TITLE', state);
+  }
+
   return replyPackType(ctx);
 });
 
 packsCreateTypeScene.hears([match(PACK_TYPES.NORMAL), match(PACK_TYPES.ANIMATED)], async ctx => {
+  const { state } = ctx.scene;
+  const { packToCreate } = state;
   const packType = ctx.message.text;
-  const { packToCreate } = ctx.scene.state;
 
   if (!(await validatePackType(ctx, packType))) {
     return ctx.scene.reenter();
   }
 
   packToCreate.isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(packType, ctx));
-  return ctx.scene.enter('PACKS_CREATE/TITLE', ctx.scene.state);
+  return ctx.scene.enter('PACKS_CREATE/TITLE', state);
 });
 
 packsCreateTypeScene.on('message', async ctx => {

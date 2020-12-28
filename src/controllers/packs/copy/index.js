@@ -5,10 +5,12 @@ const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
   const { packName } = ctx.match.groups;
+  const packToCreate = {};
   const packToCopy = {};
 
   try {
     const { title, name, is_animated: isAnimated, stickers } = await ctx.getStickerSet(packName);
+    packToCreate.isAnimated = isAnimated;
     packToCopy.title = title;
     packToCopy.name = name;
     packToCopy.isAnimated = isAnimated;
@@ -36,6 +38,7 @@ module.exports = async ctx => {
   await replyEnter(ctx);
 
   return ctx.scene.enter('PACKS_CREATE', {
+    packToCreate,
     packToCopy,
   });
 };

@@ -12,7 +12,8 @@ packsCreateNameScene.enter(async ctx => {
 
 packsCreateNameScene.on('text', async ctx => {
   const { user } = ctx.state;
-  const { packToCreate, packToCopy } = ctx.scene.state;
+  const { state } = ctx.scene;
+  const { packToCreate, packToCopy } = state;
   const packName = ctx.message.text;
   packToCreate.name = `${packName}_by_${ctx.botInfo.username}`;
 
@@ -27,7 +28,7 @@ packsCreateNameScene.on('text', async ctx => {
   }
 
   if (packToCopy) {
-    return ctx.scene.enter('PACKS_CREATE/COPY', ctx.scene.state);
+    return ctx.scene.enter('PACKS_CREATE/COPY', state);
   }
 
   return ctx.scene.leave();
