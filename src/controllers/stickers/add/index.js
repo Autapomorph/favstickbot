@@ -18,7 +18,8 @@ module.exports = async ctx => {
     user.selectedPack = await Pack.findOne()
       .byUser(user.id)
       .byIsArchived(false)
-      .byIsAnimated(userFile.isAnimated);
+      .byIsAnimated(userFile.isAnimated)
+      .sort({ updatedAt: 'desc' });
     await user.save();
   }
 
