@@ -110,7 +110,7 @@ operation:
         error:
           no_suitable_packs: |
             <b>Не найдено подходящих ${isAnimated ? 'анимированных' : 'статичных'} паков</b>
-            Для создания отправь /new
+            Для создания отправь /new${isAnimated ? 'animated' : 'static'}
           stickerset_invalid: |
             <b>Ошибка!</b>
             Невозможно добавить стикер в этот пак

@@ -110,7 +110,7 @@ operation:
         error:
           no_suitable_packs: |
             <b>No suitable ${isAnimated ? 'animated' : 'static'} packs found</b>
-            Try to create a /new one
+            Try to create a /new${isAnimated ? 'animated' : 'static'} one
           stickerset_invalid: |
             <b>Error!</b>
             Can't add sticker to the pack

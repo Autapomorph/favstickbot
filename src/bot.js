@@ -42,6 +42,8 @@ bot.start(controllers.start);
 bot.help(controllers.start);
 bot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
 bot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
+bot.hears('/newstatic', controllers.packs.create.static);
+bot.hears('/newanimated', controllers.packs.create.animated);
 bot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
 bot.command('copy', controllers.packs.copy.reply);
 bot.command('original', controllers.stickers.original);
