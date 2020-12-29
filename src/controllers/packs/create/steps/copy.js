@@ -16,7 +16,7 @@ const getIsAborted = async sessionKey => {
 };
 
 packsCreateCopyScene.enter(async ctx => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const { packToCopy } = ctx.scene.state;
   const sessionKey = getSessionKey(ctx);
   await Session.findByIdAndUpdate(sessionKey, {
