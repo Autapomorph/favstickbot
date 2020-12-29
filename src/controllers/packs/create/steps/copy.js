@@ -12,7 +12,7 @@ const sceneSession = new Map();
 const checkAborted = ctx => !sceneSession.has(getSessionKey(ctx));
 
 packsCreateCopyScene.enter(async ctx => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const { packToCopy } = ctx.scene.state;
   sceneSession.set(getSessionKey(ctx), '');
   return copyPack(ctx, packToCopy, user.selectedPack, checkAborted.bind(null, ctx));
