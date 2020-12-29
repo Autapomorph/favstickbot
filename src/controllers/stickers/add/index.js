@@ -16,9 +16,9 @@ module.exports = async ctx => {
   const { user } = ctx.session;
   const userFile = getUserFile(ctx);
 
-  // If user's selected pack has improper `isAnimated` prop
+  // If user doesn't have a selected pack or it has improper `isAnimated` prop
   // Try to find a pack with proper `isAnimated` prop and make it the selected one
-  if (user.selectedPack && user.selectedPack.isAnimated !== userFile.isAnimated) {
+  if (!user.selectedPack || user.selectedPack.isAnimated !== userFile.isAnimated) {
     user.selectedPack = await Pack.findOneVisibleByType(user.id, userFile.isAnimated);
     await user.save();
   }
