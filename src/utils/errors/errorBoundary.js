@@ -1,7 +1,7 @@
 const TelegramError = require('telegraf/core/network/error');
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
-const ERROR_TYPES = require('./errorTypes');
+const ERROR_SETS = require('./errorSets');
 const validateError = require('./validateErrorType');
 const logger = require('../logger');
 
@@ -31,22 +31,7 @@ module.exports = async (error, ctx) => {
   });
 
   if (error instanceof TelegramError) {
-    if (
-      validateError(
-        [
-          ERROR_TYPES.TELEGRAM.TOO_MANY_REQUESTS,
-          ERROR_TYPES.TELEGRAM.BLOCKED_BY_USER,
-          ERROR_TYPES.TELEGRAM.KICKED_FROM_GROUP,
-          ERROR_TYPES.TELEGRAM.KICKED_FROM_SUPERGROUP,
-          ERROR_TYPES.TELEGRAM.KICKED_FROM_CHANNEL,
-          ERROR_TYPES.TELEGRAM.USER_DEACTIVATED,
-          ERROR_TYPES.TELEGRAM.NOT_GROUP_MEMBER,
-          ERROR_TYPES.TELEGRAM.NOT_SUPERGROUP_MEMBER,
-          ERROR_TYPES.TELEGRAM.NOT_CHANNEL_MEMBER,
-        ],
-        error,
-      )
-    ) {
+    if (validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       return;
     }
 
