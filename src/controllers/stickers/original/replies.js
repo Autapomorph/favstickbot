@@ -1,7 +1,9 @@
 const Extra = require('telegraf/extra');
 
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
+const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_SETS = require('../../../utils/errors/errorSets');
+const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 
 const replyErrorNotFound = async ctx => {
@@ -30,7 +32,9 @@ const replyOriginal = async (ctx, { type, fileId }) => {
     }
   } catch (error) {
     logger.error(error);
-    return replyErrorTelegram(ctx, error, replyExtra);
+    if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
+      return replyErrorTelegram(ctx, error, replyExtra);
+    }
   }
 };
 

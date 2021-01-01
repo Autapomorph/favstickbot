@@ -16,6 +16,7 @@ const ERROR_TYPES = {
     },
   },
   STICKERS: {
+    NO_SUITABLE_PACKS: 'operation.sticker.add.reply.error.no_suitable_packs',
     FILE_TYPE: 'operation.sticker.add.reply.error.file_type',
     TOO_MUCH: 'operation.sticker.add.reply.error.stickers_too_much',
     INVALID_EMOJIS: 'operation.sticker.add.reply.error.invalid_emojis',

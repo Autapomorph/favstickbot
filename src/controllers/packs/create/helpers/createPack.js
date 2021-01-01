@@ -8,6 +8,7 @@ const getMainKeyboard = require('../../../../keyboards/main');
 const createPack = require('../../../../utils/packs/create');
 const { replyErrorTelegram } = require('../../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../../utils/errors/errorTypes');
+const ERROR_SETS = require('../../../../utils/errors/errorSets');
 const validateError = require('../../../../utils/errors/validateErrorType');
 const logger = require('../../../../utils/logger');
 
@@ -48,10 +49,13 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
 
     logger.error(error);
 
-    await replyErrorTelegram(ctx, error, {
-      ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-      allow_sending_without_reply: true,
-    });
+    if (!validateError(ERROR_SETS.DO_NOT_REPLY)) {
+      await replyErrorTelegram(ctx, error, {
+        ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+        allow_sending_without_reply: true,
+      });
+    }
+
     ctx.scene.leave();
     throw error;
   }
