@@ -37,7 +37,11 @@ module.exports = async ctx => {
 
   await replyEnter(ctx);
 
-  return ctx.scene.enter('PACKS/COPY', { packToCopy });
+  return ctx.scene.enter('PACKS/CREATE', {
+    packToCreate,
+    packToCopy,
+    nextScene: 'PACKS/COPY',
+  });
 };
 
 module.exports.reply = async ctx => {
