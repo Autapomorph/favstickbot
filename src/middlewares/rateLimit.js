@@ -1,7 +1,7 @@
 const { telegrafThrottler } = require('telegraf-throttler');
 const Bottleneck = require('bottleneck').default;
 
-const ERROR_TYPES = require('../utils/errors/errorTypes');
+const ERROR_TYPES = require('../utils/errors/types');
 const { replyError } = require('../utils/errors/reply');
 const logger = require('../utils/logger');
 
@@ -30,7 +30,7 @@ module.exports = telegrafThrottler({
 
     // Reply only for incoming requests
     if (/inbound/i.test(throttlerName)) {
-      return replyError(ctx, ERROR_TYPES.RATELIMIT);
+      return replyError(ctx, ERROR_TYPES.APP.RATELIMIT);
     }
   },
 });

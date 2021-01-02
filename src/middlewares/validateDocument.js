@@ -1,10 +1,10 @@
-const ERROR_TYPES = require('../utils/errors/errorTypes');
+const ERROR_TYPES = require('../utils/errors/types');
 const { replyErrorToMessage } = require('../utils/errors/reply');
 
 const validMimeTypes = ['image/jpeg', 'image/png'];
 
 const replyErrorFileType = async ctx => {
-  return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.FILE_TYPE);
+  return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.INVALID_FILE_TYPE);
 };
 
 module.exports = async (ctx, next) => {

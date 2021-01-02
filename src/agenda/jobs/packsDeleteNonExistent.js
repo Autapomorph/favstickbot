@@ -1,7 +1,7 @@
 const Pack = require('../../models/Pack');
 const telegram = require('../../telegram');
 const validateError = require('../../utils/errors/validateErrorType');
-const ERROR_TYPES = require('../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../utils/errors/types');
 const logger = require('../../utils/logger');
 
 const jobName = 'packs-delete-non-existent';

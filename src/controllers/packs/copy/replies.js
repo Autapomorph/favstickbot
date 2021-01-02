@@ -1,7 +1,7 @@
 const Extra = require('telegraf/extra');
 
 const { packLinkPrefix } = require('../../../config');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyError, replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyEnter = async ctx => {
@@ -12,11 +12,11 @@ const replyEnter = async ctx => {
 };
 
 const replyErrorNotFound = async ctx => {
-  return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.COPY.NOT_FOUND);
+  return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.COPY.PACK_NOT_FOUND);
 };
 
 const replyErrorUnknown = async (ctx, extra) => {
-  return replyError(ctx, ERROR_TYPES.PACKS.COPY.UNKNOWN, extra);
+  return replyError(ctx, ERROR_TYPES.APP.PACKS.COPY.UNKNOWN, extra);
 };
 
 const replyProgress = async (ctx, packToCopy, newPack) => {

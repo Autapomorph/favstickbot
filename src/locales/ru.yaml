@@ -90,7 +90,7 @@ operation:
     copy:
       reply:
         error:
-          not_found: |
+          pack_not_found: |
             <b>Ошибка!</b>
             Не удалось найти стикерпак
           unknown: |
@@ -111,7 +111,7 @@ operation:
           no_suitable_packs: |
             <b>Не найдено подходящих ${isAnimated ? 'анимированных' : 'статичных'} паков</b>
             Для создания отправь /new${isAnimated ? 'animated' : 'static'}
-          stickerset_invalid: |
+          pack_invalid: |
             <b>Ошибка!</b>
             Невозможно добавить стикер в этот пак
             Если ты удалил пак через @Stickers, то удали его с помощью /packs
@@ -119,7 +119,7 @@ operation:
             <b>Ошибка!</b>
             В этом стикерпаке максимальное количество стикеров
             Но ты можешь создать новый командой /new!
-          file_type: |
+          invalid_file_type: |
             <b>Ошибка!</b>
             Данный тип файла не поддерживается
           invalid_emojis: |
@@ -177,7 +177,7 @@ scene:
       enter: |
         Отправь стикер, добавленный через меня, и я покажу его оригинал
       error:
-        not_found: |
+        sticker_not_found: |
           <b>Ошибка!</b>
           Не получилось найти оригинал этого стикера
 

@@ -2,7 +2,7 @@ const Pack = require('../../../models/Pack');
 const { replySuccess, replyErrorNoSuitablePacks, replyErrorAddSticker } = require('./replies');
 const { getUserFile } = require('../../../utils/stickers/get');
 const addSticker = require('../../../utils/stickers/add');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../utils/errors/types');
 const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 

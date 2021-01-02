@@ -2,7 +2,7 @@ const Pack = require('../../../models/Pack');
 const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 const { validateOwner } = require('../../../utils/packs/validate');
 const escapeHTML = require('../../../utils/common/escapeHTML');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 // Mark pack as selected

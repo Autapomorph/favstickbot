@@ -1,7 +1,7 @@
 const TelegramError = require('telegraf/core/network/error');
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
-const ERROR_SETS = require('./errorSets');
+const ERROR_SETS = require('./sets');
 const validateError = require('./validateErrorType');
 const logger = require('../logger');
 

@@ -6,8 +6,8 @@ const getMainKeyboard = require('../../../../keyboards/main');
 
 const createPack = require('../../../../utils/packs/create');
 const { replyErrorTelegram } = require('../../../../utils/errors/reply');
-const ERROR_TYPES = require('../../../../utils/errors/errorTypes');
-const ERROR_SETS = require('../../../../utils/errors/errorSets');
+const ERROR_TYPES = require('../../../../utils/errors/types');
+const ERROR_SETS = require('../../../../utils/errors/sets');
 const validateError = require('../../../../utils/errors/validateErrorType');
 const logger = require('../../../../utils/logger');
 

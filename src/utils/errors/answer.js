@@ -1,4 +1,4 @@
-const ERROR_TYPES = require('./errorTypes');
+const ERROR_TYPES = require('./types');
 
 // Base answer error
 const answerError = async (ctx, tKey, showAlert = false, extra = {}) => {
@@ -19,7 +19,7 @@ const answerErrorAlert = async (ctx, tKey, extra) => {
 const answerErrorTelegram = async (ctx, error, showAlert = true, extra) => {
   return answerErrorWithResource(
     ctx,
-    ERROR_TYPES.ANSWER,
+    ERROR_TYPES.APP.ANSWER,
     { error: error.description },
     showAlert,
     extra,

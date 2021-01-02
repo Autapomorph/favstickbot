@@ -1,5 +1,5 @@
 const { replyEnter, replyErrorNotFound } = require('./replies');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../utils/errors/types');
 const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 

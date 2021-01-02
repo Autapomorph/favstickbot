@@ -1,13 +1,13 @@
 const Extra = require('telegraf/extra');
 
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
-const ERROR_SETS = require('../../../utils/errors/errorSets');
+const ERROR_TYPES = require('../../../utils/errors/types');
+const ERROR_SETS = require('../../../utils/errors/sets');
 const validateError = require('../../../utils/errors/validateErrorType');
 const logger = require('../../../utils/logger');
 
 const replyErrorNotFound = async ctx => {
-  return replyErrorToMessage(ctx, ERROR_TYPES.STICKERS.NOT_FOUND);
+  return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ORIGINAL.STICKER_NOT_FOUND);
 };
 
 const replyOriginal = async (ctx, { type, fileId }) => {
