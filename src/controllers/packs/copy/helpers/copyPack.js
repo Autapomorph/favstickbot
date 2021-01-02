@@ -1,10 +1,5 @@
 const getMainKeyboard = require('../../../../keyboards/main');
-const {
-  replyProgress,
-  editProgress,
-  replySuccess,
-  replyErrorUnknown,
-} = require('../../copy/replies');
+const { replyProgress, editProgress, replySuccess, replyErrorUnknown } = require('../replies');
 const copyPackHelper = require('../../../../utils/packs/copy');
 const logger = require('../../../../utils/logger');
 

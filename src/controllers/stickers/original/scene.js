@@ -5,7 +5,7 @@ const Sticker = require('../../../models/Sticker');
 const { replyOriginal, replyErrorNotFound } = require('./replies');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 
-const stickersOriginalScene = new Scene('STICKERS_ORIGINAL');
+const stickersOriginalScene = new Scene('STICKERS/ORIGINAL');
 
 stickersOriginalScene.enter(async ctx => {
   return ctx.replyWithHTML(

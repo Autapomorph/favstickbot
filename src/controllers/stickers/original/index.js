@@ -1,1 +1,1 @@
-module.exports = ctx => ctx.scene.enter('STICKERS_ORIGINAL');
+module.exports = ctx => ctx.scene.enter('STICKERS/ORIGINAL');

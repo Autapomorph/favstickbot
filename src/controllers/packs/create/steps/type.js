@@ -5,14 +5,14 @@ const PACK_TYPES = require('../../../../utils/packs/packTypes');
 const { validatePackType } = require('../helpers/validators');
 const { replyPackType } = require('../replies');
 
-const packsCreateTypeScene = new Scene('PACKS_CREATE/TYPE');
+const packsCreateTypeScene = new Scene('PACKS/CREATE/TYPE');
 
 packsCreateTypeScene.enter(async ctx => {
   const { state } = ctx.scene;
   const { packToCreate } = state;
 
   if (typeof packToCreate.isAnimated === 'boolean') {
-    return ctx.scene.enter('PACKS_CREATE/TITLE', state);
+    return ctx.scene.enter('PACKS/CREATE/TITLE', state);
   }
 
   return replyPackType(ctx);
@@ -28,7 +28,7 @@ packsCreateTypeScene.hears([match(PACK_TYPES.STATIC), match(PACK_TYPES.ANIMATED)
   }
 
   packToCreate.isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(packType, ctx));
-  return ctx.scene.enter('PACKS_CREATE/TITLE', state);
+  return ctx.scene.enter('PACKS/CREATE/TITLE', state);
 });
 
 packsCreateTypeScene.on('message', async ctx => {

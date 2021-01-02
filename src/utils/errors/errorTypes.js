@@ -39,7 +39,7 @@ const ERROR_TYPES = {
     STICKERSET_INVALID_NAME: /invalid.*name/i,
     // Bad Request: sticker set name is already occupied
     STICKERSET_NAME_OCCUPIED: /name.*occupied/i,
-    // Bad Request: STICKERS_TOO_MUCH
+    // Bad Request: STICKERS_TOO_MUCH or Bad Request: STICKERPACK_STICKERS_TOO_MUCH
     STICKERS_TOO_MUCH: /stickers.*too.*much/i,
     // Bad Request: invalid sticker emojis
     STICKER_INVALID_EMOJIS: /invalid.*sticker.*emoji/i,

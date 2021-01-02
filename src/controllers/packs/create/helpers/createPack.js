@@ -2,7 +2,6 @@ const Extra = require('telegraf/extra');
 
 const replies = require('../replies');
 const Pack = require('../../../../models/Pack');
-const getCancelKeyboard = require('../../../../keyboards/cancel');
 const getMainKeyboard = require('../../../../keyboards/main');
 
 const createPack = require('../../../../utils/packs/create');
@@ -12,7 +11,7 @@ const ERROR_SETS = require('../../../../utils/errors/errorSets');
 const validateError = require('../../../../utils/errors/validateErrorType');
 const logger = require('../../../../utils/logger');
 
-module.exports = async (ctx, user, packToCreate, nextOperation) => {
+module.exports = async (ctx, user, packToCreate, keyboard) => {
   try {
     await createPack(ctx, packToCreate);
 
@@ -25,11 +24,7 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
     });
     await user.save();
 
-    if (nextOperation) {
-      return await replies.replySuccess(ctx, user.selectedPack, getCancelKeyboard(ctx));
-    }
-
-    return await replies.replySuccess(ctx, user.selectedPack);
+    return await replies.replySuccess(ctx, user.selectedPack, keyboard);
   } catch (error) {
     const { STICKERSET_INVALID_NAME, STICKERSET_NAME_OCCUPIED } = ERROR_TYPES.TELEGRAM;
 

@@ -3,14 +3,14 @@ const Scene = require('telegraf/scenes/base');
 const { validatePackTitle } = require('../helpers/validators');
 const { replyPackTitle } = require('../replies');
 
-const packsCreateTitleScene = new Scene('PACKS_CREATE/TITLE');
+const packsCreateTitleScene = new Scene('PACKS/CREATE/TITLE');
 
 packsCreateTitleScene.enter(async ctx => {
   const { state } = ctx.scene;
   const { packToCreate } = state;
 
   if (typeof packToCreate.title === 'string') {
-    return ctx.scene.enter('PACKS_CREATE/NAME', state);
+    return ctx.scene.enter('PACKS/CREATE/NAME', state);
   }
 
   return replyPackTitle(ctx);
@@ -27,7 +27,7 @@ packsCreateTitleScene.on('text', async ctx => {
     return ctx.scene.reenter();
   }
 
-  return ctx.scene.enter('PACKS_CREATE/NAME', state);
+  return ctx.scene.enter('PACKS/CREATE/NAME', state);
 });
 
 module.exports = packsCreateTitleScene;
