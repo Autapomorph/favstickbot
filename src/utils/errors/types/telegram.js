@@ -29,6 +29,8 @@ const ERROR_TYPES = {
   KICKED_FROM_CHANNEL: /forbidden.*bot.*kick.*channel/i,
   // Forbidden: user is deactivated
   USER_DEACTIVATED: /forbidden.*user.*deactivated/i,
+  // Forbidden: bot can't initiate conversation with a user
+  CANNOT_INITIATE_CONVERSATION_WITH_USER: /initiate.*conversation,*with.*user/i,
   // Bad Request: group chat was deactivated
   GROUP_DEACTIVATED: /group.*deactivated/i,
   // Forbidden: bot is not a member of the group chat
