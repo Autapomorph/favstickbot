@@ -56,8 +56,11 @@ menu:
         back: 🔙 Back to Packs List
       delete_confirm:
         body: |
-          Do you really want to delete pack <a href="${link}">${title}</a>?
-          This action can't be undone!
+          <b>Do you really want to delete <a href="${link}">${title}</a> pack?</b>
+
+          You can still manage it via @Stickers, but I will no longer be able to add new stickers to it
+
+          <b>This action can't be undone!</b>
         actions:
           yes: ⚠ Yes
           back: 🔙 Back to Pack
@@ -133,7 +136,7 @@ operation:
 scene:
   shared:
     leave:
-      reply: Operation canceled
+      reply: Action canceled
   pack_create:
     pack_type: |
       <b>Choose type for the new pack:</b>
