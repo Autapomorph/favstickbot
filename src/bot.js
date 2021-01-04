@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf');
-const { compose, drop } = require('telegraf/composer');
+const { compose, drop, chatType } = require('telegraf/composer');
 const { match } = require('telegraf-i18n');
 
 const {
@@ -30,7 +30,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 commands.register(commandsList);
 
 // Disallow channels
-bot.on(['channel_post', 'edited_channel_post'], drop(true));
+bot.use(chatType('channel', drop(true)));
 
 // Register middlewares
 bot.use(compose([logUpdate, devGuard, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
@@ -42,8 +42,8 @@ bot.start(controllers.start);
 bot.help(controllers.start);
 bot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
 bot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
-bot.hears('/newstatic', controllers.packs.create.static);
-bot.hears('/newanimated', controllers.packs.create.animated);
+bot.command('newstatic', controllers.packs.create.static);
+bot.command('newanimated', controllers.packs.create.animated);
 bot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
 bot.command('copy', controllers.packs.copy.reply);
 bot.command('original', controllers.stickers.original);
