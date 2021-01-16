@@ -8,13 +8,13 @@ const jobName = 'packs-delete-non-existent';
 
 module.exports = agenda => {
   agenda.define(jobName, { concurrency: 1 }, async () => {
-    const packs = await Pack.find();
+    const packsIds = await Pack.find().distinct('_id');
 
-    const requests = packs.map(
-      pack =>
+    const requests = packsIds.map(
+      id =>
         new Promise(resolve => {
           telegram
-            .getStickerSet(pack.id)
+            .getStickerSet(id)
             // Resolve null from Telegram response as it shouldn't be removed
             .then(() => resolve(null))
             // If there is no pack on Telegram servers
@@ -22,7 +22,7 @@ module.exports = agenda => {
             // And it should be removed from db
             .catch(error => {
               if (!validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) throw error;
-              resolve(pack.id);
+              resolve(id);
             });
         }),
     );

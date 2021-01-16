@@ -39,14 +39,10 @@ PackSchema.virtual('stickers', {
 
 PackSchema.pre('save', async function pre() {
   if (this.isNew) {
-    // if user tries to create pack with name that already exists in database
-    // (e.g. it was deleted using @Stickers bot),
-    // we should delete this pack
+    // If user tries to create pack with name that already exists in database
+    // (e.g. it was deleted using @Stickers bot), we should delete this pack
     // eslint-disable-next-line no-use-before-define
-    const oldPack = await Pack.findById(this.id);
-    if (oldPack) {
-      await oldPack.deleteOne();
-    }
+    await Pack.findByIdAndDelete(this.id);
   }
 
   this.wasJustCreated = this.isNew;
@@ -60,6 +56,11 @@ PackSchema.post('save', function post() {
 
 PackSchema.pre('deleteOne', { document: true }, async function pre() {
   await Sticker.deleteMany({ packId: this.id });
+});
+
+PackSchema.pre(['deleteOne', 'findOneAndDelete'], async function pre() {
+  // eslint-disable-next-line no-underscore-dangle
+  await Sticker.deleteMany({ packId: this.getFilter()._id });
 });
 
 PackSchema.pre('deleteMany', async function pre() {

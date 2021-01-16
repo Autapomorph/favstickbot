@@ -3,8 +3,8 @@ const { packLinkPrefix } = require('../../../../config');
 const packPostfix = require('../../../../utils/packs/postfix');
 const escapeHTML = require('../../../../utils/common/escapeHTML');
 
-const getBodyText = (ctx, packs, selectedPack) => {
-  if (!packs.length) {
+const getBodyText = (ctx, packsCount, selectedPack) => {
+  if (packsCount <= 0) {
     return ctx.i18n.t('cmd.packs.reply.empty');
   }
 
@@ -21,8 +21,8 @@ const getBodyText = (ctx, packs, selectedPack) => {
 
 const getMenuBody = async ctx => {
   const { user } = ctx.state;
-  const visiblePacks = await Pack.find().byUser(user.id).byIsArchived(false);
-  const text = getBodyText(ctx, visiblePacks, user.selectedPack);
+  const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
+  const text = getBodyText(ctx, visiblePacksCount, user.selectedPack);
   return {
     text,
     parse_mode: 'HTML',

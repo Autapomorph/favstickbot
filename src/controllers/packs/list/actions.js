@@ -63,14 +63,14 @@ const archivePack = async (ctx, packId) => {
 const restorePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
-  const visiblePacks = await Pack.find().byUser(user.id).byIsArchived(false);
+  const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
 
   if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
   }
 
   // Set pack to be selected one if there are no visible packs
-  if (!visiblePacks.length) {
+  if (visiblePacksCount <= 0) {
     user.selectedPack = packToModify;
     await user.save();
   }
