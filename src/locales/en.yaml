@@ -13,8 +13,7 @@ cmd:
       /settings - open bot settings
   packs:
     reply:
-      list: |
-        <b>🪐 Packs:</b>
+      list: <b>🪐 Packs:</b>
       empty: |
         <b>You have no packs for now</b>
         Try to create a /new one
@@ -26,8 +25,7 @@ cmd:
       Get a full copy of any pack!
       Just send me a link to it)
   deleteme:
-    reply: |
-      All the data associated with you has been eliminated
+    reply: All the data associated with you has been eliminated
   unknown:
     reply: |
       I am not familiar with this command
@@ -96,8 +94,7 @@ operation:
           pack_not_found: |
             <b>Error!</b>
             Cannot find pack
-          unknown: |
-            An error occurred while copying pack
+          unknown: An error occurred while copying pack
     shared:
       reply:
         error:
@@ -135,13 +132,11 @@ operation:
 
 scene:
   shared:
-    leave:
-      reply: Action canceled
+    reply:
+      cancel: Action canceled
   pack_create:
-    pack_type: |
-      <b>Choose type for the new pack:</b>
-    pack_title: |
-      <b>Send the new pack title:</b>
+    pack_type: <b>Choose type for the new pack:</b>
+    pack_title: <b>Send the new pack title:</b>
     pack_name: |
       <b>Send a short link for the new pack</b>
 
@@ -160,6 +155,7 @@ scene:
         <b>Pack link:</b> <pre>${link}</pre>
 
         You can edit it with the official @Stickers bot
+      cancel: Pack creation canceled
       error:
         title_long: Title can contain ${max} symbols at most
         name_long: Link can contain ${max} symbols at most
@@ -167,18 +163,17 @@ scene:
         name_occupied: This link is already occupied
   pack_copy:
     reply:
-      enter: |
-        I can copy this pack, you need to create a new one
+      enter: I can copy this pack, you need to create a new one
       progress: |
         Copying stickers from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a>
 
         Progress: ${current}/${total}
-      done: |
-        Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
+      done: Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
+      cancel: Pack copy canceled
   sticker_original:
     reply:
-      enter: |
-        Send sticker that was added using me and I will show its original
+      enter: Send sticker that was added using me and I will show its original
+      cancel: Search for original sticker canceled
       error:
         sticker_not_found: |
           <b>Error!</b>
@@ -186,6 +181,7 @@ scene:
 
 shared:
   reply:
+    cancel: Nothing to cancel
     error:
       ratelimit: |
         Yor'are sending to much request!

@@ -16,4 +16,9 @@ packsCreateScene.enter(async ctx => {
   return ctx.scene.enter('PACKS/CREATE/TYPE', state);
 });
 
-module.exports = [packsCreateScene, packsTypeScene, packsTitleScene, packsNameScene];
+module.exports = {
+  base: packsCreateScene,
+  type: packsTypeScene,
+  title: packsTitleScene,
+  name: packsNameScene,
+};
