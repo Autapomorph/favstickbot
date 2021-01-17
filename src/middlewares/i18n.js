@@ -7,4 +7,4 @@ const i18n = new I18n({
   defaultLanguage: defaultLocale.code,
 });
 
-module.exports = i18n.middleware();
+module.exports = i18n;

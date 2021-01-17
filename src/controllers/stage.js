@@ -51,6 +51,4 @@ stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
   return ctx.scene.leave();
 });
 
-stage.middleware();
-
 module.exports = stage;
