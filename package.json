@@ -32,7 +32,7 @@
     "cm": "cz"
   },
   "dependencies": {
-    "agenda": "^3.1.0",
+    "agenda": "^4.0.1",
     "agendash2": "^0.8.2",
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
