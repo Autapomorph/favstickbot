@@ -1,4 +1,5 @@
 const { TelegramError } = require('telegraf');
+const MongooseError = require('mongoose').Error;
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
 const ERROR_SETS = require('./sets');
@@ -28,13 +29,17 @@ module.exports = async (error, ctx) => {
     session,
   });
 
+  if (error instanceof MongooseError) {
+    return;
+  }
+
   if (error instanceof TelegramError) {
     if (validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       return;
     }
 
-    return replyErrorTelegram(ctx, error);
+    return replyErrorTelegram(ctx, error).catch(logger.error);
   }
 
-  return replyErrorUnknown(ctx);
+  return replyErrorUnknown(ctx).catch(logger.error);
 };

@@ -30,5 +30,12 @@ async function launchBot(botInstance) {
   }
 }
 
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+async function shutdown(signal) {
+  logger.info('Shutting down');
+  bot.stop(signal);
+  await database.disconnect();
+  process.exit(0);
+}
+
+process.once('SIGINT', () => shutdown('SIGINT'));
+process.once('SIGTERM', () => shutdown('SIGTERM'));
