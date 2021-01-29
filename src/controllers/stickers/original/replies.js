@@ -1,5 +1,3 @@
-const Extra = require('telegraf/extra');
-
 const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const ERROR_SETS = require('../../../utils/errors/sets');
@@ -12,7 +10,7 @@ const replyErrorNotFound = async ctx => {
 
 const replyOriginal = async (ctx, { type, fileId }) => {
   const replyExtra = {
-    ...Extra.inReplyTo(ctx.message.message_id),
+    reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
   };
 

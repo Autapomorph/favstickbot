@@ -1,11 +1,11 @@
-const Scene = require('telegraf/scenes/base');
+const { Scenes } = require('telegraf');
 const { match } = require('telegraf-i18n');
 
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
 const { validatePackType } = require('../helpers/validators');
 const { replyPackType } = require('../replies');
 
-const packsCreateTypeScene = new Scene('PACKS/CREATE/TYPE');
+const packsCreateTypeScene = new Scenes.BaseScene('PACKS/CREATE/TYPE');
 
 packsCreateTypeScene.enter(async ctx => {
   const { state } = ctx.scene;

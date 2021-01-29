@@ -1,12 +1,10 @@
-const Extra = require('telegraf/extra');
-
 const { packLinkPrefix } = require('../../../config');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyError, replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyEnter = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scene.pack_copy.reply.enter'), {
-    ...Extra.inReplyTo(ctx.message.message_id),
+    reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
   });
 };

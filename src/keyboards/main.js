@@ -1,4 +1,4 @@
-const Markup = require('telegraf/markup');
+const { Markup } = require('telegraf');
 
 const getMainKeyboard = ctx => {
   const packListBtn = ctx.i18n.t('keyboard.main.packs');

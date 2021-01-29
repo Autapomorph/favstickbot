@@ -1,4 +1,4 @@
-const { drop, passThru } = require('telegraf/composer');
+const { drop, passThru } = require('telegraf').Composer;
 
 const splitUserIdsString = require('../utils/common/splitUserIdsString');
 const { isDev } = require('../utils');

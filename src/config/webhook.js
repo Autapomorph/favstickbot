@@ -1,9 +1,10 @@
-const { BOT_TOKEN, WEBHOOK_DOMAIN, WEBHOOK_PORT } = process.env;
+const { BOT_TOKEN, WEBHOOK_DOMAIN, WEBHOOK_PATH, WEBHOOK_HOST, WEBHOOK_PORT } = process.env;
 
 const WEBHOOK_OPTIONS = {
   domain: WEBHOOK_DOMAIN,
-  hookPath: `/bot/${BOT_TOKEN}`,
-  port: WEBHOOK_PORT || 2500,
+  hookPath: WEBHOOK_PATH || `/bot/${BOT_TOKEN}`,
+  host: WEBHOOK_HOST,
+  port: Number.parseInt(WEBHOOK_PORT, 10) || 2500,
 };
 
 module.exports = WEBHOOK_OPTIONS;

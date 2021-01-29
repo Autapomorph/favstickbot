@@ -1,4 +1,4 @@
-const TelegramError = require('telegraf/core/network/error');
+const { TelegramError } = require('telegraf');
 
 /**
  * Validate Telegram error description by regex

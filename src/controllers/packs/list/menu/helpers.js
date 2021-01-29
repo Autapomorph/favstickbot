@@ -43,7 +43,7 @@ const getMenuChoices = async ctx => {
     ? Pack.find().byUser(user.id).sort({ isArchived: 'asc' })
     : Pack.find().byUser(user.id).byIsArchived(false));
   return packs.reduce((acc, pack) => {
-    const trimmedPackId = packPostfix.trim(pack.id, ctx.options.username);
+    const trimmedPackId = packPostfix.trim(pack.id, ctx.botInfo.username);
     const choiceText = getChoiceText(user, pack);
     acc[trimmedPackId] = choiceText;
     return acc;

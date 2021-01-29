@@ -1,5 +1,3 @@
-const Extra = require('telegraf/extra');
-
 const {
   replyErrorToMessage,
   replyErrorWithResource,
@@ -15,7 +13,10 @@ const replySuccess = (ctx, { title, link }) => {
       title,
       link,
     }),
-    { ...Extra.inReplyTo(ctx.message.message_id), allow_sending_without_reply: true },
+    {
+      reply_to_message_id: ctx.message.message_id,
+      allow_sending_without_reply: true,
+    },
   );
 };
 

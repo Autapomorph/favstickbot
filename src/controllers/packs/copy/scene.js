@@ -1,11 +1,11 @@
-const Scene = require('telegraf/scenes/base');
-const { drop } = require('telegraf/composer');
+const { Scenes } = require('telegraf');
+const { drop } = require('telegraf').Composer;
 
 const Session = require('../../../models/Session');
 const copyPack = require('./helpers/copyPack');
 const getSessionKey = require('../../../utils/sessions/getKey');
 
-const packsCopyScene = new Scene('PACKS/COPY');
+const packsCopyScene = new Scenes.BaseScene('PACKS/COPY');
 
 const getIsAborted = async sessionKey => {
   const session = await Session.findById(sessionKey);

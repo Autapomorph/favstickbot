@@ -1,10 +1,9 @@
-const Telegraf = require('telegraf');
-const { compose, drop, chatType } = require('telegraf/composer');
+const { Telegraf } = require('telegraf');
+const { compose, drop, chatType } = require('telegraf').Composer;
 const { match } = require('telegraf-i18n');
 
 const {
   devGuard,
-  setBotInfo,
   session,
   getUser,
   setLocale,
@@ -27,13 +26,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 });
 
 // Register bot commands
-commands.register(commandsList);
+commands.register(bot.telegram)(commandsList);
 
 // Disallow channels
 bot.use(chatType('channel', drop(true)));
 
 // Register middlewares
-bot.use(compose([logUpdate, devGuard, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
+bot.use(compose([logUpdate, devGuard, session, i18n, rateLimit, getUser, setLocale]));
 bot.use(...menu);
 bot.use(stage);
 

@@ -4,7 +4,7 @@ const packPostfix = require('../../../../../../utils/packs/postfix');
 const escapeHTML = require('../../../../../../utils/common/escapeHTML');
 
 const getMenuBody = async ctx => {
-  const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+  const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
   const pack = await Pack.findById(packId);
   const text = ctx.i18n.t('menu.packs_list.single_pack.delete_confirm.body', {
     title: escapeHTML(pack.title),

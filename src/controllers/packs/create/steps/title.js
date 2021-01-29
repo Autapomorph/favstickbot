@@ -1,9 +1,9 @@
-const Scene = require('telegraf/scenes/base');
+const { Scenes } = require('telegraf');
 
 const { validatePackTitle } = require('../helpers/validators');
 const { replyPackTitle } = require('../replies');
 
-const packsCreateTitleScene = new Scene('PACKS/CREATE/TITLE');
+const packsCreateTitleScene = new Scenes.BaseScene('PACKS/CREATE/TITLE');
 
 packsCreateTitleScene.enter(async ctx => {
   const { state } = ctx.scene;

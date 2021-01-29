@@ -1,5 +1,5 @@
 const Pack = require('../../models/Pack');
-const telegram = require('../../telegram');
+const { telegram } = require('../../bot');
 const validateError = require('../../utils/errors/validateErrorType');
 const ERROR_TYPES = require('../../utils/errors/types');
 const logger = require('../../utils/logger');

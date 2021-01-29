@@ -1,4 +1,4 @@
-const Markup = require('telegraf/markup');
+const { Markup } = require('telegraf');
 
 const getPackTypeKeyboard = ctx => {
   const staticBtn = ctx.i18n.t('keyboard.pack_type.static');

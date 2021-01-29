@@ -1,4 +1,4 @@
-const TelegramError = require('telegraf/core/network/error');
+const { TelegramError } = require('telegraf');
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
 const ERROR_SETS = require('./sets');
@@ -13,7 +13,6 @@ module.exports = async (error, ctx) => {
     match,
     update,
     updateType,
-    updateSubTypes,
   } = ctx;
 
   logger.error(error, {
@@ -25,7 +24,6 @@ module.exports = async (error, ctx) => {
     match,
     update,
     updateType,
-    updateSubTypes,
     sceneState,
     session,
   });

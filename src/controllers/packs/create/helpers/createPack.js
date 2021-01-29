@@ -1,5 +1,3 @@
-const Extra = require('telegraf/extra');
-
 const replies = require('../replies');
 const Pack = require('../../../../models/Pack');
 const getMainKeyboard = require('../../../../keyboards/main');
@@ -46,7 +44,8 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
 
     if (!validateError(ERROR_SETS.DO_NOT_REPLY)) {
       await replyErrorTelegram(ctx, error, {
-        ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+        ...getMainKeyboard(ctx),
+        reply_to_message_id: ctx.message.message_id,
         allow_sending_without_reply: true,
       });
     }

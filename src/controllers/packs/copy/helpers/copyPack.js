@@ -19,7 +19,7 @@ const onFail = (ctx, extra) => async error => {
 };
 
 module.exports = async (ctx, packToCopy, newPack, getIsAborted) => {
-  const extra = getMainKeyboard(ctx).extra();
+  const extra = { ...getMainKeyboard(ctx) };
   const message = await replyProgress(ctx, packToCopy, newPack);
 
   const onProgressCb = onProgress(ctx, packToCopy, newPack, message);

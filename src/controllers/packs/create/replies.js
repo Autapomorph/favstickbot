@@ -1,5 +1,3 @@
-const Extra = require('telegraf/extra');
-
 const getMainKeyboard = require('../../../keyboards/main');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 const getPackTypeKeyboard = require('../../../keyboards/packType');
@@ -9,23 +7,26 @@ const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/
 
 const replyPackType = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_type'), {
-    ...Extra.markup(getPackTypeKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    ...getPackTypeKeyboard(ctx),
+    reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
   });
 };
 
 const replyPackTitle = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_title'), {
-    ...Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+    ...getCancelKeyboard(ctx),
+    reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
   });
 };
 
 const replyPackName = async ctx => {
   return ctx.replyWithHTML(
-    ctx.i18n.t('scene.pack_create.pack_name', { botUsername: ctx.options.username }),
+    ctx.i18n.t('scene.pack_create.pack_name', { botUsername: ctx.botInfo.username }),
     {
-      ...Extra.markup(getCancelKeyboard(ctx)).inReplyTo(ctx.message.message_id),
+      ...getCancelKeyboard(ctx),
+      reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
     },
   );
@@ -38,7 +39,8 @@ const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) =
       link: `${packLinkPrefix}${createdPack.name}`,
     }),
     {
-      ...Extra.markup(keyboard).inReplyTo(ctx.message.message_id),
+      ...keyboard,
+      reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
     },
   );
@@ -51,7 +53,10 @@ const replyErrorTooLong = async (ctx, tKey) => {
     {
       max: packNameMaxLength,
     },
-    { ...Extra.inReplyTo(ctx.message.message_id), allow_sending_without_reply: true },
+    {
+      reply_to_message_id: ctx.message.message_id,
+      allow_sending_without_reply: true,
+    },
   );
 };
 

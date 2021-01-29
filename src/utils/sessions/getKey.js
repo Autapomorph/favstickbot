@@ -1,5 +1,3 @@
-const getSessionKey = ctx => {
+module.exports = ctx => {
   return ctx.from.id;
 };
-
-module.exports = getSessionKey;

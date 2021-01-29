@@ -1,17 +1,16 @@
-const Scene = require('telegraf/scenes/base');
-const { drop } = require('telegraf/composer');
+const { Scenes } = require('telegraf');
+const { drop } = require('telegraf').Composer;
 
 const Sticker = require('../../../models/Sticker');
 const { replyOriginal, replyErrorNotFound } = require('./replies');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 
-const stickersOriginalScene = new Scene('STICKERS/ORIGINAL');
+const stickersOriginalScene = new Scenes.BaseScene('STICKERS/ORIGINAL');
 
 stickersOriginalScene.enter(async ctx => {
-  return ctx.replyWithHTML(
-    ctx.i18n.t('scene.sticker_original.reply.enter'),
-    getCancelKeyboard(ctx).extra(),
-  );
+  return ctx.replyWithHTML(ctx.i18n.t('scene.sticker_original.reply.enter'), {
+    ...getCancelKeyboard(ctx),
+  });
 });
 
 stickersOriginalScene.on('sticker', async ctx => {

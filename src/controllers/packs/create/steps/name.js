@@ -1,4 +1,4 @@
-const Scene = require('telegraf/scenes/base');
+const { Scenes } = require('telegraf');
 
 const createPack = require('../helpers/createPack');
 const getMainKeyboard = require('../../../../keyboards/main');
@@ -6,7 +6,7 @@ const getCancelKeyboard = require('../../../../keyboards/cancel');
 const { validatePackName } = require('../helpers/validators');
 const { replyPackName } = require('../replies');
 
-const packsCreateNameScene = new Scene('PACKS/CREATE/NAME');
+const packsCreateNameScene = new Scenes.BaseScene('PACKS/CREATE/NAME');
 
 packsCreateNameScene.enter(async ctx => {
   return replyPackName(ctx);
