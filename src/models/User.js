@@ -28,8 +28,15 @@ const UserSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    toObject: { virtuals: true },
   },
 );
+
+UserSchema.virtual('packs', {
+  ref: 'Pack',
+  localField: '_id',
+  foreignField: 'userId',
+});
 
 UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
   this.populate('selectedPack');
@@ -37,7 +44,7 @@ UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
 
 UserSchema.pre('deleteOne', { document: true }, async function pre() {
   await Pack.deleteMany({ userId: this.id });
-  await Session.deleteOne({ 'data.user._id': this.id });
+  await Session.deleteOne({ _id: this.id });
   logger.debug('User data has been deleted: %s', this.id);
 });
 

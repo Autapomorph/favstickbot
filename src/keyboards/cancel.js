@@ -1,4 +1,4 @@
-const Markup = require('telegraf/markup');
+const { Markup } = require('telegraf');
 
 const getCancelKeyboard = ctx => {
   const cancelBtn = ctx.i18n.t('keyboard.shared.cancel');

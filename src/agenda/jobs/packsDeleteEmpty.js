@@ -1,9 +1,9 @@
 const hi = require('human-interval');
 
 const Pack = require('../../models/Pack');
-const telegram = require('../../telegram');
+const { telegram } = require('../../bot');
 const validateError = require('../../utils/errors/validateErrorType');
-const ERROR_TYPES = require('../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../utils/errors/types');
 const logger = require('../../utils/logger');
 
 const jobName = 'packs-delete-empty';
@@ -20,27 +20,32 @@ module.exports = agenda => {
     const thresholdMs = hi(jobData.threshold) || defaultThreshold;
     const thresholdDate = new Date(new Date().setTime(new Date().getTime() - thresholdMs));
 
-    const packs = await Pack.find({ updatedAt: { $lt: thresholdDate } });
+    const packsIds = await Pack.find({ updatedAt: { $lt: thresholdDate } }).distinct('_id');
 
-    const requests = packs.map(pack => {
+    const requests = packsIds.map(id => {
       return new Promise(resolve => {
         telegram
-          .getStickerSet(pack.id)
+          .getStickerSet(id)
           // Resolve pack data from Telegram response
-          .then(tgPack => resolve(tgPack))
+          .then(tgPack =>
+            resolve({
+              id: tgPack.name,
+              stickersCount: tgPack.stickers.length,
+            }),
+          )
           .catch(error => {
             // If there is no pack on Telegram servers
             // It means that this pack was deleted
             // And it should be removed from db
             if (!validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) throw error;
-            resolve({ name: pack.id });
+            resolve({ id });
           });
       });
     });
 
     const packsToDeleteIds = (await Promise.all(requests))
-      .filter(pack => !pack.stickers || !pack.stickers.length)
-      .map(pack => pack.name);
+      .filter(pack => !pack.stickersCount || pack.stickersCount <= 0)
+      .map(pack => pack.id);
 
     logger.info('Job "%s": deleting %d empty packs', jobName, packsToDeleteIds.length);
 

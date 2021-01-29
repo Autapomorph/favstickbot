@@ -10,14 +10,14 @@ const menu = new MenuTemplate(getMenuBody);
 
 menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), 's', {
   hide: async ctx => {
-    const { user } = ctx.session;
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const { user } = ctx.state;
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
     if (!user.selectedPack) return false;
     return user.selectedPack.id === packId || !pack || pack.isArchived === true;
   },
   do: async ctx => {
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     await actions.select(ctx, packId);
     return '..';
   },
@@ -25,12 +25,12 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), '
 
 menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.archive'), 'a', {
   hide: async ctx => {
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
     return !pack || pack.isArchived === true;
   },
   do: async ctx => {
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     await actions.archive(ctx, packId);
     return true;
   },
@@ -38,12 +38,12 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.archive'), 
 
 menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.restore'), 'r', {
   hide: async ctx => {
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
     return !pack || pack.isArchived === false;
   },
   do: async ctx => {
-    const packId = packPostfix.pad(ctx.match[1], ctx.options.username);
+    const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     await actions.restore(ctx, packId);
     return true;
   },

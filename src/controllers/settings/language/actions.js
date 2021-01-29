@@ -2,7 +2,7 @@ const startController = require('../../start');
 const { locales } = require('../../../config');
 
 const setLanguage = async ctx => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
 
   const locale = locales[ctx.match[1]];
   if (locale) {

@@ -1,17 +1,15 @@
-const Extra = require('telegraf/extra');
-
 const replies = require('../replies');
 const Pack = require('../../../../models/Pack');
-const getCancelKeyboard = require('../../../../keyboards/cancel');
 const getMainKeyboard = require('../../../../keyboards/main');
 
 const createPack = require('../../../../utils/packs/create');
 const { replyErrorTelegram } = require('../../../../utils/errors/reply');
-const ERROR_TYPES = require('../../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../../utils/errors/types');
+const ERROR_SETS = require('../../../../utils/errors/sets');
 const validateError = require('../../../../utils/errors/validateErrorType');
 const logger = require('../../../../utils/logger');
 
-module.exports = async (ctx, user, packToCreate, nextOperation) => {
+module.exports = async (ctx, user, packToCreate, keyboard) => {
   try {
     await createPack(ctx, packToCreate);
 
@@ -24,11 +22,7 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
     });
     await user.save();
 
-    if (nextOperation) {
-      return await replies.replySuccess(ctx, user.selectedPack, getCancelKeyboard(ctx));
-    }
-
-    return await replies.replySuccess(ctx, user.selectedPack);
+    return await replies.replySuccess(ctx, user.selectedPack, keyboard);
   } catch (error) {
     const { STICKERSET_INVALID_NAME, STICKERSET_NAME_OCCUPIED } = ERROR_TYPES.TELEGRAM;
 
@@ -48,10 +42,14 @@ module.exports = async (ctx, user, packToCreate, nextOperation) => {
 
     logger.error(error);
 
-    await replyErrorTelegram(ctx, error, {
-      ...Extra.markup(getMainKeyboard(ctx)).inReplyTo(ctx.message.message_id),
-      allow_sending_without_reply: true,
-    });
+    if (!validateError(ERROR_SETS.DO_NOT_REPLY)) {
+      await replyErrorTelegram(ctx, error, {
+        ...getMainKeyboard(ctx),
+        reply_to_message_id: ctx.message.message_id,
+        allow_sending_without_reply: true,
+      });
+    }
+
     ctx.scene.leave();
     throw error;
   }

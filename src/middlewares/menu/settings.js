@@ -4,4 +4,4 @@ const menu = require('../../controllers/settings/menu');
 
 const menuMiddleware = new MenuMiddleware('/settings/', menu);
 
-module.exports = menuMiddleware.middleware();
+module.exports = menuMiddleware;

@@ -45,8 +45,8 @@ StickerSchema.post('save', function post() {
   }
 });
 
-StickerSchema.statics.findOneByUID = async function findOneByUID(uid) {
-  return this.findOne({ uid });
+StickerSchema.query.byUID = function byUID(uid) {
+  return this.where({ uid });
 };
 
 const Sticker = mongoose.model('Sticker', StickerSchema);

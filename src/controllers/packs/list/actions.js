@@ -2,12 +2,12 @@ const Pack = require('../../../models/Pack');
 const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 const { validateOwner } = require('../../../utils/packs/validate');
 const escapeHTML = require('../../../utils/common/escapeHTML');
-const ERROR_TYPES = require('../../../utils/errors/errorTypes');
+const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 // Mark pack as selected
 const selectPack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToSelect = await Pack.findById(packId);
 
   if (!validateOwner(packToSelect.userId, user.id)) {
@@ -28,7 +28,7 @@ const selectPack = async (ctx, packId) => {
 
 // Archive pack
 const archivePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
   const selectedPackId = getSelectedPackId(user);
 
@@ -42,7 +42,7 @@ const archivePack = async (ctx, packId) => {
   // If pack is selected
   if (String(packToModify.id) === String(selectedPackId)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
-    user.selectedPack = await Pack.findOneVisible(user.id);
+    user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
     // Delete field `selectedPack` if no visible packs exist
     if (user.selectedPack === null) {
@@ -61,16 +61,16 @@ const archivePack = async (ctx, packId) => {
 
 // Restore pack from archive
 const restorePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
-  const visiblePacks = await Pack.findVisible(user.id);
+  const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
 
   if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
   }
 
   // Set pack to be selected one if there are no visible packs
-  if (!visiblePacks.length) {
+  if (visiblePacksCount <= 0) {
     user.selectedPack = packToModify;
     await user.save();
   }
@@ -87,7 +87,7 @@ const restorePack = async (ctx, packId) => {
 
 // Delete pack
 const deletePack = async (ctx, packId) => {
-  const { user } = ctx.session;
+  const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
   const selectedPackId = getSelectedPackId(user);
 
@@ -100,7 +100,7 @@ const deletePack = async (ctx, packId) => {
   // If pack is selected
   if (String(packToDelete.id) === String(selectedPackId)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
-    user.selectedPack = await Pack.findOneVisible(user.id);
+    user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
     // Delete field `selectedPack` if no visible packs exist
     if (user.selectedPack === null) {

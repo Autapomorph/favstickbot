@@ -5,9 +5,6 @@ const { resourcesPath, defaultLocale } = require('../config');
 const i18n = new I18n({
   directory: resourcesPath,
   defaultLanguage: defaultLocale.code,
-  useSession: true,
 });
 
-i18n.middleware();
-
-module.exports = i18n.middleware();
+module.exports = i18n;

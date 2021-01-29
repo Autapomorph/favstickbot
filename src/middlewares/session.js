@@ -1,10 +1,15 @@
+const { session } = require('telegraf');
+
 const getSessionKey = require('../utils/sessions/getKey');
 const getSession = require('../utils/sessions/get');
 const saveSession = require('../utils/sessions/save');
+const deleteSession = require('../utils/sessions/delete');
 
-module.exports = async (ctx, next) => {
-  const key = getSessionKey(ctx);
-  ctx.session = await getSession(key);
-  await next(ctx);
-  await saveSession(key, ctx.session);
-};
+module.exports = session({
+  getSessionKey,
+  store: {
+    get: getSession,
+    set: saveSession,
+    delete: deleteSession,
+  },
+});

@@ -1,18 +1,19 @@
-const TelegramError = require('telegraf/core/network/error');
+const { TelegramError } = require('telegraf');
+const MongooseError = require('mongoose').Error;
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
-const ERROR_TYPES = require('./errorTypes');
+const ERROR_SETS = require('./sets');
 const validateError = require('./validateErrorType');
 const logger = require('../logger');
 
 module.exports = async (error, ctx) => {
   const {
-    session: { user: { id, username, firstName, lastName, settings, selectedPack } = {} } = {},
+    state: { user: { id, username, firstName, lastName, settings, selectedPack } = {} } = {},
     scene: { state: sceneState } = {},
+    session,
     match,
     update,
     updateType,
-    updateSubTypes,
   } = ctx;
 
   logger.error(error, {
@@ -24,19 +25,21 @@ module.exports = async (error, ctx) => {
     match,
     update,
     updateType,
-    updateSubTypes,
     sceneState,
+    session,
   });
 
-  if (error instanceof TelegramError) {
-    const { TOO_MANY_REQUESTS, BLOCKED_BY_USER } = ERROR_TYPES.TELEGRAM;
+  if (error instanceof MongooseError) {
+    return;
+  }
 
-    if (validateError([TOO_MANY_REQUESTS, BLOCKED_BY_USER], error)) {
+  if (error instanceof TelegramError) {
+    if (validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       return;
     }
 
-    return replyErrorTelegram(ctx, error);
+    return replyErrorTelegram(ctx, error).catch(logger.error);
   }
 
-  return replyErrorUnknown(ctx);
+  return replyErrorUnknown(ctx).catch(logger.error);
 };

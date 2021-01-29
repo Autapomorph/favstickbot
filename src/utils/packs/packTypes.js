@@ -1,5 +1,5 @@
 const PACK_TYPES = {
-  NORMAL: 'keyboard.pack_type.normal',
+  STATIC: 'keyboard.pack_type.static',
   ANIMATED: 'keyboard.pack_type.animated',
 };
 

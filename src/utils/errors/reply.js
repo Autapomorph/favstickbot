@@ -1,6 +1,4 @@
-const Extra = require('telegraf/extra');
-
-const ERROR_TYPES = require('./errorTypes');
+const ERROR_TYPES = require('./types');
 
 // Base reply error
 const replyError = async (ctx, tKey, extra = {}) => {
@@ -15,7 +13,7 @@ const replyErrorWithResource = async (ctx, tKey, resource, extra = {}) => {
 // Reply error to specified message
 const replyErrorToMessage = async (ctx, tKey, messageId = ctx.message.message_id, extra = {}) => {
   return replyError(ctx, tKey, {
-    ...Extra.inReplyTo(messageId),
+    reply_to_message_id: messageId,
     allow_sending_without_reply: true,
     ...extra,
   });
@@ -23,12 +21,12 @@ const replyErrorToMessage = async (ctx, tKey, messageId = ctx.message.message_id
 
 // Reply error with telegram error description
 const replyErrorTelegram = async (ctx, error, extra) => {
-  return replyErrorWithResource(ctx, ERROR_TYPES.REPLY, { error: error.description }, extra);
+  return replyErrorWithResource(ctx, ERROR_TYPES.APP.REPLY, { error: error.description }, extra);
 };
 
 // Reply unknown error
 const replyErrorUnknown = async (ctx, extra) => {
-  return replyError(ctx, ERROR_TYPES.UNKNOWN, extra);
+  return replyError(ctx, ERROR_TYPES.APP.UNKNOWN, extra);
 };
 
 module.exports = {

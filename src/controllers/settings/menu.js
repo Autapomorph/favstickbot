@@ -8,7 +8,7 @@ const menu = new MenuTemplate(getMenuBody);
 
 menu.toggle(ctx => ctx.i18n.t('menu.settings.actions.show_archived_packs'), 'archived_packs', {
   isSet: ctx => {
-    const { user } = ctx.session;
+    const { user } = ctx.state;
     return user.settings.showArchivedPacks;
   },
   set: async (ctx, newState) => {

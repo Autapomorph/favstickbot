@@ -13,8 +13,7 @@ cmd:
       /settings - open bot settings
   packs:
     reply:
-      list: |
-        <b>🪐 Packs:</b>
+      list: <b>🪐 Packs:</b>
       empty: |
         <b>You have no packs for now</b>
         Try to create a /new one
@@ -26,8 +25,7 @@ cmd:
       Get a full copy of any pack!
       Just send me a link to it)
   deleteme:
-    reply: |
-      All the data associated with you has been eliminated
+    reply: All the data associated with you has been eliminated
   unknown:
     reply: |
       I am not familiar with this command
@@ -39,7 +37,7 @@ keyboard:
     new: 🆕 Create a new pack
     settings: ⚙️ Settings
   pack_type:
-    normal: 🆕 Normal
+    static: 🆕 Static
     animated: 🅰️ Animated
   shared:
     cancel: ❌ Cancel
@@ -56,8 +54,11 @@ menu:
         back: 🔙 Back to Packs List
       delete_confirm:
         body: |
-          Do you really want to delete pack <a href="${link}">${title}</a>?
-          This action can't be reverted!
+          <b>Do you really want to delete <a href="${link}">${title}</a> pack?</b>
+
+          You can still manage it via @Stickers, but I will no longer be able to add new stickers to it
+
+          <b>This action can't be undone!</b>
         actions:
           yes: ⚠ Yes
           back: 🔙 Back to Pack
@@ -72,7 +73,7 @@ menu:
   deleteme:
     body: |
       Do you really want to erase all the data?
-      This action can't be reverted!
+      This action can't be undone!
     actions:
       yes: ⚠ Yes
       no: No
@@ -89,9 +90,11 @@ operation:
       answer: Pack ${title} deleted
     copy:
       reply:
-        error: |
-          <b>Error!</b>
-          Cannot find pack
+        error:
+          pack_not_found: |
+            <b>Error!</b>
+            Cannot find pack
+          unknown: An error occurred while copying pack
     shared:
       reply:
         error:
@@ -105,7 +108,10 @@ operation:
           <b>Sticker successfully added to pack:</b>
           <a href="${link}">${title}</a>
         error:
-          stickerset_invalid: |
+          no_suitable_packs: |
+            <b>No suitable ${isAnimated ? 'animated' : 'static'} packs found</b>
+            Try to create a /new${isAnimated ? 'animated' : 'static'} one
+          pack_invalid: |
             <b>Error!</b>
             Can't add sticker to the pack
             If you deleted it via @Stickers, please delete it with /packs
@@ -113,7 +119,7 @@ operation:
             <b>Error!</b>
             This pack has the maximum number of stickers
             But you can create a /new one!
-          file_type: |
+          invalid_file_type: |
             <b>Error!</b>
             This file type is not supported
           invalid_emojis: |
@@ -126,13 +132,11 @@ operation:
 
 scene:
   shared:
-    leave:
-      reply: Operation canceled
+    reply:
+      cancel: Action canceled
   pack_create:
-    pack_type: |
-      <b>Choose type for the new pack:</b>
-    pack_title: |
-      <b>Send the new pack title:</b>
+    pack_type: <b>Choose type for the new pack:</b>
+    pack_title: <b>Send the new pack title:</b>
     pack_name: |
       <b>Send a short link for the new pack</b>
 
@@ -151,6 +155,7 @@ scene:
         <b>Pack link:</b> <pre>${link}</pre>
 
         You can edit it with the official @Stickers bot
+      cancel: Pack creation canceled
       error:
         title_long: Title can contain ${max} symbols at most
         name_long: Link can contain ${max} symbols at most
@@ -158,25 +163,25 @@ scene:
         name_occupied: This link is already occupied
   pack_copy:
     reply:
-      enter: |
-        I can copy this pack, you need to create a new one
+      enter: I can copy this pack, you need to create a new one
       progress: |
         Copying stickers from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a>
 
         Progress: ${current}/${total}
-      done: |
-        Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
+      done: Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
+      cancel: Pack copy canceled
   sticker_original:
     reply:
-      enter: |
-        Send sticker that was added using me and I will show its original
+      enter: Send sticker that was added using me and I will show its original
+      cancel: Search for original sticker canceled
       error:
-        not_found: |
+        sticker_not_found: |
           <b>Error!</b>
           Couldn't find original sticker
 
 shared:
   reply:
+    cancel: Nothing to cancel
     error:
       ratelimit: |
         Yor'are sending to much request!

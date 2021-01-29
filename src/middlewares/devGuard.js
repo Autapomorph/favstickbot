@@ -1,12 +1,11 @@
-const { drop, passThru } = require('telegraf/composer');
+const { drop, passThru } = require('telegraf').Composer;
 
+const splitUserIdsString = require('../utils/common/splitUserIdsString');
 const { isDev } = require('../utils');
 
 const { DEV_MODE_ALLOW_LIST } = process.env;
 
-const allowedUsers = DEV_MODE_ALLOW_LIST
-  ? DEV_MODE_ALLOW_LIST.split(',').map(Number).filter(Boolean)
-  : [];
+const allowedUsers = splitUserIdsString(DEV_MODE_ALLOW_LIST);
 
 module.exports =
   isDev && allowedUsers.length

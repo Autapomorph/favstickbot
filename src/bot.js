@@ -1,10 +1,9 @@
-const Telegraf = require('telegraf');
-const { compose, drop } = require('telegraf/composer');
+const { Telegraf } = require('telegraf');
+const { compose, drop, chatType } = require('telegraf').Composer;
 const { match } = require('telegraf-i18n');
 
 const {
   devGuard,
-  setBotInfo,
   session,
   getUser,
   setLocale,
@@ -27,13 +26,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 });
 
 // Register bot commands
-commands.register(commandsList);
+commands.register(bot.telegram)(commandsList);
 
 // Disallow channels
-bot.on(['channel_post', 'edited_channel_post'], drop(true));
+bot.use(chatType('channel', drop(true)));
 
 // Register middlewares
-bot.use(compose([devGuard, logUpdate, session, i18n, rateLimit, setBotInfo, getUser, setLocale]));
+bot.use(compose([logUpdate, devGuard, session, i18n, rateLimit, getUser, setLocale]));
 bot.use(...menu);
 bot.use(stage);
 
@@ -42,6 +41,8 @@ bot.start(controllers.start);
 bot.help(controllers.start);
 bot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
 bot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
+bot.command('newstatic', controllers.packs.create.static);
+bot.command('newanimated', controllers.packs.create.animated);
 bot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
 bot.command('copy', controllers.packs.copy.reply);
 bot.command('original', controllers.stickers.original);
