@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
-const Agendash = require('agendash2');
+const Agendash = require('agendash');
 const open = require('open');
 
 const { setupAgenda } = require('./agenda');
