@@ -4,25 +4,35 @@ const express = require('express');
 const Agendash = require('agendash');
 const open = require('open');
 
-const { setupAgenda } = require('./agenda');
+const database = require('./database');
+const { agenda, startAgenda } = require('./agenda');
 const logger = require('./utils/logger');
 
+database.connect(process.env.MONGODB_URI).then(startAgenda);
+
 const app = express();
+app.use('/', Agendash(agenda));
 
-const start = () => {
-  const server = app.listen(process.env.AGENDASH_PORT, async () => {
-    const details = server.address();
-    const address = details.address === '::' ? 'localhost' : details.address;
-    const localAddress = `http://${address}:${details.port}`;
+const server = app.listen(process.env.AGENDASH_PORT);
+server.on('listening', () => {
+  const details = server.address();
+  const address = details.address === '::' ? 'localhost' : details.address;
+  const localAddress = `http://${address}:${details.port}`;
+
+  agenda.on('ready', () => {
     logger.info(`Agendash is running on ${localAddress}`);
-    await open(localAddress);
+    open(localAddress);
   });
-};
+});
 
-const setupAgendash = async agenda => {
-  app.use('/', Agendash(agenda));
-};
+async function shutdown(signal) {
+  logger.info(`Shutting down due to ${signal}`);
+  await agenda.stop();
+  await database.disconnect();
+  process.exit(0);
+}
 
-setupAgenda().then(setupAgendash).then(start);
+process.once('SIGINT', () => shutdown('SIGINT'));
+process.once('SIGTERM', () => shutdown('SIGTERM'));
 
 module.exports = app;

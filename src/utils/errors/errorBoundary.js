@@ -1,5 +1,5 @@
 const { TelegramError } = require('telegraf');
-const MongooseError = require('mongoose').Error;
+const { Error: MongooseError } = require('mongoose');
 
 const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
 const ERROR_SETS = require('./sets');
@@ -7,6 +7,11 @@ const validateError = require('./validateErrorType');
 const logger = require('../logger');
 
 module.exports = async (error, ctx) => {
+  if (error instanceof MongooseError || error.message.includes('ECONNREFUSED')) {
+    logger.error(error);
+    return;
+  }
+
   const {
     state: { user: { id, username, firstName, lastName, settings, selectedPack } = {} } = {},
     scene: { state: sceneState } = {},
@@ -28,10 +33,6 @@ module.exports = async (error, ctx) => {
     sceneState,
     session,
   });
-
-  if (error instanceof MongooseError) {
-    return;
-  }
 
   if (error instanceof TelegramError) {
     if (validateError(ERROR_SETS.DO_NOT_REPLY, error)) {

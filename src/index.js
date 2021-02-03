@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const bot = require('./bot');
 const database = require('./database');
+const { agenda, startAgenda } = require('./agenda');
 const WEBHOOK_OPTIONS = require('./config/webhook');
 const logger = require('./utils/logger');
 const { isProd } = require('./utils');
@@ -14,7 +15,10 @@ if (!isProd) {
   logger.info('Logging initialized at debug level');
 }
 
-database.connect(MONGODB_URI).then(() => launchBot(bot));
+database.connect(MONGODB_URI).then(connection => {
+  launchBot(bot);
+  startAgenda(connection);
+});
 
 async function launchBot(botInstance) {
   if (WEBHOOK_ENABLE === 'true') {
@@ -31,8 +35,9 @@ async function launchBot(botInstance) {
 }
 
 async function shutdown(signal) {
-  logger.info('Shutting down');
+  logger.info(`Shutting down due to ${signal}`);
   bot.stop(signal);
+  await agenda.stop();
   await database.disconnect();
   process.exit(0);
 }
