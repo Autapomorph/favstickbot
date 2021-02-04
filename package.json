@@ -21,8 +21,8 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development npm run watch",
-    "serve": "cross-env NODE_ENV=production node ./src/index.js",
+    "start": "cross-env NODE_ENV=production node ./src/index.js",
+    "dev": "cross-env NODE_ENV=development npm run watch",
     "watch": "nodemon src/index.js -e js,mjs,json,yaml",
     "agendash": "node ./src/agendash.js",
     "migrate": "migrate -s ./src/utils/migrations/store",
