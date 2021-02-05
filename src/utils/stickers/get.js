@@ -1,4 +1,4 @@
-const { defaultEmojis } = require('../../config');
+const { defaultEmojis } = require('../../config/stickers');
 
 const getUploadedStickerFile = async (ctx, packName) => {
   const pack = await ctx.getStickerSet(packName);

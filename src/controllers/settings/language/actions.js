@@ -1,5 +1,5 @@
 const startController = require('../../start');
-const { locales } = require('../../../config');
+const { locales } = require('../../../config/i18n');
 
 const setLanguage = async ctx => {
   const { user } = ctx.state;

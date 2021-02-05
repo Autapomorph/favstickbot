@@ -1,4 +1,4 @@
-const { packLinkPrefix } = require('../../../config');
+const { packLinkPrefix } = require('../../../config/packs');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyError, replyErrorToMessage } = require('../../../utils/errors/reply');
 

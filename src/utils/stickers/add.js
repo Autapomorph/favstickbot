@@ -2,7 +2,7 @@ const createSticker = require('./create');
 const downloadSticker = require('./download');
 const uploadSticker = require('./upload');
 const { normalizeImage } = require('../common/image');
-const { packLinkPrefix } = require('../../config');
+const { packLinkPrefix } = require('../../config/packs');
 
 const addSticker = async (ctx, userFile, pack) => {
   let fileBuffer = await downloadSticker(ctx, userFile.fileId);

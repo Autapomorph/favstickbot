@@ -1,4 +1,4 @@
-const { locales } = require('../../../config');
+const { locales } = require('../../../config/i18n');
 
 const getMenuBody = async () => {
   return Object.values(locales)

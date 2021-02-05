@@ -1,4 +1,4 @@
-const { packNameMaxLength } = require('../../config');
+const { packNameMaxLength } = require('../../config/packs');
 
 const validateNameLength = name => name && name.length > 0 && name.length <= packNameMaxLength;
 

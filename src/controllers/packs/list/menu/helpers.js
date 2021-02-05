@@ -1,6 +1,6 @@
 const Pack = require('../../../../models/Pack');
 const options = require('./options');
-const { packLinkPrefix } = require('../../../../config');
+const { packLinkPrefix } = require('../../../../config/packs');
 const packPostfix = require('../../../../utils/packs/postfix');
 const escapeHTML = require('../../../../utils/common/escapeHTML');
 

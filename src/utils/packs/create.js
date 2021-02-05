@@ -1,6 +1,6 @@
 const path = require('path');
 
-const { placeholderDir, defaultEmojis } = require('../../config');
+const { placeholderDir, defaultEmojis } = require('../../config/stickers');
 
 module.exports = async (ctx, packToCreate) => {
   const placeholderExtenstion = packToCreate.isAnimated ? 'tgs' : 'png';

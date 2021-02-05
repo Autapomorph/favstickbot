@@ -1,7 +1,7 @@
 const getMainKeyboard = require('../../../keyboards/main');
 const getCancelKeyboard = require('../../../keyboards/cancel');
 const getPackTypeKeyboard = require('../../../keyboards/packType');
-const { packNameMaxLength, packLinkPrefix } = require('../../../config');
+const { packNameMaxLength, packLinkPrefix } = require('../../../config/packs');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
 
