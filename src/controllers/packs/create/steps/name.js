@@ -37,4 +37,8 @@ packsCreateNameScene.on('text', async ctx => {
   return ctx.scene.leave();
 });
 
+packsCreateNameScene.on('message', async ctx => {
+  return ctx.scene.reenter();
+});
+
 module.exports = packsCreateNameScene;

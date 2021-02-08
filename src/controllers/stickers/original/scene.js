@@ -23,6 +23,10 @@ stickersOriginalScene.on('sticker', async ctx => {
   return replyOriginal(ctx, sticker.original);
 });
 
+stickersOriginalScene.on('message', async ctx => {
+  return ctx.reply(ctx.i18n.t('scene.sticker_original.reply.help'), { ...getCancelKeyboard(ctx) });
+});
+
 // Drop any updates
 stickersOriginalScene.use(drop(true));
 

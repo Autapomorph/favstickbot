@@ -170,10 +170,12 @@ scene:
         Progress: ${current}/${total}
       done: Pack copying from <a href="${originalLink}">${originalTitle}</a> to <a href="${link}">${title}</a> successfully completed
       cancel: Pack copy canceled
+      help: If you want to abort copying, send /cancel
   sticker_original:
     reply:
       enter: Send sticker that was added using me and I will show its original
       cancel: Search for original sticker canceled
+      help: Please send a sticker or /cancel
       error:
         sticker_not_found: |
           <b>Error!</b>

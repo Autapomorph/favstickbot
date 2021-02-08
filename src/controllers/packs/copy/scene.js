@@ -4,6 +4,7 @@ const { drop } = require('telegraf').Composer;
 const Session = require('../../../models/Session');
 const copyPack = require('./helpers/copyPack');
 const getSessionKey = require('../../../utils/sessions/getKey');
+const getCancelKeyboard = require('../../../keyboards/cancel');
 
 const packsCopyScene = new Scenes.BaseScene('PACKS/COPY');
 
@@ -23,6 +24,10 @@ packsCopyScene.enter(async ctx => {
     'data.__scenes.current': 'PACKS/COPY',
   });
   return copyPack(ctx, packToCopy, user.selectedPack, getIsAborted.bind(null, sessionKey));
+});
+
+packsCopyScene.on('message', async ctx => {
+  return ctx.reply(ctx.i18n.t('scene.pack_copy.reply.help'), { ...getCancelKeyboard(ctx) });
 });
 
 // Drop any updates

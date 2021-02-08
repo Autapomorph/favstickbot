@@ -170,10 +170,12 @@ scene:
         Прогресс: ${current}/${total}
       done: Копирование стикерпака <a href="${originalLink}">${originalTitle}</a> в <a href="${link}">${title}</a> успешно завершено
       cancel: Копирование стикерпака отменено
+      help: Если хочешь оменить копирование, отправь /cancel
   sticker_original:
     reply:
       enter: Отправь стикер, добавленный через меня, и я покажу его оригинал
       cancel: Поиск оригинала стикера отменен
+      help: Отправь стикер или /cancel
       error:
         sticker_not_found: |
           <b>Ошибка!</b>

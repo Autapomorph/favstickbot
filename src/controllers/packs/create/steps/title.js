@@ -30,4 +30,8 @@ packsCreateTitleScene.on('text', async ctx => {
   return ctx.scene.enter('PACKS/CREATE/NAME', state);
 });
 
+packsCreateTitleScene.on('message', async ctx => {
+  return ctx.scene.reenter();
+});
+
 module.exports = packsCreateTitleScene;
