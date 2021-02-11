@@ -1,5 +1,5 @@
-const { Telegraf } = require('telegraf');
-const { compose, drop, chatType } = require('telegraf').Composer;
+const { Telegraf, Composer } = require('telegraf');
+const { compose, drop, chatType, acl } = require('telegraf').Composer;
 const { match } = require('telegraf-i18n');
 
 const {
@@ -16,6 +16,7 @@ const {
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
 const commandsList = require('./config/commands');
+const { adminList } = require('./config/userLists');
 const commands = require('./utils/bot/commands');
 const errorBoundary = require('./utils/errors/errorBoundary');
 
@@ -24,6 +25,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
     webhookReply: false,
   },
 });
+
+const adminBot = new Composer();
+const userBot = new Composer();
 
 // Register bot commands
 commands.register(bot.telegram)(commandsList);
@@ -37,26 +41,29 @@ bot.use(...menu);
 bot.use(stage);
 
 // Handle commands
-bot.start(controllers.start);
-bot.help(controllers.start);
-bot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
-bot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
-bot.command('newstatic', controllers.packs.create.static);
-bot.command('newanimated', controllers.packs.create.animated);
-bot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
-bot.command('copy', controllers.packs.copy.reply);
-bot.command('original', controllers.stickers.original);
-bot.command('deleteme', controllers.deleteme);
+userBot.start(controllers.start);
+userBot.help(controllers.start);
+userBot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
+userBot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
+userBot.command('newstatic', controllers.packs.create.static);
+userBot.command('newanimated', controllers.packs.create.animated);
+userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
+userBot.command('copy', controllers.packs.copy.reply);
+userBot.command('original', controllers.stickers.original);
+userBot.command('deleteme', controllers.deleteme);
 
 // Handle messages with sticker/document/photo
-bot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
+userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
 
 // Handle messages with a pack URL
-bot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
+userBot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
 
 // Handle unknown commands/messages
-bot.hears(/\/.+/g, controllers.unknown);
-bot.on('message', controllers.start);
+userBot.hears(/\/.+/g, controllers.unknown);
+userBot.on('message', controllers.start);
+
+bot.use(acl(adminList, adminBot));
+bot.use(userBot);
 
 // Register error handler
 bot.catch(errorBoundary);
