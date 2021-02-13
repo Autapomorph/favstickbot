@@ -35,12 +35,14 @@ async function launchBot(botInstance) {
 }
 
 async function shutdown(signal) {
-  logger.info(`Shutting down due to ${signal}`);
+  logger.info(`Shutting down${signal ? ` (${signal})` : ''}`);
   bot.stop(signal);
   await agenda.stop();
   await database.disconnect();
   process.exit(0);
 }
 
-process.once('SIGINT', () => shutdown('SIGINT'));
-process.once('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGHUP', shutdown);
+process.on('SIGINT', shutdown);
+process.on('SIGQUIT', shutdown);
+process.on('SIGTERM', shutdown);
