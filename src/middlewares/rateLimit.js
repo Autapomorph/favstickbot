@@ -25,12 +25,8 @@ module.exports = telegrafThrottler({
     reservoirRefreshAmount: 20,
     reservoirRefreshInterval: 60 * 1000,
   },
-  onThrottlerError: async (ctx, next, throttlerName, error) => {
-    logger.warn(`${throttlerName} | ${error.message}`);
-
-    // Reply only for incoming requests
-    if (/inbound/i.test(throttlerName)) {
-      return replyError(ctx, ERROR_TYPES.APP.RATELIMIT);
-    }
+  inThrottlerError: async (ctx, next, error) => {
+    logger.warn(error.message);
+    return replyError(ctx, ERROR_TYPES.APP.RATELIMIT);
   },
 });
