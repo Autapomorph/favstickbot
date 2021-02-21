@@ -10,11 +10,7 @@ const replyErrorFileType = async ctx => {
 module.exports = async (ctx, next) => {
   const { sticker, photo, document } = ctx.message;
 
-  if (!sticker && !photo && !document) {
-    return replyErrorFileType(ctx);
-  }
-
-  if (document && !validMimeTypes.includes(document.mime_type)) {
+  if (!sticker && !photo && !validMimeTypes.includes(document?.mime_type)) {
     return replyErrorFileType(ctx);
   }
 

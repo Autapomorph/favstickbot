@@ -5,5 +5,5 @@ const { isDev } = require('../utils');
 
 module.exports =
   isDev && devModeAllowedList.length
-    ? drop(ctx => !ctx.from || !devModeAllowedList.includes(ctx.from.id))
+    ? drop(ctx => !devModeAllowedList.includes(ctx.from?.id))
     : passThru();

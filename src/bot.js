@@ -1,5 +1,4 @@
 const { Telegraf, Composer } = require('telegraf');
-const { compose, drop, chatType, acl } = require('telegraf').Composer;
 const { match } = require('telegraf-i18n');
 
 const {
@@ -8,6 +7,7 @@ const {
   getUser,
   setLocale,
   validateDocument,
+  dropChannel,
   i18n,
   rateLimit,
   menu,
@@ -33,10 +33,10 @@ const userBot = new Composer();
 commands.register(bot.telegram)(commandsList);
 
 // Disallow channels
-bot.use(chatType('channel', drop(true)));
+bot.use(dropChannel);
 
 // Register middlewares
-bot.use(compose([logUpdate, devGuard, session, i18n, rateLimit, getUser, setLocale]));
+bot.use(Composer.compose([logUpdate, devGuard, session, i18n, rateLimit, getUser, setLocale]));
 bot.use(...menu);
 bot.use(stage);
 
@@ -62,7 +62,7 @@ userBot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy)
 userBot.hears(/\/.+/g, controllers.unknown);
 userBot.on('message', controllers.start);
 
-bot.use(acl(adminList, adminBot));
+bot.use(Composer.acl(adminList, adminBot));
 bot.use(userBot);
 
 // Register error handler

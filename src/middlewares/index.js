@@ -5,6 +5,7 @@ const getUser = require('./getUser');
 const setLocale = require('./setLocale');
 const hasPackLink = require('./hasPackLink');
 const validateDocument = require('./validateDocument');
+const dropChannel = require('./dropChannel');
 const rateLimit = require('./rateLimit');
 const i18n = require('./i18n');
 const menu = require('./menu');
@@ -17,6 +18,7 @@ module.exports = {
   setLocale,
   hasPackLink,
   validateDocument,
+  dropChannel,
   rateLimit,
   i18n,
   menu,

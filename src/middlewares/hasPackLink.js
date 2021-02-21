@@ -12,7 +12,7 @@ const getPackNameFromURL = url => {
 module.exports = async (ctx, next) => {
   const { entities } = ctx.message;
 
-  if (!entities || !entities.length) {
+  if (!entities?.length) {
     return;
   }
 
