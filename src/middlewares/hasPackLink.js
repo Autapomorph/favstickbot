@@ -6,7 +6,7 @@ const isPackLink = entity => packLinkRegex.test(entity.url);
 
 const getPackNameFromURL = url => {
   const reExecRes = packLinkRegex.exec(url);
-  return reExecRes && reExecRes.groups.packName;
+  return reExecRes?.groups.packName;
 };
 
 module.exports = async (ctx, next) => {

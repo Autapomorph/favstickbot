@@ -51,7 +51,7 @@ const logger = winston.createLogger({
       silent: !isProd,
       sentry: {
         dsn: process.env.SENTRY_DSN,
-        release: `${npmPackageName || name}@${npmPackageVersion || version}`,
+        release: `${npmPackageName ?? name}@${npmPackageVersion ?? version}`,
         normalizeDepth: 10,
         beforeBreadcrumb: breadcrumb =>
           breadcrumb.category === 'http' || breadcrumb.type === 'http' ? null : breadcrumb,

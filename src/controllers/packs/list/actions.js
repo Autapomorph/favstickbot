@@ -1,5 +1,4 @@
 const Pack = require('../../../models/Pack');
-const getSelectedPackId = require('../../../utils/packs/getSelectedPackId');
 const { validateOwner } = require('../../../utils/packs/validate');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 const ERROR_TYPES = require('../../../utils/errors/types');
@@ -30,7 +29,6 @@ const selectPack = async (ctx, packId) => {
 const archivePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
-  const selectedPackId = getSelectedPackId(user);
 
   if (!validateOwner(packToModify.userId, user.id)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
@@ -40,7 +38,7 @@ const archivePack = async (ctx, packId) => {
   await packToModify.save();
 
   // If pack is selected
-  if (String(packToModify.id) === String(selectedPackId)) {
+  if (String(packToModify.id) === String(user.selectedPack?.id)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
     user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
@@ -89,7 +87,6 @@ const restorePack = async (ctx, packId) => {
 const deletePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
-  const selectedPackId = getSelectedPackId(user);
 
   if (!validateOwner(packToDelete.userId, user.id)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
@@ -98,7 +95,7 @@ const deletePack = async (ctx, packId) => {
   await packToDelete.deleteOne();
 
   // If pack is selected
-  if (String(packToDelete.id) === String(selectedPackId)) {
+  if (String(packToDelete.id) === String(user.selectedPack?.id)) {
     // Get first visible pack and make it selected (if exists, null otherwise)
     user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 

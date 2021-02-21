@@ -33,7 +33,7 @@ const getChoiceText = (user, { _id: id, title, isAnimated, isArchived }) => {
   let text = title;
   text = isAnimated ? `${title} (Anim)` : text;
   text = isArchived ? `🗃 ${text}` : text;
-  text = user.selectedPack && user.selectedPack.id === id ? `☑️ ${text}` : text;
+  text = user.selectedPack?.id === id ? `☑️ ${text}` : text;
   return text;
 };
 

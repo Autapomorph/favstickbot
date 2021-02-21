@@ -6,7 +6,7 @@ const entityMap = {
   '"': '&quot;',
 };
 
-const replaceFn = tag => entityMap[tag] || tag;
+const replaceFn = tag => entityMap[tag] ?? tag;
 
 const escapeHTML = str => String(str).replace(/[&<>'"]/g, replaceFn);
 

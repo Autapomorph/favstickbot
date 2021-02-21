@@ -31,7 +31,7 @@ module.exports = async ctx => {
     return replyErrorNotFound(ctx);
   }
 
-  if (!packToCopy.stickers || !packToCopy.stickers.length) {
+  if (!packToCopy.stickers?.length) {
     return replyErrorNotFound(ctx);
   }
 

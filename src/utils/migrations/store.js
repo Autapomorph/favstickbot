@@ -8,7 +8,7 @@ class MigrationStore {
   async load(migrationCallback) {
     const actionCallback = async collection => {
       const store = await collection.findOne();
-      return store || {};
+      return store ?? {};
     };
 
     return this.doAction(migrationCallback, actionCallback);
