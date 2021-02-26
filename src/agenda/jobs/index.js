@@ -3,4 +3,5 @@ module.exports = [
   require('./packsDeleteOutdated'),
   require('./packsDeleteEmpty'),
   require('./packsDeleteNonExistent'),
+  require('./usersDeleteZeroPacks'),
 ];
