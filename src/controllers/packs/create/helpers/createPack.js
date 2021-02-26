@@ -42,7 +42,7 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
 
     logger.error(error);
 
-    if (!validateError(ERROR_SETS.DO_NOT_REPLY)) {
+    if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       await replyErrorTelegram(ctx, error, {
         ...getMainKeyboard(ctx),
         reply_to_message_id: ctx.message.message_id,
