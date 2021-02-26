@@ -29,7 +29,7 @@ module.exports = agenda => {
 
     const packsToDeleteIds = (await Promise.all(requests)).filter(Boolean);
 
-    logger.info('Job "%s": deleting %d empty packs', jobName, packsToDeleteIds.length);
+    logger.info('Job "%s": deleting %d non existent packs', jobName, packsToDeleteIds.length);
 
     const result = await Pack.deleteMany({ _id: { $in: packsToDeleteIds } });
     logger.info('Job "%s": %d packs deleted', jobName, result.deletedCount);
