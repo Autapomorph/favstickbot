@@ -52,8 +52,8 @@
     "winston-transport-sentry-node": "^1.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.0.0",
-    "@commitlint/config-conventional": "^12.0.0",
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "14.2.1",
