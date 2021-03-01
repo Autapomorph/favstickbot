@@ -27,7 +27,7 @@
     "lint": "eslint .",
     "lint:staged": "lint-staged --relative",
     "cm": "cz",
-    "postinstall": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks"
+    "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks"
   },
   "dependencies": {
     "agenda": "^4.1.0",
