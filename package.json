@@ -30,7 +30,7 @@
     "postinstall": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks"
   },
   "dependencies": {
-    "agenda": "^4.0.1",
+    "agenda": "^4.1.0",
     "agendash": "^2.0.0",
     "bottleneck": "^2.19.5",
     "cross-env": "^7.0.3",
