@@ -1,6 +1,6 @@
 const { MenuTemplate } = require('telegraf-inline-menu');
 
-const deleteConfirmMenu = require('./deleteConfirm/index.js');
+const deleteConfirmMenu = require('./deleteConfirm');
 const Pack = require('../../../../../models/Pack');
 const actions = require('../../actions');
 const { getMenuBody } = require('./helpers');
