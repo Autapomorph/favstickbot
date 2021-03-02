@@ -5,7 +5,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/bot/(.*)", "destination": "/api/index" },
+    { "source": "/bots/(.*)", "destination": "/api/index" },
     { "source": "/(.*)", "destination": "/404" }
   ]
 }
