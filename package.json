@@ -27,7 +27,7 @@
     "lint": "eslint .",
     "lint:staged": "lint-staged --relative",
     "cm": "cz",
-    "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks"
+    "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
   },
   "dependencies": {
     "agenda": "^4.1.0",
@@ -37,12 +37,15 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "human-interval": "^2.0.1",
+    "is-ci": "^2.0.0",
+    "is-docker": "^2.1.1",
     "migrate": "^1.7.0",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.18",
     "node-fetch": "^2.6.1",
     "open": "^8.0.1",
     "sharp": "^0.27.2",
+    "shx": "^0.3.3",
     "telegraf": "^4.1.2",
     "telegraf-i18n": "^6.6.0",
     "telegraf-inline-menu": "^6.2.0",
@@ -64,8 +67,7 @@
     "ignore": "^5.1.8",
     "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
-    "shx": "^0.3.3"
+    "prettier": "^2.2.1"
   },
   "config": {
     "commitizen": {
