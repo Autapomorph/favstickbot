@@ -14,7 +14,8 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), '
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
     if (!user.selectedPack) return false;
-    return user.selectedPack.id === packId || pack?.isArchived === true;
+    return user.selectedPack.id === packId || !pack || pack.isArchived === true;
+    // return user.selectedPack.id === packId || pack?.isArchived === true;
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
@@ -27,7 +28,8 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.archive'), 
   hide: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
-    return pack?.isArchived === true;
+    return !pack || pack.isArchived === true;
+    // return pack?.isArchived === true;
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
@@ -40,7 +42,8 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.restore'), 
   hide: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
     const pack = await Pack.findById(packId);
-    return pack?.isArchived === false;
+    return !pack || pack.isArchived === false;
+    // return pack?.isArchived === false;
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
