@@ -14,7 +14,7 @@ const stage = new Scenes.Stage([
 
 stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
   if (!ctx.scene.current) {
-    return ctx.reply(ctx.i18n.t('shared.reply.cancel'), {
+    return ctx.reply(ctx.i18n.t('shared.reply.operation.cancel'), {
       ...getMainKeyboard(ctx),
       reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
@@ -39,7 +39,7 @@ stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
       break;
 
     default:
-      text = ctx.i18n.t('scene.shared.reply.cancel');
+      text = ctx.i18n.t('scene.shared.reply.operation.cancel');
   }
 
   await ctx.reply(text, {

@@ -114,7 +114,7 @@ operation:
           pack_invalid: |
             <b>Error!</b>
             Can't add sticker to the pack
-            If you deleted it via @Stickers, please delete it with /packs
+            If you deleted it via @Stickers, please delete it here with /packs
           stickers_too_much: |
             <b>Error!</b>
             This pack has the maximum number of stickers
@@ -183,7 +183,8 @@ scene:
 
 shared:
   reply:
-    cancel: Nothing to cancel
+    operation:
+      cancel: Nothing to cancel
     error:
       ratelimit: |
         Yor'are sending to much request!
