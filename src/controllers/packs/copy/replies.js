@@ -14,7 +14,7 @@ const replyErrorNotFound = async ctx => {
 };
 
 const replyErrorUnknown = async (ctx, extra) => {
-  return replyError(ctx, ERROR_TYPES.APP.PACKS.COPY.UNKNOWN, extra);
+  return replyError(ctx, ERROR_TYPES.APP.PACKS.COPY.UNKNOWN, null, extra);
 };
 
 const replyProgress = async (ctx, packToCopy, newPack) => {

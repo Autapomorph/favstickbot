@@ -3,7 +3,7 @@ const getCancelKeyboard = require('../../../keyboards/cancel');
 const getPackTypeKeyboard = require('../../../keyboards/packType');
 const { packNameMaxLength, packLinkPrefix } = require('../../../config/packs');
 const ERROR_TYPES = require('../../../utils/errors/types');
-const { replyErrorToMessage, replyErrorWithResource } = require('../../../utils/errors/reply');
+const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
 const replyPackType = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_type'), {
@@ -47,17 +47,9 @@ const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) =
 };
 
 const replyErrorTooLong = async (ctx, tKey) => {
-  return replyErrorWithResource(
-    ctx,
-    tKey,
-    {
-      max: packNameMaxLength,
-    },
-    {
-      reply_to_message_id: ctx.message.message_id,
-      allow_sending_without_reply: true,
-    },
-  );
+  return replyErrorToMessage(ctx, tKey, {
+    max: packNameMaxLength,
+  });
 };
 
 const replyErrorPackType = async ctx => {

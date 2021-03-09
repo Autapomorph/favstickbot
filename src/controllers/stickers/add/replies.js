@@ -1,8 +1,4 @@
-const {
-  replyErrorToMessage,
-  replyErrorWithResource,
-  replyErrorTelegram,
-} = require('../../../utils/errors/reply');
+const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const ERROR_SETS = require('../../../utils/errors/sets');
 const validateError = require('../../../utils/errors/validateErrorType');
@@ -21,7 +17,7 @@ const replySuccess = (ctx, { title, link }) => {
 };
 
 const replyErrorNoSuitablePacks = (ctx, isAnimated) => {
-  return replyErrorWithResource(ctx, ERROR_TYPES.APP.STICKERS.ADD.NO_SUITABLE_PACKS, {
+  return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.NO_SUITABLE_PACKS, {
     isAnimated,
   });
 };
