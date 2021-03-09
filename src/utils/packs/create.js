@@ -7,14 +7,8 @@ module.exports = async (ctx, packToCreate) => {
   const placeholderProp = `${placeholderExtenstion}_sticker`;
   const placeholderPath = path.resolve(placeholderDir, `placeholder.${placeholderExtenstion}`);
 
-  await ctx.createNewStickerSet(packToCreate.name, packToCreate.title, {
+  return ctx.createNewStickerSet(packToCreate.name, packToCreate.title, {
     [placeholderProp]: { source: placeholderPath },
     emojis: defaultEmojis,
   });
-
-  const createdPack = await ctx.getStickerSet(packToCreate.name);
-  const stickerToDelete = createdPack.stickers.slice(-1)[0];
-  if (stickerToDelete) {
-    return ctx.deleteStickerFromSet(stickerToDelete.file_id);
-  }
 };

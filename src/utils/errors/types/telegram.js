@@ -12,9 +12,11 @@ const ERROR_TYPES = {
   // Bad Request: STICKERSET_INVALID
   STICKERSET_INVALID: /stickerset.*invalid/i,
   // Bad Request: invalid sticker set name is specified
-  STICKERSET_INVALID_NAME: /invalid.*name/i,
+  STICKERSET_INVALID_NAME: /invalid.*sticker.*set.*name/i,
   // Bad Request: sticker set name is already occupied
-  STICKERSET_NAME_OCCUPIED: /name.*occupied/i,
+  STICKERSET_NAME_OCCUPIED: /sticker.*set.*name.*occupied/i,
+  // Internal Server Error: created sticker set not found
+  CREATED_STICKERSET_NOT_FOUND: /created.*sticker.*set.*not.*found/i,
   // Bad Request: STICKERS_TOO_MUCH or Bad Request: STICKERPACK_STICKERS_TOO_MUCH
   STICKERS_TOO_MUCH: /stickers.*too.*much/i,
   // Bad Request: invalid sticker emojis
