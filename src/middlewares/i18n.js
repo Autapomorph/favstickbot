@@ -1,4 +1,4 @@
-const I18n = require('telegraf-i18n');
+const { I18n } = require('@edjopato/telegraf-i18n');
 
 const { resourcesPath, defaultLocale } = require('../config/i18n');
 

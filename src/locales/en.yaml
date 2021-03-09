@@ -130,6 +130,17 @@ operation:
   deleteme:
     reply:
       ok: All the data associated with you has been eliminated
+  user:
+    ban:
+      reply:
+        ok: ${pluralize(bannedCount, 'user', 'users')} banned
+        error:
+          forbid_yourself: You can't ban yourself
+    unban:
+      reply:
+        ok: ${pluralize(unbannedCount, 'user', 'users')} unbanned
+        error:
+          forbid_yourself: You can't unban yourself
 
 scene:
   shared:

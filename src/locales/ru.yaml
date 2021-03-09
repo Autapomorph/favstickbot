@@ -130,6 +130,17 @@ operation:
   deleteme:
     reply:
       ok: Все связанные с тобой данные были удалены
+  user:
+    ban:
+      reply:
+        ok: ${pluralize(bannedCount, 'пользователь забанен', 'пользователя забанено', 'пользователей забанено')}
+        error:
+          forbid_yourself: Нельзя забанить самого себя
+    unban:
+      reply:
+        ok: ${pluralize(unbannedCount, 'пользователь разбанен', 'пользователя разбанено', 'пользователей разбанено')}
+        error:
+          forbid_yourself: Нельзя разбанить самого себя
 
 scene:
   shared:

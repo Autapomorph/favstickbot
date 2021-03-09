@@ -25,6 +25,7 @@ const UserSchema = mongoose.Schema(
         default: false,
       },
     },
+    ban: Boolean,
   },
   {
     timestamps: true,

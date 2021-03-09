@@ -1,5 +1,5 @@
 const { Scenes } = require('telegraf');
-const { match } = require('telegraf-i18n');
+const { match } = require('@edjopato/telegraf-i18n');
 
 const packCreateScenes = require('./packs/create/scene');
 const packCopyScene = require('./packs/copy/scene');

@@ -1,12 +1,14 @@
 const { Telegraf, Composer } = require('telegraf');
-const { match } = require('telegraf-i18n');
+const { match } = require('@edjopato/telegraf-i18n');
 
 const {
+  banGuard,
   devGuard,
   session,
   getUser,
   setLocale,
   validateDocument,
+  getCommandParts,
   dropChannel,
   i18n,
   rateLimit,
@@ -36,11 +38,17 @@ commands.register(bot.telegram)(commandsList);
 bot.use(dropChannel);
 
 // Register middlewares
-bot.use(Composer.compose([logUpdate, devGuard, session, i18n, rateLimit, getUser, setLocale]));
+bot.use(
+  Composer.compose([logUpdate, banGuard, devGuard, session, i18n, rateLimit, getUser, setLocale]),
+);
 bot.use(...menu);
 bot.use(stage);
 
-// Handle commands
+// Admin route
+adminBot.command('ban', getCommandParts, controllers.admin.users.ban);
+adminBot.command('unban', getCommandParts, controllers.admin.users.unban);
+
+// User route
 userBot.start(controllers.start);
 userBot.help(controllers.start);
 userBot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
@@ -51,14 +59,8 @@ userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settin
 userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
 userBot.command('deleteme', controllers.deleteme);
-
-// Handle messages with sticker/document/photo
 userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
-
-// Handle messages with a pack URL
 userBot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
-
-// Handle unknown commands/messages
 userBot.hears(/\/.+/g, controllers.unknown);
 userBot.on('message', controllers.start);
 

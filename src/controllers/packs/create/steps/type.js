@@ -1,5 +1,5 @@
 const { Scenes } = require('telegraf');
-const { match } = require('telegraf-i18n');
+const { match } = require('@edjopato/telegraf-i18n');
 
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
 const { validatePackType } = require('../helpers/validators');

@@ -1,4 +1,4 @@
-const { match } = require('telegraf-i18n');
+const { match } = require('@edjopato/telegraf-i18n');
 
 const replies = require('../replies');
 const { validateNameLength, validateNameSymbols } = require('../../../../utils/packs/validate');
