@@ -50,7 +50,7 @@
     "telegraf-i18n": "^6.6.0",
     "telegraf-inline-menu": "^6.2.0",
     "telegraf-throttler": "^0.5.1",
-    "telegraf-update-logger": "^1.4.0",
+    "telegraf-update-logger": "^1.5.0",
     "winston": "^3.3.3",
     "winston-transport-sentry-node": "^1.0.2"
   },
