@@ -2,7 +2,14 @@ require('dotenv').config();
 
 const express = require('express');
 const Agendash = require('agendash');
+const minimist = require('minimist');
 const open = require('open');
+
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    open: 'o',
+  },
+});
 
 const database = require('./database');
 const { agenda, startAgenda } = require('./agenda');
@@ -21,7 +28,9 @@ server.on('listening', () => {
 
   agenda.on('ready', () => {
     logger.info(`Agendash is running on ${localAddress}`);
-    open(localAddress);
+    if (argv.open) {
+      open(localAddress);
+    }
   });
 });
 
