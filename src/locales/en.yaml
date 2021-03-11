@@ -24,8 +24,6 @@ cmd:
 
       Get a full copy of any pack!
       Just send me a link to it)
-  deleteme:
-    reply: All the data associated with you has been eliminated
   unknown:
     reply: |
       I am not familiar with this command
@@ -129,6 +127,9 @@ operation:
     language:
       select:
         answer: Bot will use ${lang} language
+  deleteme:
+    reply:
+      ok: All the data associated with you has been eliminated
 
 scene:
   shared:
