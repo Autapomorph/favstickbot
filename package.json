@@ -43,7 +43,7 @@
     "migrate": "^1.7.0",
     "minimist": "^1.2.5",
     "mongodb": "^3.6.4",
-    "mongoose": "^5.11.19",
+    "mongoose": "^5.12.0",
     "node-fetch": "^2.6.1",
     "open": "^8.0.2",
     "sharp": "^0.27.2",
