@@ -26,6 +26,7 @@ const UserSchema = mongoose.Schema(
       },
     },
     ban: Boolean,
+    left: Boolean,
   },
   {
     timestamps: true,
@@ -58,7 +59,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       username: tgUser.username,
       $setOnInsert: { 'settings.locale': tgUser.language_code || defaultLocale.code },
     },
-    { upsert: true, setDefaultsOnInsert: true, rawResult: true },
+    { upsert: true, setDefaultsOnInsert: true, omitUndefined: true, rawResult: true },
   );
 
   const { upserted: upsertedId } = userResult.lastErrorObject;

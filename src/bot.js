@@ -60,9 +60,10 @@ userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
 userBot.command('deleteme', controllers.deleteme);
 userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
-userBot.use(Telegraf.url(/addstickers\/(?<packName>.+)/, controllers.packs.copy));
-userBot.hears(/\/.+/g, controllers.unknown);
+userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
+userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);
 userBot.on('message', controllers.start);
+userBot.on('my_chat_member', controllers.botStatusChange);
 
 bot.use(Composer.acl(adminList, adminBot));
 bot.use(userBot);
