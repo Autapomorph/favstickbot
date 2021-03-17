@@ -42,7 +42,7 @@
     "is-docker": "^2.1.1",
     "migrate": "^1.7.0",
     "minimist": "^1.2.5",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.5",
     "mongoose": "^5.12.0",
     "node-fetch": "^2.6.1",
     "open": "^8.0.2",
