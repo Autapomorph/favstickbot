@@ -11,8 +11,7 @@ const packsCopyScene = new Scenes.BaseScene('PACKS/COPY');
 const getIsAborted = async sessionKey => {
   const session = await Session.findById(sessionKey);
   /* eslint-disable no-underscore-dangle */
-  if (!session || !session.data || !session.data.__scenes) return true;
-  // if (!session?.data?.__scenes) return true;
+  if (!session?.data?.__scenes) return true;
   return session.data.__scenes.current !== 'PACKS/COPY';
   /* eslint-enable no-underscore-dangle */
 };
