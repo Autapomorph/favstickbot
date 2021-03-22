@@ -32,7 +32,7 @@
   "dependencies": {
     "@edjopato/telegraf-i18n": "^0.2.1",
     "agenda": "^4.1.0",
-    "agendash": "^2.0.0",
+    "agendash": "^2.1.1",
     "bottleneck": "^2.19.5",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
