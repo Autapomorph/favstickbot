@@ -58,7 +58,7 @@ userBot.command('newanimated', controllers.packs.create.animated);
 userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
 userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
-userBot.command('deleteme', controllers.deleteme);
+userBot.command('deleteme', controllers.deleteMe);
 userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
 userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);

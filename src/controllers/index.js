@@ -3,7 +3,7 @@ const admin = require('./admin');
 const packs = require('./packs');
 const stickers = require('./stickers');
 const settings = require('./settings');
-const deleteme = require('./deleteme');
+const deleteMe = require('./deleteMe');
 const botStatusChange = require('./botStatusChange');
 const unknown = require('./unknown');
 
@@ -13,7 +13,7 @@ module.exports = {
   packs,
   stickers,
   settings,
-  deleteme,
+  deleteMe,
   botStatusChange,
   unknown,
 };

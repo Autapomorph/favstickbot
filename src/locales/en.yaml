@@ -68,7 +68,7 @@ menu:
     language:
       actions:
         back: 🔙 Back to Settings
-  deleteme:
+  delete_me:
     body: |
       Do you really want to erase all the data?
       This action can't be undone!
@@ -127,9 +127,6 @@ operation:
     language:
       select:
         answer: Bot will use ${lang} language
-  deleteme:
-    reply:
-      ok: All the data associated with you has been eliminated
   user:
     ban:
       reply:
@@ -141,6 +138,9 @@ operation:
         ok: ${pluralize(unbannedCount, 'user', 'users')} unbanned
         error:
           forbid_yourself: You can't unban yourself
+    delete_me:
+      reply:
+        ok: All the data associated with you has been eliminated
 
 scene:
   shared:

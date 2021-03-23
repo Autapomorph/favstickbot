@@ -6,7 +6,9 @@ const eraseUserData = async ctx => {
   const { user } = ctx.state;
   await user.deleteOne();
   ctx.session = undefined;
-  await ctx.replyWithHTML(ctx.i18n.t('operation.deleteme.reply.ok'), { ...getMainKeyboard(ctx) });
+  await ctx.replyWithHTML(ctx.i18n.t('operation.user.delete_me.reply.ok'), {
+    ...getMainKeyboard(ctx),
+  });
   await deleteMenuFromContext(ctx);
 };
 
