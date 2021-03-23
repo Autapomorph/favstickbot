@@ -41,7 +41,7 @@ StickerSchema.pre('save', function pre() {
 
 StickerSchema.post('save', function post() {
   if (this.wasJustCreated) {
-    logger.debug('New sticker has been created: %s', this.id);
+    logger.debug('New sticker created: %s', this.id);
   }
 });
 

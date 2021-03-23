@@ -47,7 +47,7 @@ UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
 UserSchema.pre('deleteOne', { document: true }, async function pre() {
   await Pack.deleteMany({ userId: this.id });
   await Session.deleteOne({ _id: this.id });
-  logger.debug('User data has been deleted: %s', this.id);
+  logger.debug('User data deleted: %s', this.id);
 });
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
@@ -64,7 +64,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
 
   const { upserted: upsertedId } = userResult.lastErrorObject;
   if (upsertedId) {
-    logger.debug('New user has been created: %s', upsertedId);
+    logger.debug('New user created: %s', upsertedId);
   }
 
   return userResult.value;

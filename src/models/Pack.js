@@ -50,7 +50,7 @@ PackSchema.pre('save', async function pre() {
 
 PackSchema.post('save', function post() {
   if (this.wasJustCreated) {
-    logger.debug('New pack has been created: %s', this.id);
+    logger.debug('New pack created: %s', this.id);
   }
 });
 

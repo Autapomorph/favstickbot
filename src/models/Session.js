@@ -28,7 +28,7 @@ SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) 
 
   const { upserted: upsertedId } = sessionResult.lastErrorObject;
   if (upsertedId) {
-    logger.debug('New session has been created: %s', upsertedId);
+    logger.debug('New session created: %s', upsertedId);
   }
 
   return sessionResult.value;
