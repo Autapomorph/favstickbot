@@ -141,6 +141,20 @@ operation:
     delete_me:
       reply:
         ok: All the data associated with you has been eliminated
+  stats:
+    reply:
+      ok:
+        since: |
+          Stats since <b>${date}</b>:
+        total: |
+          Stats <b>total</b>:
+      error:
+        fetch_failed: unable to fetch data
+      helpers:
+        users: 'Users:'
+        packs: 'Packs:'
+        stickers: 'Stickers:'
+        sessions: 'Active sessions:'
 
 scene:
   shared:

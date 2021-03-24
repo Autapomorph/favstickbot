@@ -39,14 +39,25 @@ bot.use(dropChannel);
 
 // Register middlewares
 bot.use(
-  Composer.compose([logUpdate, banGuard, devGuard, session, i18n, rateLimit, getUser, setLocale]),
+  Composer.compose([
+    logUpdate,
+    banGuard,
+    devGuard,
+    session,
+    i18n,
+    rateLimit,
+    getCommandParts,
+    getUser,
+    setLocale,
+  ]),
 );
 bot.use(...menu);
 bot.use(stage);
 
 // Admin route
-adminBot.command('ban', getCommandParts, controllers.admin.users.ban);
-adminBot.command('unban', getCommandParts, controllers.admin.users.unban);
+adminBot.command('ban', controllers.admin.users.ban);
+adminBot.command('unban', controllers.admin.users.unban);
+adminBot.command('stats', controllers.admin.stats);
 
 // User route
 userBot.start(controllers.start);
