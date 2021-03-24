@@ -48,7 +48,7 @@ module.exports = async ctx => {
     ? `${resourceKeyReply}.ok.since`
     : `${resourceKeyReply}.ok.total`;
   let replyText = ctx.i18n.t(sinceResourceKey, {
-    date: thresholdDate.toLocaleDateString(),
+    date: thresholdDate.toLocaleDateString(ctx.i18n.locale()),
   });
 
   replyText += resultMap.reduce((acc, cv) => {
