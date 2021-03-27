@@ -9,15 +9,19 @@ module.exports = async ctx => {
   const resourceKeyReply = 'operation.stats.reply';
   const { commandParts } = ctx.state;
   const thresholdArgs = commandParts.args?.trim();
+  const hiParsed = Math.abs(hi(thresholdArgs));
 
-  let thresholdMs = hi(thresholdArgs);
-  if (!Number.isInteger(thresholdMs) || thresholdMs < 0) {
-    thresholdMs = undefined;
+  let thresholdDate;
+  let thresholdDateLocalized;
+  if (Number.isInteger(hiParsed)) {
+    thresholdDate = new Date(Date.now() - hiParsed);
+    thresholdDate = new Date(
+      Date.UTC(thresholdDate.getFullYear(), thresholdDate.getMonth(), thresholdDate.getDate()),
+    );
+    thresholdDateLocalized = thresholdDate?.toLocaleDateString(ctx.i18n.locale());
   }
 
-  const thresholdDate = new Date(new Date(Date.now() - thresholdMs).setUTCHours(0, 0, 0, 0));
-  const thresholdDateFilter = thresholdMs && { createdAt: { $gt: thresholdDate } };
-
+  const thresholdDateFilter = thresholdDate && { createdAt: { $gt: thresholdDate } };
   const [usersResult, packsResult, stickersResult, sessionsResult] = await Promise.allSettled([
     User.countDocuments(thresholdDateFilter),
     Pack.countDocuments(thresholdDateFilter),
@@ -44,11 +48,11 @@ module.exports = async ctx => {
     },
   ];
 
-  const sinceResourceKey = thresholdDateFilter
+  const sinceResourceKey = thresholdDate
     ? `${resourceKeyReply}.ok.since`
     : `${resourceKeyReply}.ok.total`;
   let replyText = ctx.i18n.t(sinceResourceKey, {
-    date: thresholdDate.toLocaleDateString(ctx.i18n.locale()),
+    date: thresholdDateLocalized,
   });
 
   replyText += resultMap.reduce((acc, cv) => {
