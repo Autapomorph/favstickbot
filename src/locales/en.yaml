@@ -145,16 +145,13 @@ operation:
     reply:
       ok:
         since: |
-          Stats since <b>${date}</b>:
-        total: |
-          Stats <b>total</b>:
-      error:
-        fetch_failed: unable to fetch data
-      helpers:
+          Stats ${date ? 'since <b>' + date + '</b>' : '<b>total</b>'}:
         users: 'Users:'
         packs: 'Packs:'
         stickers: 'Stickers:'
         sessions: 'Active sessions:'
+      error:
+        fetch_failed: unable to fetch data
 
 scene:
   shared:

@@ -6,9 +6,7 @@ const Sticker = require('../../../models/Sticker');
 const Session = require('../../../models/Session');
 
 module.exports = async ctx => {
-  const resourceKeyReply = 'operation.stats.reply';
-  const { commandParts } = ctx.state;
-  const thresholdArgs = commandParts.args?.trim();
+  const thresholdArgs = ctx.state.commandParts?.args?.trim();
   const hiParsed = Math.abs(hi(thresholdArgs));
 
   let thresholdDate;
@@ -18,7 +16,7 @@ module.exports = async ctx => {
     thresholdDate = new Date(
       Date.UTC(thresholdDate.getFullYear(), thresholdDate.getMonth(), thresholdDate.getDate()),
     );
-    thresholdDateLocalized = thresholdDate?.toLocaleDateString(ctx.i18n.locale());
+    thresholdDateLocalized = thresholdDate.toLocaleDateString(ctx.i18n.locale());
   }
 
   const thresholdDateFilter = thresholdDate && { createdAt: { $gt: thresholdDate } };
@@ -48,20 +46,17 @@ module.exports = async ctx => {
     },
   ];
 
-  const sinceResourceKey = thresholdDate
-    ? `${resourceKeyReply}.ok.since`
-    : `${resourceKeyReply}.ok.total`;
-  let replyText = ctx.i18n.t(sinceResourceKey, {
+  let replyText = ctx.i18n.t('operation.stats.reply.ok.since', {
     date: thresholdDateLocalized,
   });
 
   replyText += resultMap.reduce((acc, cv) => {
-    let fieldString = ctx.i18n.t(`${resourceKeyReply}.helpers.${cv.field}`);
+    let fieldString = ctx.i18n.t(`operation.stats.reply.ok.${cv.field}`);
 
     if (cv.result.status === 'fulfilled') {
       fieldString += ` <b>${cv.result.value}</b>`;
     } else {
-      fieldString += ` ${ctx.i18n.t(`${resourceKeyReply}.error.fetch_failed`)}`;
+      fieldString += ` ${ctx.i18n.t('operation.stats.reply.error.fetch_failed')}`;
     }
 
     return `${acc}\n${fieldString}`;

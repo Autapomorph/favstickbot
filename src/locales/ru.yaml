@@ -145,16 +145,13 @@ operation:
     reply:
       ok:
         since: |
-          Статистика с <b>${date}</b>:
-        total: |
-          Статистика <b>всего</b>:
-      error:
-        fetch_failed: unable to fetch data
-      helpers:
+          Статистика ${date ? 'с <b>' + date + '</b>' : '<b>всего</b>'}:
         users: 'Пользователей:'
         packs: 'Стикерпаков:'
         stickers: 'Стикеров:'
         sessions: 'Активных сессий:'
+      error:
+        fetch_failed: unable to fetch data
 
 scene:
   shared:
