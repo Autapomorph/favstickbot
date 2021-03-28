@@ -55,6 +55,7 @@ bot.use(...menu);
 bot.use(stage);
 
 // Admin route
+adminBot.on('message', controllers.admin.users.feedback);
 adminBot.command('ban', controllers.admin.users.ban);
 adminBot.command('unban', controllers.admin.users.unban);
 adminBot.command('stats', controllers.admin.stats);
@@ -70,6 +71,7 @@ userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settin
 userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
 userBot.command('deleteme', controllers.deleteMe);
+userBot.command(['fb', 'feedback'], controllers.feedback);
 userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
 userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);

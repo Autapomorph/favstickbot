@@ -4,6 +4,7 @@ const packs = require('./packs');
 const stickers = require('./stickers');
 const settings = require('./settings');
 const deleteMe = require('./deleteMe');
+const feedback = require('./feedback');
 const botStatusChange = require('./botStatusChange');
 const unknown = require('./unknown');
 
@@ -14,6 +15,7 @@ module.exports = {
   stickers,
   settings,
   deleteMe,
+  feedback,
   botStatusChange,
   unknown,
 };

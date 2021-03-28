@@ -141,6 +141,18 @@ operation:
     delete_me:
       reply:
         ok: All the data associated with you has been eliminated
+    feedback:
+      message:
+        from_user: |
+          Feedback message from user #ID${from}:
+        from_support: |
+          Message from support:
+      reply:
+        ok:
+          from_user: Your message sent
+          from_support: Your answer sent
+        error:
+          empty: Can't send empty feedback
   stats:
     reply:
       ok:

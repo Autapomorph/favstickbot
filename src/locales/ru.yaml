@@ -141,6 +141,18 @@ operation:
     delete_me:
       reply:
         ok: Все связанные с тобой данные были удалены
+    feedback:
+      message:
+        from_user: |
+          Сообщение от пользователя #ID${from}:
+        from_support: |
+          Сообщение от поддержки:
+      reply:
+        ok:
+          from_user: Сообщение отправлено
+          from_support: Ответ отправлен
+        error:
+          empty: Невозможно отправить пустое сообщение
   stats:
     reply:
       ok:
