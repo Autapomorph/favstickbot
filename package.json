@@ -43,7 +43,7 @@
     "migrate": "^1.7.0",
     "minimist": "^1.2.5",
     "mongodb": "^3.6.5",
-    "mongoose": "^5.12.2",
+    "mongoose": "^5.12.3",
     "node-fetch": "^2.6.1",
     "open": "^8.0.4",
     "sharp": "^0.28.0",
@@ -56,8 +56,8 @@
     "winston-transport-sentry-node": "^1.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.0.1",
-    "@commitlint/config-conventional": "^12.0.1",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "14.2.1",
