@@ -153,10 +153,12 @@ operation:
             Статистика по <b>${dates.to}</b>:
           total: |-
             Статистика <b>всего</b>:
+        current: |-
+          <b>Текущая</b> активность:
         users: Пользователей
         packs: Стикерпаков
         stickers: Стикеров
-        sessions: Активных сессий
+        sessions: Сессий
       error:
         fetch_failed: unable to fetch data
 

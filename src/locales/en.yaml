@@ -153,10 +153,12 @@ operation:
             Stats until <b>${dates.to}</b>:
           total: |-
             Stats <b>total</b>:
+        current: |-
+          <b>Current</b> activity:
         users: Users
         packs: Packs
         stickers: Stickers
-        sessions: Active sessions
+        sessions: Sessions
       error:
         fetch_failed: unable to fetch data
 

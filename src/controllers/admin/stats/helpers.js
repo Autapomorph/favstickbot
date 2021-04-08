@@ -13,10 +13,15 @@ const getLocalizedDate = (date, locale) => {
   return date.toLocaleDateString(locale);
 };
 
-const getThresholdDates = ctx => {
-  const thresholdArgs = ctx.state.commandParts?.args?.trim();
+const getLocalizedDates = (dates, locale) => {
+  if (!dates || !locale) return undefined;
+  return Object.entries(dates).reduce((acc, [key, val]) => {
+    acc[key] = getLocalizedDate(val, locale);
+    return acc;
+  }, {});
+};
 
-  const replyTo = ctx.message.reply_to_message;
+const getThresholdDates = (thresholdArgs, replyTo) => {
   if (replyTo?.date !== undefined) {
     return {
       from: getDateUTC(new Date(replyTo.date * MILLIS_IN_SEC)),
@@ -60,37 +65,23 @@ const getThresholdFilter = dates => {
   }
 };
 
-const reduceReplyText = (ctx, dates, responseConfig) => {
-  const { from, to } = dates;
-  const locale = ctx.i18n.locale();
+const getReplyText = (t, responseConfig) => {
+  let replyText = '';
 
-  let periodKey;
-  if (from && to) {
-    periodKey = 'fromTo';
-  } else if (from) {
-    periodKey = 'since';
-  } else if (from) {
-    periodKey = 'until';
-  } else {
-    periodKey = 'total';
-  }
+  responseConfig.forEach((config, i) => {
+    if (i > 0) {
+      replyText += '\n\n';
+    }
 
-  let replyText = ctx.i18n.t(`operation.stats.reply.ok.period.${periodKey}`, {
-    dates: {
-      from: getLocalizedDate(from, locale),
-      to: getLocalizedDate(to, locale),
-    },
-  });
-
-  responseConfig.forEach(config => {
-    replyText += '\n';
-    replyText += config.reduce((acc, cv) => {
-      let fieldString = `${ctx.i18n.t(`operation.stats.reply.ok.${cv.field}`)}:`;
+    const { header, fields } = config;
+    replyText += t(`operation.stats.reply.ok.${header.key}`, header.resource);
+    replyText += fields.reduce((acc, cv) => {
+      let fieldString = `${t(`operation.stats.reply.ok.${cv.key}`)}:`;
 
       if (cv.result.status === 'fulfilled') {
         fieldString += ` <b>${cv.result.value}</b>`;
       } else {
-        fieldString += ` ${ctx.i18n.t('operation.stats.reply.error.fetch_failed')}`;
+        fieldString += ` ${t('operation.stats.reply.error.fetch_failed')}`;
       }
 
       return `${acc}\n${fieldString}`;
@@ -100,10 +91,19 @@ const reduceReplyText = (ctx, dates, responseConfig) => {
   return replyText;
 };
 
+const getPeriodKey = ({ from, to }) => {
+  if (from && to) return 'fromTo';
+  if (from) return 'since';
+  if (to) return 'until';
+  return 'total';
+};
+
 module.exports = {
   getThresholdDates,
   getThresholdFilter,
   getDateUTC,
   getLocalizedDate,
-  reduceReplyText,
+  getLocalizedDates,
+  getReplyText,
+  getPeriodKey,
 };
