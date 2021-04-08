@@ -144,12 +144,19 @@ operation:
   stats:
     reply:
       ok:
-        since: |
-          Статистика ${date ? 'с <b>' + date + '</b>' : '<b>всего</b>'}:
-        users: 'Пользователей:'
-        packs: 'Стикерпаков:'
-        stickers: 'Стикеров:'
-        sessions: 'Активных сессий:'
+        period:
+          fromTo: |-
+            Статистика с <b>${dates.from}</b> по <b>${dates.to}</b>:
+          since: |-
+            Статистика с <b>${dates.from}</b>:
+          until: |-
+            Статистика по <b>${dates.to}</b>:
+          total: |-
+            Статистика <b>всего</b>:
+        users: Пользователей
+        packs: Стикерпаков
+        stickers: Стикеров
+        sessions: Активных сессий
       error:
         fetch_failed: unable to fetch data
 

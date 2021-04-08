@@ -144,12 +144,19 @@ operation:
   stats:
     reply:
       ok:
-        since: |
-          Stats ${date ? 'since <b>' + date + '</b>' : '<b>total</b>'}:
-        users: 'Users:'
-        packs: 'Packs:'
-        stickers: 'Stickers:'
-        sessions: 'Active sessions:'
+        period:
+          fromTo: |-
+            Stats from <b>${dates.from}</b> to <b>${dates.to}</b>:
+          since: |-
+            Stats since <b>${dates.from}</b>:
+          until: |-
+            Stats until <b>${dates.to}</b>:
+          total: |-
+            Stats <b>total</b>:
+        users: Users
+        packs: Packs
+        stickers: Stickers
+        sessions: Active sessions
       error:
         fetch_failed: unable to fetch data
 

@@ -34,6 +34,7 @@
     "agenda": "^4.1.2",
     "agendash": "^2.1.1",
     "bottleneck": "^2.19.5",
+    "chrono-node": "^2.2.6",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
