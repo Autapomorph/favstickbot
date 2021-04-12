@@ -1,52 +1,67 @@
 const hi = require('human-interval');
 const chrono = require('chrono-node');
+const dayjs = require('dayjs');
+const utcPlugin = require('dayjs/plugin/utc');
+const durationPlugin = require('dayjs/plugin/duration');
+const localizedFormatPlugin = require('dayjs/plugin/localizedFormat');
 
-const MILLIS_IN_SEC = 1000;
+dayjs.extend(utcPlugin);
+dayjs.extend(durationPlugin);
+dayjs.extend(localizedFormatPlugin);
 
-const getDateUTC = date => {
-  if (!date) return undefined;
-  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+const getReplyToDates = replyToDate => {
+  return {
+    from: dayjs.unix(replyToDate).utc().startOf('minute'),
+    to: undefined,
+  };
 };
 
-const getLocalizedDate = (date, locale) => {
-  if (!date || !locale) return undefined;
-  return date.toLocaleDateString(locale);
+const getChronoDate = chronoComponent => {
+  if (!chronoComponent) return undefined;
+
+  const { knownValues } = chronoComponent;
+  const { timezoneOffset, hour } = knownValues;
+
+  const hasTimezoneOffset = Number.isInteger(timezoneOffset);
+  const hasHours = Number.isInteger(hour);
+  const startOfUnitType = hasHours ? 'minute' : 'day';
+
+  const now = dayjs.utc();
+  const date = dayjs(chronoComponent.date()).utc(!hasTimezoneOffset).startOf(startOfUnitType);
+  return date.isBefore(now) ? date : undefined;
 };
 
-const getLocalizedDates = (dates, locale) => {
-  if (!dates || !locale) return undefined;
-  return Object.entries(dates).reduce((acc, [key, val]) => {
-    acc[key] = getLocalizedDate(val, locale);
-    return acc;
-  }, {});
+const getChronoDates = chronoParsed => {
+  const { start, end } = chronoParsed;
+  return {
+    from: getChronoDate(start),
+    to: getChronoDate(end),
+  };
+};
+
+const getHumanIntervalDates = hiParsed => {
+  const now = dayjs.utc();
+  const msInDay = dayjs.duration(1, 'day').asMilliseconds();
+  const startOfUnitType = hiParsed < msInDay ? 'minute' : 'day';
+  return {
+    from: now.subtract(hiParsed, 'ms').startOf(startOfUnitType),
+    to: undefined,
+  };
 };
 
 const getThresholdDates = (thresholdArgs, replyTo) => {
   if (replyTo?.date !== undefined) {
-    return {
-      from: getDateUTC(new Date(replyTo.date * MILLIS_IN_SEC)),
-      to: undefined,
-    };
+    return getReplyToDates(replyTo.date);
   }
 
   const chronoParsed = chrono.parse(thresholdArgs, new Date(), { forwardDate: false })[0];
   if (chronoParsed) {
-    const { start, end } = chronoParsed;
-    const today = getDateUTC(new Date());
-    const from = getDateUTC(start?.date());
-    const to = getDateUTC(end?.date());
-    return {
-      from: from <= today ? from : undefined,
-      to: to <= today ? to : undefined,
-    };
+    return getChronoDates(chronoParsed);
   }
 
   const hiParsed = Math.abs(hi(thresholdArgs));
   if (Number.isInteger(hiParsed)) {
-    return {
-      from: getDateUTC(new Date(Date.now() - hiParsed)),
-      to: undefined,
-    };
+    return getHumanIntervalDates(hiParsed);
   }
 
   return {
@@ -59,8 +74,8 @@ const getThresholdFilter = dates => {
   const { from, to } = dates;
   if (from || to) {
     const createdAt = {};
-    if (from) createdAt.$gt = from;
-    if (to) createdAt.$lt = to;
+    if (from) createdAt.$gte = from;
+    if (to) createdAt.$lte = to;
     return { createdAt };
   }
 };
@@ -91,6 +106,25 @@ const getReplyText = (t, responseConfig) => {
   return replyText;
 };
 
+const getLocalizedDate = (date, locale) => {
+  if (!date) return undefined;
+
+  try {
+    require(`dayjs/locale/${locale}`); // eslint-disable-line global-require, import/no-dynamic-require
+  } catch {} // eslint-disable-line no-empty
+
+  const format = date.hour() === 0 && date.minute() === 0 ? 'll' : 'lll UTC';
+  return date.locale(locale).format(format);
+};
+
+const getLocalizedDates = (dates, locale) => {
+  if (!dates || !locale) return undefined;
+  return Object.entries(dates).reduce((acc, [key, val]) => {
+    acc[key] = getLocalizedDate(val, locale);
+    return acc;
+  }, {});
+};
+
 const getPeriodKey = ({ from, to }) => {
   if (from && to) return 'fromTo';
   if (from) return 'since';
@@ -101,7 +135,6 @@ const getPeriodKey = ({ from, to }) => {
 module.exports = {
   getThresholdDates,
   getThresholdFilter,
-  getDateUTC,
   getLocalizedDate,
   getLocalizedDates,
   getReplyText,
