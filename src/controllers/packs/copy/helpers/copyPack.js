@@ -1,6 +1,7 @@
 const getMainKeyboard = require('../../../../keyboards/main');
 const { replyProgress, editProgress, replySuccess, replyErrorUnknown } = require('../replies');
 const copyPackHelper = require('../../../../utils/packs/copy');
+const createMeta = require('../../../../utils/logger/meta/createMeta');
 const logger = require('../../../../utils/logger');
 
 const onProgress = (ctx, packToCopy, newPack, message) => async index => {
@@ -13,7 +14,7 @@ const onSuccess = (ctx, message, packToCopy, newPack, extra) => async () => {
 };
 
 const onFail = (ctx, extra) => async error => {
-  logger.error(error);
+  logger.error(error, createMeta(ctx));
   await replyErrorUnknown(ctx, extra);
   return ctx.scene.leave();
 };

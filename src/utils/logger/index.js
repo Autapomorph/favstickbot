@@ -1,5 +1,6 @@
 const winston = require('winston');
-const SentryTransport = require('winston-transport-sentry-node').default;
+
+const SentryTransport = require('./transports/Sentry');
 
 const { isProd, name, version } = require('../index');
 

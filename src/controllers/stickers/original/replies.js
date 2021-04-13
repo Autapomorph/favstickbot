@@ -2,6 +2,7 @@ const { replyErrorToMessage, replyErrorTelegram } = require('../../../utils/erro
 const ERROR_TYPES = require('../../../utils/errors/types');
 const ERROR_SETS = require('../../../utils/errors/sets');
 const validateError = require('../../../utils/errors/validateErrorType');
+const createMeta = require('../../../utils/logger/meta/createMeta');
 const logger = require('../../../utils/logger');
 
 const replyErrorNotFound = async ctx => {
@@ -29,7 +30,7 @@ const replyOriginal = async (ctx, { type, fileId }) => {
         return replyErrorNotFound(ctx);
     }
   } catch (error) {
-    logger.error(error);
+    logger.error(error, createMeta(ctx));
     if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       return replyErrorTelegram(ctx, error, replyExtra);
     }

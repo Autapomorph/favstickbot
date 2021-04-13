@@ -13,7 +13,7 @@ mongoose.connection.on('disconnected', () => {
 });
 
 mongoose.connection.on('error', error => {
-  logger.error(error);
+  logger.error(error, { tags: { mongoose: true } });
   process.exit(1);
 });
 
@@ -27,7 +27,7 @@ const connect = async uri => {
     });
     return mongoose.connection;
   } catch (error) {
-    logger.error(error);
+    logger.error(error, { tags: { mongoose: true } });
     process.exit(1);
   }
 };
@@ -36,7 +36,7 @@ const disconnect = async () => {
   try {
     await mongoose.disconnect();
   } catch (error) {
-    logger.error(error);
+    logger.error(error, { tags: { mongoose: true } });
     process.exit(1);
   }
 };

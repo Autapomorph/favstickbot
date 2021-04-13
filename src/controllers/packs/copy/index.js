@@ -1,6 +1,7 @@
 const { replyEnter, replyErrorNotFound } = require('./replies');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const validateError = require('../../../utils/errors/validateErrorType');
+const createMeta = require('../../../utils/logger/meta/createMeta');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
@@ -25,7 +26,7 @@ module.exports = async ctx => {
     if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
       logger.error(error, { sentry: false });
     } else {
-      logger.error(error);
+      logger.error(error, createMeta(ctx));
     }
 
     return replyErrorNotFound(ctx);

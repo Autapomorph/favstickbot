@@ -7,6 +7,7 @@ const { replyErrorTelegram } = require('../../../../utils/errors/reply');
 const ERROR_TYPES = require('../../../../utils/errors/types');
 const ERROR_SETS = require('../../../../utils/errors/sets');
 const validateError = require('../../../../utils/errors/validateErrorType');
+const createMeta = require('../../../../utils/logger/meta/createMeta');
 const logger = require('../../../../utils/logger');
 
 module.exports = async (ctx, user, packToCreate, keyboard) => {
@@ -41,7 +42,7 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
       throw error;
     }
 
-    logger.error(error);
+    logger.error(error, createMeta(ctx));
 
     if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       await replyErrorTelegram(ctx, error, {
@@ -67,7 +68,7 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
 
     return await replies.replySuccess(ctx, user.selectedPack, keyboard);
   } catch (error) {
-    logger.error(error);
+    logger.error(error, createMeta(ctx));
 
     if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
       await replyErrorTelegram(ctx, error, {

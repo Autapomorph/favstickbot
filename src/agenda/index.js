@@ -15,7 +15,7 @@ agenda.on('ready', () => {
 });
 
 agenda.on('error', () => {
-  logger.error('Agenda failed');
+  logger.error('Agenda failed', { tags: { agenda: true } });
 });
 
 agenda.on('start', job => {
@@ -32,9 +32,7 @@ agenda.on('fail', (error, job) => {
   const { name } = job.attrs;
   logger.error(error, {
     description: `Job "${name}": failed:`,
-    tags: {
-      agendaJob: true,
-    },
+    tags: { agenda: true },
   });
 });
 

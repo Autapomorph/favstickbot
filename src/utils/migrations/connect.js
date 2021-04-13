@@ -12,7 +12,7 @@ module.exports = async (uri = MONGODB_URI) => {
       useUnifiedTopology: true,
     });
   } catch (error) {
-    logger.error(error);
+    logger.error(error, { tags: { migration: true } });
     process.exit(1);
   }
 };
