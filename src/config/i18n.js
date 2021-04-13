@@ -1,5 +1,8 @@
 const path = require('path');
 
+require('dayjs/locale/en');
+require('dayjs/locale/ru');
+
 const locales = {
   en: {
     name: 'english',

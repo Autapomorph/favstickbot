@@ -108,11 +108,6 @@ const getReplyText = (t, responseConfig) => {
 
 const getLocalizedDate = (date, locale) => {
   if (!date) return undefined;
-
-  try {
-    require(`dayjs/locale/${locale}`); // eslint-disable-line global-require, import/no-dynamic-require
-  } catch {} // eslint-disable-line no-empty
-
   const format = date.hour() === 0 && date.minute() === 0 ? 'll' : 'lll UTC';
   return date.locale(locale).format(format);
 };
