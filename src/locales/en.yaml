@@ -13,7 +13,8 @@ cmd:
       /settings - open bot settings
   packs:
     reply:
-      list: <b>🪐 Packs:</b>
+      list: |
+        <b>🪐 Packs:</b>
       empty: |
         <b>You have no packs for now</b>
         Try to create a /new one
