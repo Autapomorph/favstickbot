@@ -148,7 +148,7 @@ operation:
     reply:
       ok:
         period:
-          fromTo: |-
+          from_to: |-
             Stats from <b>${dates.from}</b> to <b>${dates.to}</b>:
           since: |-
             Stats since <b>${dates.from}</b>:

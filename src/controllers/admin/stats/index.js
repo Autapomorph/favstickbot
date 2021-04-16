@@ -11,10 +11,7 @@ const {
 } = require('./helpers');
 
 module.exports = async ctx => {
-  const dates = getThresholdDates(
-    ctx.state.commandParts?.args?.trim(),
-    ctx.message.reply_to_message,
-  );
+  const dates = getThresholdDates(ctx);
   const thresholdDatesFilter = getThresholdFilter(dates);
 
   const [usersResult, packsResult, stickersResult, sessionsResult] = await Promise.allSettled([
@@ -41,6 +38,6 @@ module.exports = async ctx => {
       fields: [{ key: 'sessions', result: sessionsResult }],
     },
   ];
-  const replyText = getReplyText(ctx.i18n.t.bind(ctx.i18n), responseConfig);
+  const replyText = getReplyText(ctx, responseConfig);
   return ctx.replyWithHTML(replyText);
 };

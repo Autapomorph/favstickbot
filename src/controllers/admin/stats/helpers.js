@@ -49,17 +49,20 @@ const getHumanIntervalDates = hiParsed => {
   };
 };
 
-const getThresholdDates = (thresholdArgs, replyTo) => {
+const getThresholdDates = ctx => {
+  const dateString = ctx.state.commandParts?.args?.trim() ?? ctx.match?.[1];
+  const replyTo = ctx.message?.reply_to_message;
+
   if (replyTo?.date !== undefined) {
     return getReplyToDates(replyTo.date);
   }
 
-  const chronoParsed = chrono.parse(thresholdArgs, new Date(), { forwardDate: false })[0];
+  const chronoParsed = chrono.parse(dateString, new Date(), { forwardDate: false })[0];
   if (chronoParsed) {
     return getChronoDates(chronoParsed);
   }
 
-  const hiParsed = Math.abs(hi(thresholdArgs));
+  const hiParsed = Math.abs(hi(dateString));
   if (Number.isInteger(hiParsed)) {
     return getHumanIntervalDates(hiParsed);
   }
@@ -80,7 +83,7 @@ const getThresholdFilter = dates => {
   }
 };
 
-const getReplyText = (t, responseConfig) => {
+const getReplyText = (ctx, responseConfig) => {
   let replyText = '';
 
   responseConfig.forEach((config, i) => {
@@ -89,14 +92,14 @@ const getReplyText = (t, responseConfig) => {
     }
 
     const { header, fields } = config;
-    replyText += t(`operation.stats.reply.ok.${header.key}`, header.resource);
+    replyText += ctx.i18n.t(`operation.stats.reply.ok.${header.key}`, header.resource);
     replyText += fields.reduce((acc, cv) => {
-      let fieldString = `${t(`operation.stats.reply.ok.${cv.key}`)}:`;
+      let fieldString = `${ctx.i18n.t(`operation.stats.reply.ok.${cv.key}`)}:`;
 
       if (cv.result.status === 'fulfilled') {
         fieldString += ` <b>${cv.result.value}</b>`;
       } else {
-        fieldString += ` ${t('operation.stats.reply.error.fetch_failed')}`;
+        fieldString += ` ${ctx.i18n.t('operation.stats.reply.error.fetch_failed')}`;
       }
 
       return `${acc}\n${fieldString}`;
@@ -121,7 +124,7 @@ const getLocalizedDates = (dates, locale) => {
 };
 
 const getPeriodKey = ({ from, to }) => {
-  if (from && to) return 'fromTo';
+  if (from && to) return 'from_to';
   if (from) return 'since';
   if (to) return 'until';
   return 'total';
