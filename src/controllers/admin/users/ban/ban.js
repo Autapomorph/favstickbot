@@ -11,7 +11,9 @@ module.exports = async ctx => {
     await ctx.reply(ctx.i18n.t('operation.user.ban.reply.error.forbid_yourself'));
   }
 
-  if (userIds.length <= 1) return;
+  if (userIds.length <= 0) {
+    return ctx.reply(ctx.i18n.t('operation.user.ban.reply.error.empty_userlist'));
+  }
 
   const { nModified: bannedCount } = await User.updateMany(
     {

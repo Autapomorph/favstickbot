@@ -134,11 +134,13 @@ operation:
         ok: ${pluralize(bannedCount, 'user', 'users')} banned
         error:
           forbid_yourself: You can't ban yourself
+          empty_userlist: Please provide users to ban
     unban:
       reply:
         ok: ${pluralize(unbannedCount, 'user', 'users')} unbanned
         error:
           forbid_yourself: You can't unban yourself
+          empty_userlist: Please provide users to unban
     delete_me:
       reply:
         ok: All the data associated with you has been eliminated
