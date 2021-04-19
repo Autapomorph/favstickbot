@@ -10,7 +10,6 @@ const getCommandParts = require('./getCommandParts');
 const dropChannel = require('./dropChannel');
 const rateLimit = require('./rateLimit');
 const i18n = require('./i18n');
-const menu = require('./menu');
 
 module.exports = {
   banGuard,
@@ -25,5 +24,4 @@ module.exports = {
   dropChannel,
   rateLimit,
   i18n,
-  menu,
 };

@@ -1,22 +1,10 @@
 const { Telegraf, Composer } = require('telegraf');
 const { match } = require('@edjopato/telegraf-i18n');
 
-const {
-  banGuard,
-  devGuard,
-  session,
-  getUser,
-  setLocale,
-  validateDocument,
-  getCommandParts,
-  dropChannel,
-  i18n,
-  rateLimit,
-  menu,
-  logUpdate,
-} = require('./middlewares');
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
+const mw = require('./middlewares');
+const menus = require('./middlewares/menu');
 const commandsList = require('./config/commands');
 const { adminList } = require('./config/userLists');
 const commands = require('./utils/bot/commands');
@@ -35,23 +23,25 @@ const userBot = new Composer();
 commands.register(bot.telegram)(commandsList);
 
 // Disallow channels
-bot.use(dropChannel);
+bot.use(mw.dropChannel);
 
 // Register middlewares
 bot.use(
   Composer.compose([
-    logUpdate,
-    banGuard,
-    devGuard,
-    session,
-    i18n,
-    rateLimit,
-    getCommandParts,
-    getUser,
-    setLocale,
+    mw.logUpdate,
+    mw.banGuard,
+    mw.devGuard,
+    mw.session,
+    mw.i18n,
+    mw.rateLimit,
+    mw.getCommandParts,
+    mw.getUser,
+    mw.restoreOwner,
+    mw.setLocale,
+    mw.setAbility,
   ]),
 );
-bot.use(...menu);
+bot.use(...menus);
 bot.use(stage);
 
 // Admin route
@@ -70,7 +60,7 @@ userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settin
 userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
 userBot.command('deleteme', controllers.deleteMe);
-userBot.on(['sticker', 'document', 'photo'], validateDocument, controllers.stickers.add);
+userBot.on(['sticker', 'document', 'photo'], mw.validateDocument, controllers.stickers.add);
 userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);
 userBot.on('message', controllers.start);
