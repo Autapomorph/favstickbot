@@ -46,6 +46,7 @@ bot.use(stage);
 
 // Register inline menus
 userBot.use(Composer.compose([menus.packsList, menus.settings, menus.deleteMe]));
+adminBot.use(Composer.compose([menus.admin]));
 
 // User route
 userBot.start(controllers.start);
@@ -66,6 +67,7 @@ userBot.on('callback_query', ctx => ctx.answerCbQuery());
 userBot.on('my_chat_member', controllers.botStatusChange);
 
 // Admin route
+adminBot.hears(['/admin', match('keyboard.main.admin')], controllers.admin.menu);
 adminBot.command('ban', controllers.admin.users.ban);
 adminBot.command('unban', controllers.admin.users.unban);
 adminBot.command(
