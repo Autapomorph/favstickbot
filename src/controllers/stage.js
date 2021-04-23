@@ -14,11 +14,13 @@ const stage = new Scenes.Stage([
 
 stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
   if (!ctx.scene.current) {
-    return ctx.reply(ctx.i18n.t('shared.reply.operation.cancel'), {
+    await ctx.reply(ctx.i18n.t('shared.reply.operation.cancel'), {
       ...getMainKeyboard(ctx),
       reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
     });
+
+    return ctx.scene.leave();
   }
 
   let text;

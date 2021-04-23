@@ -2,9 +2,13 @@ const ERROR_TYPES = {
   REPLY: 'shared.reply.error.telegram',
   ANSWER: 'shared.answer.error.telegram',
   RATELIMIT: 'shared.reply.error.ratelimit',
+  FORBIDDEN: {
+    REPLY: 'shared.reply.error.forbidden',
+    ANSWER: 'shared.answer.error.forbidden',
+  },
   UNKNOWN: 'shared.reply.error.unknown',
   PACKS: {
-    ACCESS_DENIED: 'operaion.pack.shared.reply.error.access_denied',
+    ACCESS_DENIED: 'operation.pack.shared.reply.error.access_denied',
     CREATE: {
       TITLE_TOO_LONG: 'scene.pack_create.reply.error.title_long',
       NAME_TOO_LONG: 'scene.pack_create.reply.error.name_long',

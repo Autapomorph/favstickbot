@@ -131,16 +131,14 @@ operation:
   user:
     ban:
       reply:
-        ok: ${pluralize(bannedCount, 'user', 'users')} banned
+        ok: ${pluralize(usersCount, 'user', 'users')} blocked
         error:
-          forbid_yourself: You can't ban yourself
-          empty_userlist: Please provide users to ban
+          empty_userlist: Please provide users to block
     unban:
       reply:
-        ok: ${pluralize(unbannedCount, 'user', 'users')} unbanned
+        ok: ${pluralize(usersCount, 'user', 'users')} unblocked
         error:
-          forbid_yourself: You can't unban yourself
-          empty_userlist: Please provide users to unban
+          empty_userlist: Please provide users to unblock
     delete_me:
       reply:
         ok: All the data associated with you has been eliminated
@@ -227,9 +225,11 @@ shared:
       telegram: |
         <b>Telegram returned an error!</b>
         <code>${error}</code>
+      forbidden: Insufficient rights for this action
       unknown: Unknown error
   answer:
     error:
       telegram: |
         Telegram returned an error:
         ${error}
+      forbidden: Insufficient rights for this action

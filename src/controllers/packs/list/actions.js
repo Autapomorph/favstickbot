@@ -1,5 +1,4 @@
 const Pack = require('../../../models/Pack');
-const { validateOwner } = require('../../../utils/packs/validate');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
@@ -9,8 +8,8 @@ const selectPack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToSelect = await Pack.findById(packId);
 
-  if (!validateOwner(packToSelect.userId, user.id)) {
-    return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
+  if (ctx.state.ability.cannot('update', packToSelect)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
   packToSelect.isArchived = false;
@@ -30,15 +29,15 @@ const archivePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
 
-  if (!validateOwner(packToModify.userId, user.id)) {
-    return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
+  if (ctx.state.ability.cannot('update', packToModify)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
   packToModify.isArchived = true;
   await packToModify.save();
 
   // If pack is selected
-  if (String(packToModify.id) === String(user.selectedPack?.id)) {
+  if (packToModify.id === user.selectedPack?.id) {
     // Get first visible pack and make it selected (if exists, null otherwise)
     user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 
@@ -63,8 +62,8 @@ const restorePack = async (ctx, packId) => {
   const packToModify = await Pack.findById(packId);
   const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
 
-  if (!validateOwner(packToModify.userId, user.id)) {
-    return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
+  if (ctx.state.ability.cannot('update', packToModify)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
   // Set pack to be selected one if there are no visible packs
@@ -88,14 +87,14 @@ const deletePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
 
-  if (!validateOwner(packToDelete.userId, user.id)) {
-    return replyErrorToMessage(ctx, ERROR_TYPES.PACKS.ACCESS_DENIED);
+  if (ctx.state.ability.cannot('delete', packToDelete)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
   await packToDelete.deleteOne();
 
   // If pack is selected
-  if (String(packToDelete.id) === String(user.selectedPack?.id)) {
+  if (packToDelete.id === user.selectedPack?.id) {
     // Get first visible pack and make it selected (if exists, null otherwise)
     user.selectedPack = await Pack.findOne().byUser(user.id).byIsArchived(false);
 

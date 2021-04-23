@@ -23,7 +23,7 @@ module.exports = async ctx => {
       break;
 
     default:
-      user.left = undefined;
+      user.left = false;
       break;
   }
 

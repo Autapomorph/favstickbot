@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const bot = require('../src/bot');
 const database = require('../src/database');
+const bot = require('../src/bot');
 const WEBHOOK_OPTIONS = require('../src/config/webhook');
 
 const { MONGODB_URI } = process.env;

@@ -1,7 +1,9 @@
 const { TelegramError } = require('telegraf');
 const { Error: MongooseError } = require('mongoose');
+const { ForbiddenError } = require('@casl/ability');
 
-const { replyErrorTelegram, replyErrorUnknown } = require('./reply');
+const { replyErrorTelegram, replyErrorForbidden, replyErrorUnknown } = require('./reply');
+const { answerErrorForbidden } = require('./answer');
 const validateError = require('./validateErrorType');
 const ERROR_TYPES = require('./types');
 const ERROR_SETS = require('./sets');
@@ -17,6 +19,13 @@ module.exports = async (error, ctx) => {
   // Do not log or reply if blocked by user
   if (validateError(ERROR_TYPES.TELEGRAM.BLOCKED_BY_USER, error)) {
     return;
+  }
+
+  if (error instanceof ForbiddenError) {
+    if (ctx.callbackQuery) {
+      return answerErrorForbidden(ctx).catch(e => logger.error(e, createMeta(ctx)));
+    }
+    return replyErrorForbidden(ctx).catch(e => logger.error(e, createMeta(ctx)));
   }
 
   logger.error(error, {

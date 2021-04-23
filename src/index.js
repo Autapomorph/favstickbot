@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const bot = require('./bot');
 const database = require('./database');
+const bot = require('./bot');
 const { agenda, startAgenda } = require('./agenda');
 const WEBHOOK_OPTIONS = require('./config/webhook');
 const logger = require('./utils/logger');

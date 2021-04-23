@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Pack = require('./Pack');
 const Session = require('./Session');
+const roles = require('../config/roles');
 const { defaultLocale } = require('../config/i18n');
 const logger = require('../utils/logger');
 
@@ -15,6 +16,12 @@ const UserSchema = mongoose.Schema(
       type: String,
       ref: 'Pack',
     },
+    role: {
+      type: String,
+      required: true,
+      enum: Object.values(roles),
+      default: 'user',
+    },
     settings: {
       locale: {
         type: String,
@@ -25,8 +32,14 @@ const UserSchema = mongoose.Schema(
         default: false,
       },
     },
-    ban: Boolean,
-    left: Boolean,
+    ban: {
+      type: Boolean,
+      default: false,
+    },
+    left: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -59,7 +72,13 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       username: tgUser.username,
       $setOnInsert: { 'settings.locale': tgUser.language_code || defaultLocale.code },
     },
-    { upsert: true, setDefaultsOnInsert: true, omitUndefined: true, rawResult: true },
+    {
+      upsert: true,
+      setDefaultsOnInsert: true,
+      runValidators: true,
+      omitUndefined: true,
+      rawResult: true,
+    },
   );
 
   const { upserted: upsertedId } = userResult.lastErrorObject;
@@ -67,7 +86,9 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
     logger.debug('New user created: %s', upsertedId);
   }
 
-  return userResult.value;
+  const user = userResult.value;
+  await user.save();
+  return user;
 };
 
 const User = mongoose.model('User', UserSchema);

@@ -6,7 +6,6 @@ const stage = require('./controllers/stage');
 const mw = require('./middlewares');
 const menus = require('./middlewares/menu');
 const commandsList = require('./config/commands');
-const { adminList } = require('./config/userLists');
 const commands = require('./utils/bot/commands');
 const errorBoundary = require('./utils/errors/errorBoundary');
 
@@ -41,13 +40,12 @@ bot.use(
     mw.setAbility,
   ]),
 );
-bot.use(...menus);
+
+// Register scenes
 bot.use(stage);
 
-// Admin route
-adminBot.command('ban', controllers.admin.users.ban);
-adminBot.command('unban', controllers.admin.users.unban);
-adminBot.command('stats', controllers.admin.stats);
+// Register inline menus
+userBot.use(Composer.compose([menus.packsList, menus.settings, menus.deleteMe]));
 
 // User route
 userBot.start(controllers.start);
@@ -64,9 +62,19 @@ userBot.on(['sticker', 'document', 'photo'], mw.validateDocument, controllers.st
 userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);
 userBot.on('message', controllers.start);
+userBot.on('callback_query', ctx => ctx.answerCbQuery());
 userBot.on('my_chat_member', controllers.botStatusChange);
 
-bot.use(Composer.acl(adminList, adminBot));
+// Admin route
+adminBot.command('ban', controllers.admin.users.ban);
+adminBot.command('unban', controllers.admin.users.unban);
+adminBot.command(
+  'stats',
+  Composer.acl(ctx => ctx.state.ability.can('read', 'Stats'), controllers.admin.stats),
+);
+
+// Register routes
+bot.use(Composer.acl(ctx => ctx.state.ability.can('access', 'AdminMode'), adminBot));
 bot.use(userBot);
 
 // Register error handler

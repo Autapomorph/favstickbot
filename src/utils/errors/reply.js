@@ -25,6 +25,11 @@ const replyErrorTelegram = async (ctx, error, extra) => {
   return replyError(ctx, ERROR_TYPES.APP.REPLY, { error: error.description }, extra);
 };
 
+// Reply forbidden error
+const replyErrorForbidden = async (ctx, extra) => {
+  return replyError(ctx, ERROR_TYPES.APP.FORBIDDEN.REPLY, null, extra);
+};
+
 // Reply unknown error
 const replyErrorUnknown = async (ctx, extra) => {
   return replyError(ctx, ERROR_TYPES.APP.UNKNOWN, null, extra);
@@ -34,5 +39,6 @@ module.exports = {
   replyError,
   replyErrorToMessage,
   replyErrorTelegram,
+  replyErrorForbidden,
   replyErrorUnknown,
 };

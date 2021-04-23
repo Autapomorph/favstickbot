@@ -30,6 +30,8 @@
     "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
   },
   "dependencies": {
+    "@casl/ability": "^5.2.2",
+    "@casl/mongoose": "^4.0.2",
     "@edjopato/telegraf-i18n": "^0.2.2",
     "@sentry/node": "^6.3.0",
     "agenda": "^4.1.2",

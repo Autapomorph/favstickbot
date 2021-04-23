@@ -4,10 +4,7 @@ const validateNameLength = name => name && name.length > 0 && name.length <= pac
 
 const validateNameSymbols = name => name && /^(?!.*__)[a-zA-Z]\w*$/.test(name);
 
-const validateOwner = (ownerId, userId) => String(ownerId) === String(userId);
-
 module.exports = {
   validateNameLength,
   validateNameSymbols,
-  validateOwner,
 };

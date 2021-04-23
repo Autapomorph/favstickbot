@@ -8,6 +8,6 @@ const entityMap = {
 
 const replaceFn = tag => entityMap[tag] ?? tag;
 
-const escapeHTML = str => String(str).replace(/[&<>'"]/g, replaceFn);
+const escapeHTML = string => String(string).replace(/[&<>'"]/g, replaceFn);
 
 module.exports = escapeHTML;

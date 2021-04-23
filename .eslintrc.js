@@ -10,5 +10,6 @@ module.exports = {
   rules: {
     'consistent-return': 'off',
     'no-use-before-define': ['error', { functions: false }],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };
