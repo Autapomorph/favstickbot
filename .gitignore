@@ -1,16 +1,11 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-
-# vercel
+node_modules
 .vercel
-.now
+logs
 
-# misc
 .vs
 .vscode
 .DS_Store
+
 .env
 .env.local
 .env.development.local

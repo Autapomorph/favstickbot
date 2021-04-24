@@ -1,4 +1,6 @@
+const path = require('path');
 const winston = require('winston');
+require('winston-daily-rotate-file');
 
 const SentryTransport = require('./transports/Sentry');
 
@@ -9,7 +11,7 @@ const { npm_package_name: npmPackageName, npm_package_version: npmPackageVersion
 const { format } = winston;
 const { combine, errors, align, colorize, timestamp, splat, printf } = format;
 
-const formatErrorConsole = format(info => {
+const formatErrorText = format(info => {
   const { message, stack, description } = info;
   return {
     ...info,
@@ -31,13 +33,23 @@ const formatErrorSentry = format(info => {
   };
 });
 
+// eslint-disable-next-line no-control-regex
+const decolorizeRegex = new RegExp(/\u001b\[[0-9]{1,2}m/g);
+const decolorize = format(info => {
+  const { message } = info;
+  return {
+    ...info,
+    message: message.replace(decolorizeRegex, ''),
+  };
+});
+
 const logger = winston.createLogger({
   format: errors({ stack: true }),
   transports: [
     new winston.transports.Console({
       level: isProd ? 'info' : 'debug',
       format: combine(
-        formatErrorConsole(),
+        formatErrorText(),
         timestamp({ format: 'DD/MM/YYYY HH:mm:ss ZZ' }),
         align(),
         colorize(),
@@ -61,5 +73,26 @@ const logger = winston.createLogger({
     }),
   ],
 });
+
+if (!process.env.VERCEL) {
+  logger.add(
+    new winston.transports.DailyRotateFile({
+      level: 'debug',
+      dirname: path.resolve(__dirname, '../../../logs'),
+      filename: '%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      maxFiles: '7d',
+      format: combine(
+        formatErrorText(),
+        timestamp({ format: 'DD/MM/YYYY HH:mm:ss ZZ' }),
+        decolorize(),
+        splat(),
+        printf(({ timestamp: time, level, message }) => {
+          return `[${time}] [${level}] ${message}`;
+        }),
+      ),
+    }),
+  );
+}
 
 module.exports = logger;
