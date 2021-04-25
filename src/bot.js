@@ -70,10 +70,7 @@ userBot.on('my_chat_member', controllers.botStatusChange);
 adminBot.hears(['/admin', match('keyboard.main.admin')], controllers.admin.menu);
 adminBot.command('ban', controllers.admin.users.ban);
 adminBot.command('unban', controllers.admin.users.unban);
-adminBot.command(
-  'stats',
-  Composer.acl(ctx => ctx.state.ability.can('read', 'Stats'), controllers.admin.stats),
-);
+adminBot.command('stats', mw.abilityGuard.can('read', 'Stats')(controllers.admin.stats));
 
 // Register routes
 bot.use(Composer.acl(ctx => ctx.state.ability.can('access', 'AdminMode'), adminBot));

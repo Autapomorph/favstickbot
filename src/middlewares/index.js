@@ -1,5 +1,6 @@
 const banGuard = require('./banGuard');
 const devGuard = require('./devGuard');
+const abilityGuard = require('./abilityGuard');
 const logUpdate = require('./logUpdate');
 const session = require('./session');
 const getUser = require('./getUser');
@@ -17,6 +18,7 @@ const i18n = require('./i18n');
 module.exports = {
   banGuard,
   devGuard,
+  abilityGuard,
   logUpdate,
   session,
   getUser,
