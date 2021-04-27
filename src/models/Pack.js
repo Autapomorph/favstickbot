@@ -10,7 +10,7 @@ const PackSchema = mongoose.Schema(
       alias: 'name',
     },
     userId: {
-      type: Number,
+      type: mongoose.Types.Long,
       ref: 'User',
     },
     title: {
@@ -59,7 +59,6 @@ PackSchema.pre('deleteOne', { document: true }, async function pre() {
 });
 
 PackSchema.pre(['deleteOne', 'findOneAndDelete'], async function pre() {
-  // eslint-disable-next-line no-underscore-dangle
   await Sticker.deleteMany({ packId: this.getFilter()._id });
 });
 

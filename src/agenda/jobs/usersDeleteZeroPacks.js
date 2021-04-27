@@ -38,7 +38,6 @@ module.exports = agenda => {
       { $project: { _id: 1 } },
     ]);
 
-    // eslint-disable-next-line no-underscore-dangle
     const userToDeleteIds = users.map(user => user._id);
 
     logger.info('Job "%s": deleting %d users with no packs', jobName, userToDeleteIds.length);

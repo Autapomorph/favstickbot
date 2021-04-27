@@ -8,7 +8,7 @@ const logger = require('../utils/logger');
 
 const UserSchema = mongoose.Schema(
   {
-    _id: Number,
+    _id: mongoose.Types.Long,
     firstName: String,
     lastName: String,
     username: String,

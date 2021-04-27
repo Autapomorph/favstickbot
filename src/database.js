@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const mongooseLong = require('mongoose-long');
 const { accessibleRecordsPlugin } = require('@casl/mongoose');
 
 const logger = require('./utils/logger');
 
+mongooseLong(mongoose);
 mongoose.plugin(accessibleRecordsPlugin);
 
 mongoose.set('returnOriginal', false);

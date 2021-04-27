@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 const SessionSchema = mongoose.Schema(
   {
-    _id: Number,
+    _id: mongoose.Types.Long,
     data: Object,
     updatedAt: {
       type: Date,

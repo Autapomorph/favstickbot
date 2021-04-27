@@ -4,7 +4,7 @@ const roles = require('./roles');
 
 const defineUserRules = (user, { can }) => {
   can('delete', 'User', { id: user.id });
-  can(['update', 'delete'], 'Pack', { userId: user._id });
+  can(['update', 'delete'], 'Pack', { userId: user.id });
 };
 
 const defineAdminRules = (user, { can, cannot }) => {
