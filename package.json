@@ -33,7 +33,7 @@
     "@casl/ability": "^5.2.2",
     "@casl/mongoose": "^4.0.2",
     "@edjopato/telegraf-i18n": "^0.2.2",
-    "@sentry/node": "^6.3.1",
+    "@sentry/node": "^6.3.3",
     "agenda": "^4.1.2",
     "agendash": "^2.1.1",
     "bottleneck": "^2.19.5",
