@@ -4,7 +4,6 @@ const dayjs = require('dayjs');
 const utcPlugin = require('dayjs/plugin/utc');
 const durationPlugin = require('dayjs/plugin/duration');
 const localizedFormatPlugin = require('dayjs/plugin/localizedFormat');
-const { ForbiddenError } = require('@casl/ability');
 
 dayjs.extend(utcPlugin);
 dayjs.extend(durationPlugin);
@@ -131,19 +130,6 @@ const getPeriodKey = ({ from, to }) => {
   return 'total';
 };
 
-const getMenuBody = ctx => {
-  ForbiddenError.from(ctx.state.ability).throwUnlessCan('read', 'Stats');
-  return ctx.i18n.t('menu.admin.stats.body');
-};
-
-const getMenuChoices = async ctx => {
-  const intervals = ['hour', 'day', 'week', 'month', 'year', 'total'];
-  return intervals.reduce((acc, interval) => {
-    acc[interval] = ctx.i18n.t(`menu.admin.stats.actions.show.${interval}`);
-    return acc;
-  }, {});
-};
-
 module.exports = {
   getThresholdDates,
   getThresholdFilter,
@@ -151,6 +137,4 @@ module.exports = {
   getLocalizedDates,
   getReplyText,
   getPeriodKey,
-  getMenuBody,
-  getMenuChoices,
 };

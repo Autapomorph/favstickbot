@@ -1,7 +1,7 @@
 const { MenuTemplate } = require('telegraf-inline-menu');
 const { ForbiddenError } = require('@casl/ability');
 
-const statsController = require('./index');
+const statsController = require('../index');
 const { getMenuBody, getMenuChoices } = require('./helpers');
 
 const menu = new MenuTemplate(getMenuBody);
