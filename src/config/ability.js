@@ -9,7 +9,7 @@ const defineUserRules = (user, { can }) => {
 
 const defineAdminRules = (user, { can, cannot }) => {
   can('access', 'AdminMode');
-  can('update', 'User', ['ban'], { role: { $in: [undefined, roles.user] } });
+  can('update', 'User', ['ban'], { role: roles.user });
   cannot('update', 'User', ['ban'], { id: user.id });
 };
 
@@ -17,7 +17,7 @@ const defineSuperAdminRules = (user, { can, cannot }) => {
   can('read', 'Stats');
   can('update', 'User', ['ban'], { role: roles.admin });
   can('update', 'User', ['role'], {
-    role: { $in: [undefined, roles.user, roles.admin] },
+    role: { $in: [roles.user, roles.admin] },
   });
   cannot('update', 'User', ['ban', 'role'], { id: user.id });
 };

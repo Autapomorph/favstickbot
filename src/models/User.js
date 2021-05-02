@@ -76,17 +76,20 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       upsert: true,
       setDefaultsOnInsert: true,
       runValidators: true,
-      omitUndefined: true,
       rawResult: true,
     },
   );
 
+  const user = userResult.value;
   const { upserted: upsertedId } = userResult.lastErrorObject;
   if (upsertedId) {
     logger.debug('New user created: %s', upsertedId);
+  } else {
+    // Save defaults
+    await user.save();
   }
 
-  return userResult.value;
+  return user;
 };
 
 const User = mongoose.model('User', UserSchema);
