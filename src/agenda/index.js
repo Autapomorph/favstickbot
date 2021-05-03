@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const Agenda = require('agenda').default;
+const { Agenda } = require('agenda');
 
 const mongoose = require('mongoose');
 const jobs = require('./jobs');
