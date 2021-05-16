@@ -31,7 +31,7 @@
     "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
   },
   "dependencies": {
-    "@casl/ability": "^5.3.0",
+    "@casl/ability": "^5.3.1",
     "@casl/mongoose": "^5.0.0",
     "@edjopato/telegraf-i18n": "^0.2.2",
     "@sentry/node": "^6.3.6",
@@ -51,7 +51,7 @@
     "minimist": "^1.2.5",
     "mongo-seeding": "^3.7.0-alpha.1",
     "mongodb": "^3.6.6",
-    "mongoose": "^5.12.8",
+    "mongoose": "^5.12.9",
     "mongoose-long": "^0.3.2",
     "node-fetch": "^2.6.1",
     "open": "^8.0.8",
@@ -67,13 +67,13 @@
     "winston-transport": "^4.4.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.23.2",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
     "ignore": "^5.1.8",
