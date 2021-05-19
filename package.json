@@ -50,7 +50,7 @@
     "migrate": "^1.7.0",
     "minimist": "^1.2.5",
     "mongo-seeding": "^3.7.0-alpha.1",
-    "mongodb": "^3.6.6",
+    "mongodb": "^3.6.7",
     "mongoose": "^5.12.9",
     "mongoose-long": "^0.3.2",
     "node-fetch": "^2.6.1",
