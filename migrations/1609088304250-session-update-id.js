@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, no-await-in-loop, no-restricted-syntax */
+/* eslint-disable no-await-in-loop, no-restricted-syntax */
 const connect = require('../src/utils/migrations/connect');
 
 module.exports.description = 'Session: make `data.user` as _id';

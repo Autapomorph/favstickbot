@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { ObjectID } = require('mongodb');
 
 const connect = require('../src/utils/migrations/connect');

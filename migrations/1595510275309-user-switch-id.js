@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 const { ObjectID } = require('mongodb');
 
 const connect = require('../src/utils/migrations/connect');

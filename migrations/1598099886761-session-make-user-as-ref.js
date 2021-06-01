@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 const connect = require('../src/utils/migrations/connect');
 
 module.exports.description = 'Session: make `data.user` as ref to User model';
