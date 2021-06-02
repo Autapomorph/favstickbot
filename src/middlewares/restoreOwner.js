@@ -1,4 +1,4 @@
-const roles = require('../config/roles');
+const { roles } = require('../config/roles');
 const { ownerSet } = require('../config/userLists');
 
 module.exports = async (ctx, next) => {

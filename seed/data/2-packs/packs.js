@@ -1,5 +1,5 @@
 const users = require('../1-users/users');
-const roles = require('../../../src/config/roles');
+const { roles } = require('../../../src/config/roles');
 
 const packIdPostfix = `_by_${process.env.DB_SEED_BOT_USERNAME}`;
 

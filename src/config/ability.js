@@ -1,6 +1,6 @@
 const { Ability, AbilityBuilder } = require('@casl/ability');
 
-const roles = require('./roles');
+const { roles } = require('./roles');
 
 const defineUserRules = (user, { can }) => {
   can('delete', 'User', { id: user.id });
@@ -9,12 +9,14 @@ const defineUserRules = (user, { can }) => {
 
 const defineAdminRules = (user, { can, cannot }) => {
   can('access', 'AdminMode');
+  can('read', 'User', { role: roles.user });
   can('update', 'User', ['ban'], { role: roles.user });
   cannot('update', 'User', ['ban'], { id: user.id });
 };
 
 const defineSuperAdminRules = (user, { can, cannot }) => {
   can('read', 'Stats');
+  can('read', 'User', { role: roles.admin });
   can('update', 'User', ['ban'], { role: roles.admin });
   can('update', 'User', ['role'], {
     role: { $in: [roles.user, roles.admin] },
@@ -24,7 +26,8 @@ const defineSuperAdminRules = (user, { can, cannot }) => {
 
 const defineOwnerRules = (user, { can, cannot }) => {
   can('read', 'User');
-  can('update', 'User', ['ban', 'role'], { role: roles.superAdmin });
+  can('update', 'User');
+  cannot('update', 'User', ['ban', 'role'], { role: roles.owner });
   cannot('update', 'User', ['ban', 'role'], { id: user.id });
 };
 

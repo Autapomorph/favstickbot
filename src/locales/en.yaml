@@ -66,6 +66,36 @@ menu:
     body: 🔶 Admin mode
     actions:
       stats: 📈 Statistics
+      users: 🎭 Users
+    users:
+      body: Users menu
+      actions:
+        back: 🔙 Back
+      user:
+        body:
+          id: 'Id: '
+          username: 'Username: '
+          first_name: 'First name: '
+          last_name: 'Last name: '
+          full_name: 'Name: '
+          role: 'Role: '
+        actions:
+          set_role: Set role
+          ban: Ban
+          unban: Unban
+        set_role:
+          body: 'Choose role for user: ${user}'
+          answer:
+            ok: 'User ${user} now has new role: ${role}'
+            error: Failed to change role for user ${user}
+        ban:
+          answer:
+            ok: User ${user} banned
+            error: Failed to ban user ${user}
+        unban:
+          answer:
+            ok: User ${user} unbanned
+            error: Failed to unban user ${user}
     stats:
       body: '📈 Show stats for last:'
       actions:
@@ -147,14 +177,14 @@ operation:
   user:
     ban:
       reply:
-        ok: ${pluralize(usersCount, 'user', 'users')} blocked
+        ok: ${pluralize(usersCount, 'user', 'users')} banned
         error:
-          empty_userlist: Please provide users to block
+          empty_userlist: Please provide users to ban
     unban:
       reply:
-        ok: ${pluralize(usersCount, 'user', 'users')} unblocked
+        ok: ${pluralize(usersCount, 'user', 'users')} unbanned
         error:
-          empty_userlist: Please provide users to unblock
+          empty_userlist: Please provide users to unban
     delete_me:
       reply:
         ok: All the data associated with you has been eliminated

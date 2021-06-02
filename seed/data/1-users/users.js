@@ -1,5 +1,5 @@
 const faker = require('faker');
-const roles = require('../../../src/config/roles');
+const { roles, rolesEnum } = require('../../../src/config/roles');
 const { ownerList, ownerSet, devModeAllowedList } = require('../../../src/config/userLists');
 
 const getDefaultUser = () => {
@@ -19,6 +19,9 @@ const getDefaultUser = () => {
     updatedAt: new Date(),
   };
 };
+
+const createNegativeIdForIdx = (role, idx) => -1 * (role * 1000 + idx + 1);
+const createUsernameForIdx = (role, idx) => `${role}-${idx + 1}`;
 
 const predefinedOwnerIds = ownerList;
 const predefinedOwners = predefinedOwnerIds.map(id => {
@@ -40,43 +43,47 @@ const devModeAllowedOwners = devModeAllowedIds.map(id => {
   };
 });
 
-const ownerIds = Array.from({ length: 2 }, (_, i) => -1 * (1000 + i));
+const ownerIds = Array.from({ length: 2 }, (_, i) => createNegativeIdForIdx(rolesEnum.owner, i));
 const owners = ownerIds.map((id, i) => {
   return {
     ...getDefaultUser(),
     _id: id,
     role: roles.owner,
-    username: `${roles.owner}-${i + 1}`,
+    username: createUsernameForIdx(roles.owner, i),
   };
 });
 
-const superAdminIds = Array.from({ length: 2 }, (_, i) => -1 * (2000 + i));
+const superAdminIds = Array.from({ length: 2 }, (_, i) =>
+  createNegativeIdForIdx(rolesEnum.superAdmin, i),
+);
 const superAdmins = superAdminIds.map((id, i) => {
   return {
     ...getDefaultUser(),
     _id: id,
     role: roles.superAdmin,
-    username: `${roles.superAdmin}-${i + 1}`,
+    username: createUsernameForIdx(roles.superAdmin, i),
   };
 });
 
-const adminIds = Array.from({ length: 2 }, (_, i) => -1 * (3000 + i));
+const adminIds = Array.from({ length: 2 }, (_, i) => createNegativeIdForIdx(rolesEnum.admin, i));
 const admins = adminIds.map((id, i) => {
   return {
     ...getDefaultUser(),
     _id: id,
     role: roles.admin,
-    username: `${roles.admin}-${i + 1}`,
+    username: createUsernameForIdx(roles.admin, i),
   };
 });
 
-const regularUserIds = Array.from({ length: 10 }, (_, i) => -1 * (4000 + i));
+const regularUserIds = Array.from({ length: 10 }, (_, i) =>
+  createNegativeIdForIdx(rolesEnum.user, i),
+);
 const regularUsers = regularUserIds.map((id, i) => {
   return {
     ...getDefaultUser(),
     _id: id,
     role: roles.user,
-    username: `${roles.user}-${i + 1}`,
+    username: createUsernameForIdx(roles.user, i),
   };
 });
 

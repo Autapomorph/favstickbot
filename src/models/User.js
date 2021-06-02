@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Pack = require('./Pack');
 const Session = require('./Session');
-const roles = require('../config/roles');
+const { rolesList } = require('../config/roles');
 const { defaultLocale } = require('../config/i18n');
 const logger = require('../utils/logger');
 
@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: Object.values(roles),
+      enum: rolesList,
       default: 'user',
     },
     settings: {
