@@ -52,7 +52,7 @@
     "minimist": "^1.2.5",
     "mongo-seeding": "^3.7.0-alpha.1",
     "mongodb": "^3.6.9",
-    "mongoose": "^5.12.12",
+    "mongoose": "^5.12.13",
     "mongoose-long": "^0.4.0",
     "node-fetch": "^2.6.1",
     "open": "^8.2.0",
