@@ -7,6 +7,10 @@ const logger = require('./utils/logger');
 mongooseLong(mongoose);
 mongoose.plugin(accessibleRecordsPlugin);
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 mongoose.set('returnOriginal', false);
 
 mongoose.connection.on('connected', () => {
@@ -24,12 +28,7 @@ mongoose.connection.on('error', error => {
 
 const connect = async uri => {
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    });
+    await mongoose.connect(uri);
     return mongoose.connection;
   } catch (error) {
     logger.error(error, { tags: { mongoose: true } });
