@@ -24,7 +24,7 @@ const locales = {
 
 const defaultLocale = locales.en;
 
-const resourcesPath = path.resolve(__dirname, '../locales');
+const resourcesPath = path.resolve(__dirname, '../../locales');
 
 module.exports = {
   locales,
