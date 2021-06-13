@@ -4,6 +4,7 @@ const getPackTypeKeyboard = require('../../../keyboards/packType');
 const { packNameMaxLength, packLinkPrefix } = require('../../../config/packs');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
+const escapeHTML = require('../../../utils/common/escapeHTML');
 
 const replyPackType = async ctx => {
   return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_type'), {
@@ -35,7 +36,7 @@ const replyPackName = async ctx => {
 const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) => {
   return ctx.replyWithHTML(
     ctx.i18n.t('scene.pack_create.reply.ok', {
-      title: createdPack.title,
+      title: escapeHTML(createdPack.title),
       link: `${packLinkPrefix}${createdPack.name}`,
     }),
     {

@@ -1,5 +1,4 @@
 const Pack = require('../../../models/Pack');
-const escapeHTML = require('../../../utils/common/escapeHTML');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
 
@@ -19,7 +18,7 @@ const selectPack = async (ctx, packId) => {
 
   return ctx.answerCbQuery(
     ctx.i18n.t('operation.pack.select.answer', {
-      title: escapeHTML(user.selectedPack.title),
+      title: user.selectedPack.title,
     }),
   );
 };
@@ -51,7 +50,7 @@ const archivePack = async (ctx, packId) => {
 
   return ctx.answerCbQuery(
     ctx.i18n.t('operation.pack.archive.answer', {
-      title: escapeHTML(packToModify.title),
+      title: packToModify.title,
     }),
   );
 };
@@ -77,7 +76,7 @@ const restorePack = async (ctx, packId) => {
 
   return ctx.answerCbQuery(
     ctx.i18n.t('operation.pack.restore.answer', {
-      title: escapeHTML(packToModify.title),
+      title: packToModify.title,
     }),
   );
 };
@@ -108,7 +107,7 @@ const deletePack = async (ctx, packId) => {
 
   return ctx.answerCbQuery(
     ctx.i18n.t('operation.pack.delete.answer', {
-      title: escapeHTML(packToDelete.title),
+      title: packToDelete.title,
     }),
   );
 };
