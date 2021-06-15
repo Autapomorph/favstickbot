@@ -33,6 +33,7 @@ bot.use(
     mw.session,
     mw.i18n,
     mw.rateLimit,
+    mw.throttle,
     mw.getCommandParts,
     mw.getUser,
     mw.restoreOwner,

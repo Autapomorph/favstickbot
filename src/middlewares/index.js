@@ -13,6 +13,7 @@ const validateDocument = require('./validateDocument');
 const getCommandParts = require('./getCommandParts');
 const dropChannel = require('./dropChannel');
 const rateLimit = require('./rateLimit');
+const throttle = require('./throttle');
 const i18n = require('./i18n');
 
 module.exports = {
@@ -31,5 +32,6 @@ module.exports = {
   getCommandParts,
   dropChannel,
   rateLimit,
+  throttle,
   i18n,
 };

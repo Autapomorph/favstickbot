@@ -1,32 +1,10 @@
-const { telegrafThrottler } = require('telegraf-throttler');
-const Bottleneck = require('bottleneck').default;
+const { limit } = require('@grammyjs/ratelimiter'); // eslint-disable-line import/no-unresolved
 
 const ERROR_TYPES = require('../utils/errors/types');
 const { replyError } = require('../utils/errors/reply');
-const logger = require('../utils/logger');
 
-module.exports = telegrafThrottler({
-  in: {
-    maxConcurrent: 1,
-    minTime: 333,
-    highWater: 10,
-    strategy: Bottleneck.strategy.OVERFLOW,
-  },
-  out: {
-    minTime: 25,
-    reservoir: 30,
-    reservoirRefreshAmount: 30,
-    reservoirRefreshInterval: 1 * 1000,
-  },
-  group: {
-    maxConcurrent: 1,
-    minTime: 333,
-    reservoir: 20,
-    reservoirRefreshAmount: 20,
-    reservoirRefreshInterval: 60 * 1000,
-  },
-  inThrottlerError: async (ctx, next, error) => {
-    logger.warn(error.message);
+module.exports = limit({
+  onLimitExceeded: async ctx => {
     return replyError(ctx, ERROR_TYPES.APP.RATELIMIT);
   },
 });
