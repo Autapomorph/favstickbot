@@ -17,11 +17,8 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
       await clearPack(ctx, packToCreate);
     }
   } catch (error) {
-    const {
-      STICKERSET_INVALID_NAME,
-      STICKERSET_NAME_OCCUPIED,
-      CREATED_STICKERSET_NOT_FOUND,
-    } = ERROR_TYPES.TELEGRAM;
+    const { STICKERSET_INVALID_NAME, STICKERSET_NAME_OCCUPIED, CREATED_STICKERSET_NOT_FOUND } =
+      ERROR_TYPES.TELEGRAM;
 
     if (validateError(CREATED_STICKERSET_NOT_FOUND, error)) {
       logger.error(error, { sentry: false });

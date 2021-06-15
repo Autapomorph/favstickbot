@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved, import/extensions
 const connect = require('../src/utils/migrations/connect');
 
 module.exports.description = 'Add description here';
