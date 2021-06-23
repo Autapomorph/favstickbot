@@ -12,4 +12,12 @@ module.exports = {
     'no-use-before-define': ['error', { functions: false }],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
+  overrides: [
+    {
+      files: ['tgApiShortcuts/**'],
+      rules: {
+        'no-console': 'off',
+      },
+    },
+  ],
 };
