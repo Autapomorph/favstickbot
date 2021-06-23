@@ -30,7 +30,7 @@ fetch(GET_ME_METHOD_URL)
   .then(response => response.json())
   .then(response => {
     if (!response.ok) throw new Error(response.description);
-    console.log(JSON.stringify(response.result, null, 2));
+    console.dir(response.result);
     if (argv.open) {
       open(GET_ME_METHOD_URL);
     }
