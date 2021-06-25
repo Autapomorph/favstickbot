@@ -1,17 +1,23 @@
-const get = telegram => async () => {
-  return telegram.getMyCommands();
+const list = telegram => async (scope, language) => {
+  // TODO: use `telegram.getMyCommands` after `telegraf` update:
+  // return telegram.getMyCommands(scope, language);
+  return telegram.callApi('getMyCommands', { scope, language_code: language });
 };
 
-const register = telegram => async commands => {
-  return telegram.setMyCommands(commands);
+const register = telegram => async (commands, scope, language) => {
+  // TODO: use `telegram.setMyCommands` after `telegraf` update:
+  // return telegram.setMyCommands(commands, scope, language);
+  return telegram.callApi('setMyCommands', { commands, scope, language_code: language });
 };
 
-const unregister = telegram => async () => {
-  return telegram.setMyCommands([]);
+const unregister = telegram => async (scope, language) => {
+  // TODO: use `telegram.deleteMyCommands` after `telegraf` update:
+  // return telegram.deleteMyCommands(scope, language);
+  return telegram.callApi('deleteMyCommands', { scope, language_code: language });
 };
 
 module.exports = {
-  get,
+  list,
   register,
   unregister,
 };

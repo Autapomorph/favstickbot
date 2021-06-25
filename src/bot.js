@@ -5,7 +5,7 @@ const controllers = require('./controllers');
 const stage = require('./controllers/stage');
 const mw = require('./middlewares');
 const menus = require('./middlewares/menu');
-const commandsList = require('./config/commands');
+const commandsLists = require('./config/commands');
 const commands = require('./utils/bot/commands');
 const errorBoundary = require('./utils/errors/errorBoundary');
 
@@ -19,7 +19,9 @@ const adminBot = new Composer();
 const userBot = new Composer();
 
 // Register bot commands
-commands.register(bot.telegram)(commandsList);
+Object.values(commandsLists).forEach(({ commands: scopedCommands, scope, language }) => {
+  commands.register(bot.telegram)(scopedCommands, scope, language);
+});
 
 // Disallow channels
 bot.use(mw.dropChannel);
