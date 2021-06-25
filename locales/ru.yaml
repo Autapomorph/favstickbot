@@ -113,6 +113,7 @@ menu:
       show_archived_packs: Показывать архив
       language: 🌎 Выбрать язык
     language:
+      body: Выбери язык
       actions:
         back: 🔙 Назад
   delete_me:
@@ -173,7 +174,7 @@ operation:
   settings:
     language:
       select:
-        answer: Выбран язык ${lang}
+        answer: ${symbol} Выбран ${name.toLowerCase()} язык
   user:
     ban:
       reply:

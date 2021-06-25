@@ -9,7 +9,8 @@ const setLanguage = async ctx => {
     ctx.i18n.locale(locale.code);
     ctx.answerCbQuery(
       ctx.i18n.t('operation.settings.language.select.answer', {
-        lang: locale.symbol,
+        name: locale.name,
+        symbol: locale.symbol,
       }),
     );
     user.settings.locale = locale.code;

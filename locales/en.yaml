@@ -113,6 +113,7 @@ menu:
       show_archived_packs: Show archived packs
       language: 🌎 Set language
     language:
+      body: Select language
       actions:
         back: 🔙 Back to Settings
   delete_me:
@@ -173,7 +174,7 @@ operation:
   settings:
     language:
       select:
-        answer: Bot will use ${lang} language
+        answer: ${symbol} Bot will use ${name.charAt(0).toUpperCase()}${name.slice(1).toLowerCase()} language
   user:
     ban:
       reply:

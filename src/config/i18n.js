@@ -5,20 +5,16 @@ require('dayjs/locale/ru');
 
 const locales = {
   en: {
-    name: 'english',
-    localName: 'english',
+    englishName: 'English',
+    name: 'English',
     code: 'en',
     symbol: '🇺🇸',
-    selectText: 'Select language',
-    selectTextWithSymbol: '🇺🇸 Select language',
   },
   ru: {
-    name: 'russian',
-    localName: 'русский',
+    englishName: 'Russian',
+    name: 'Русский',
     code: 'ru',
     symbol: '🇷🇺',
-    selectText: 'Выберите язык',
-    selectTextWithSymbol: '🇷🇺 Выберите язык',
   },
 };
 
