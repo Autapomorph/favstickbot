@@ -1,22 +1,17 @@
 const sharp = require('sharp');
 
-const logger = require('../logger');
-
-const resizeImage = async transformer => {
-  const { width, height } = await transformer.metadata().catch(logger.error);
+const resizeImage = (transformer, { width, height }) => {
   if (width > 512 || height > 512 || (width !== 512 && height !== 512)) {
-    if (height > width) {
-      transformer.resize({ height: 512 });
-    } else {
-      transformer.resize({ width: 512 });
-    }
+    if (width > height) return transformer.resize({ width: 512 });
+    return transformer.resize({ height: 512 });
   }
 };
 
 const normalizeImage = async data => {
   const transformer = sharp(data);
-  await resizeImage(transformer);
-  return transformer.webp({ quality: 100 }).png({ force: false }).toBuffer().catch(logger.error);
+  const metadata = await transformer.metadata();
+  resizeImage(transformer, metadata);
+  return transformer.webp({ quality: 100 }).png({ force: false }).toBuffer();
 };
 
 module.exports = {

@@ -39,7 +39,7 @@ const decolorize = format(info => {
   const { message } = info;
   return {
     ...info,
-    message: message.replace(decolorizeRegex, ''),
+    message: message?.replace(decolorizeRegex, ''),
   };
 });
 

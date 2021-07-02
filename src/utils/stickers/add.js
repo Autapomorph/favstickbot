@@ -8,7 +8,11 @@ const addSticker = async (ctx, userFile, pack) => {
   let fileBuffer = await downloadSticker(ctx, userFile.fileId);
 
   if (userFile.isAnimated === false) {
-    fileBuffer = await normalizeImage(fileBuffer);
+    try {
+      fileBuffer = await normalizeImage(fileBuffer);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   const stickerFile = await uploadSticker(
