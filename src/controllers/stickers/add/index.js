@@ -42,8 +42,14 @@ module.exports = async ctx => {
       return replyErrorUnknown(ctx);
     }
 
-    const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;
-    if (validateError([STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS], error)) {
+    const errorsToSkip = [
+      ERROR_TYPES.TELEGRAM.STICKERSET_INVALID,
+      ERROR_TYPES.TELEGRAM.STICKERS_TOO_MUCH,
+      ERROR_TYPES.TELEGRAM.STICKER_INVALID_EMOJIS,
+      ERROR_TYPES.TELEGRAM.STICKER_PNG_NOPNG,
+      ERROR_TYPES.TELEGRAM.STICKER_TGS_NOTGS,
+    ];
+    if (validateError(errorsToSkip, error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error, createMeta(ctx));

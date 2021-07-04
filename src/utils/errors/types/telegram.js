@@ -21,6 +21,10 @@ const ERROR_TYPES = {
   STICKERS_TOO_MUCH: /stickers.*too.*much/i,
   // Bad Request: invalid sticker emojis
   STICKER_INVALID_EMOJIS: /invalid.*sticker.*emoji/i,
+  // Bad Request: STICKER_PNG_NOPNG
+  STICKER_PNG_NOPNG: /sticker.*png.*nopng/i,
+  // Bad Request: STICKER_TGS_NOTGS
+  STICKER_TGS_NOTGS: /sticker.*tgs.*notgs/i,
   // Forbidden: bot was blocked by the user
   BLOCKED_BY_USER: /forbidden.*bot.*block.*user/i,
   // Forbidden: bot was kicked from the group chat

@@ -27,6 +27,8 @@ const ERROR_TYPES = {
       INVALID_FILE_TYPE: 'operation.sticker.add.reply.error.invalid_file_type',
       STICKERS_TOO_MUCH: 'operation.sticker.add.reply.error.stickers_too_much',
       INVALID_EMOJIS: 'operation.sticker.add.reply.error.invalid_emojis',
+      NO_PNG: 'operation.sticker.add.reply.error.no_png',
+      NO_TGS: 'operation.sticker.add.reply.error.no_tgs',
     },
     ORIGINAL: {
       STICKER_NOT_FOUND: 'scene.sticker_original.reply.error.sticker_not_found',

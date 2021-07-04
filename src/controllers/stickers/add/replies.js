@@ -23,18 +23,24 @@ const replyErrorNoSuitablePacks = (ctx, isAnimated) => {
 };
 
 const replyErrorAddSticker = (ctx, error) => {
-  const { STICKERSET_INVALID, STICKERS_TOO_MUCH, STICKER_INVALID_EMOJIS } = ERROR_TYPES.TELEGRAM;
-
-  if (validateError(STICKERSET_INVALID, error)) {
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.PACK_INVALID);
   }
 
-  if (validateError(STICKERS_TOO_MUCH, error)) {
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKERS_TOO_MUCH, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.STICKERS_TOO_MUCH);
   }
 
-  if (validateError(STICKER_INVALID_EMOJIS, error)) {
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKER_INVALID_EMOJIS, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.INVALID_EMOJIS);
+  }
+
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKER_PNG_NOPNG, error)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.NO_PNG);
+  }
+
+  if (validateError(ERROR_TYPES.TELEGRAM.STICKER_TGS_NOTGS, error)) {
+    return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.NO_TGS);
   }
 
   if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {

@@ -171,6 +171,12 @@ operation:
           invalid_emojis: |
             <b>Error!</b>
             Only emojis are supported as file caption
+          no_png: |
+            <b>Error!</b>
+            Sticker must be a <b>png</b> but the file you sent is actually not a <b>png</b>
+          no_tgs: |
+            <b>Error!</b>
+            Sticker must be a <b>tgs</b> but the file you sent is actually not a <b>tgs</b>
   settings:
     language:
       select:
