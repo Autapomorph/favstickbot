@@ -13,6 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Get version
+        id: get_version
+        uses: battila7/get-version-action@v2
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -21,4 +25,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          version: ${{ github.ref }}
+          version: '${{ secrets.SENTRY_PROJECT }}@${{ steps.get_version.outputs.version-without-v }}'
