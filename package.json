@@ -28,6 +28,10 @@
     "lint": "eslint .",
     "lint:staged": "lint-staged --relative",
     "cm": "cz",
+    "release": "standard-version",
+    "release:patch": "npm run release -- --release-as patch",
+    "release:minor": "npm run release -- --release-as minor",
+    "release:major": "npm run release -- --release-as major",
     "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
   },
   "dependencies": {
@@ -81,7 +85,8 @@
     "ignore": "^5.1.8",
     "lint-staged": "^11.0.0",
     "nodemon": "^2.0.9",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "standard-version": "^9.3.0"
   },
   "config": {
     "commitizen": {
