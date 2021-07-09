@@ -56,7 +56,7 @@
     "migrate": "^1.7.0",
     "minimist": "^1.2.5",
     "mongo-seeding": "^3.7.0",
-    "mongodb": "^3.6.9",
+    "mongodb": "^3.6.10",
     "mongoose": "^5.13.2",
     "mongoose-long": "^0.4.0",
     "node-fetch": "^2.6.1",
@@ -84,7 +84,7 @@
     "husky": "^7.0.1",
     "ignore": "^5.1.8",
     "lint-staged": "^11.0.0",
-    "nodemon": "^2.0.9",
+    "nodemon": "^2.0.11",
     "prettier": "^2.3.2",
     "standard-version": "^9.3.0"
   },
