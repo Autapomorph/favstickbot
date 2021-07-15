@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const database = require('./database');
 const bot = require('./bot');
-const { agenda, startAgenda } = require('./agenda');
+const { agenda, collectionName } = require('./agenda');
 const WEBHOOK_OPTIONS = require('./config/webhook');
 const logger = require('./utils/logger');
 const { isProd } = require('./utils');
@@ -17,7 +17,7 @@ if (!isProd) {
 
 database.connect(MONGODB_URI).then(connection => {
   launchBot(bot);
-  startAgenda(connection);
+  agenda.mongo(connection.db, collectionName).start();
 });
 
 async function launchBot(botInstance) {

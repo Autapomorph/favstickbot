@@ -1,8 +1,5 @@
-require('dotenv').config();
-
 const { Agenda } = require('agenda');
 
-const mongoose = require('mongoose');
 const jobs = require('./jobs');
 const logger = require('../utils/logger');
 
@@ -36,9 +33,6 @@ agenda.on('fail', (error, job) => {
   });
 });
 
-const startAgenda = async (connection = mongoose.connection) => {
-  agenda.mongo(connection.db, '_agendaJobs');
-  await agenda.start();
-};
+const collectionName = '_agendaJobs';
 
-module.exports = { agenda, startAgenda };
+module.exports = { agenda, collectionName };
