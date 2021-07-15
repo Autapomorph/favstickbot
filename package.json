@@ -55,7 +55,6 @@
     "is-ci": "^3.0.0",
     "is-docker": "^2.2.1",
     "migrate": "^1.7.0",
-    "minimist": "^1.2.5",
     "mongo-seeding": "^3.7.0",
     "mongodb": "^4.0.0",
     "mongoose": "^5.13.2",
