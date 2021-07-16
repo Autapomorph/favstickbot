@@ -14,7 +14,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['tgApiShortcuts/**'],
+      files: ['tgApi/**'],
       rules: {
         'no-console': 'off',
       },
