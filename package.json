@@ -30,9 +30,6 @@
     "lint:staged": "lint-staged --relative",
     "cm": "cz",
     "release": "standard-version",
-    "release:patch": "npm run release -- --release-as patch",
-    "release:minor": "npm run release -- --release-as minor",
-    "release:major": "npm run release -- --release-as major",
     "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
   },
   "dependencies": {
@@ -88,6 +85,11 @@
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
     "standard-version": "^9.3.1"
+  },
+  "standard-version": {
+    "skip": {
+      "changelog": true
+    }
   },
   "config": {
     "commitizen": {
