@@ -1,14 +1,16 @@
 const fetch = require('node-fetch');
+const { fetchToCurl } = require('fetch-to-curl');
+const clipboardy = require('clipboardy');
 const open = require('open');
 
 const { TELEGRAM_API } = require('./constants');
 
 module.exports = {
-  command: 'openFile <fileId>',
-  description: 'Open file by ID',
+  command: 'getFile <fileId>',
+  description: 'Get file download link by ID',
   builder: y => {
     y.positional('fileId', {
-      description: 'File ID to open',
+      description: 'File ID to prepare for download',
       type: 'string',
     });
     y.option('token', {
@@ -19,20 +21,29 @@ module.exports = {
       defaultDescription: 'process.env.BOT_TOKEN',
       demandOption: 'Please provide bot token',
     });
+    y.option('curl', {
+      description: 'Print as cURL request',
+      type: 'boolean',
+    });
+    y.option('copy', {
+      description: 'Copy cURL request to clipboard',
+      alias: 'c',
+      type: 'boolean',
+      default: true,
+    });
     y.option('open', {
       description: 'Open in browser',
       alias: 'o',
       type: 'boolean',
-      default: true,
     });
-    y.option('print', {
-      description: 'Print results',
+    y.option('silent', {
+      description: 'Do not print to console',
+      alias: 's',
       type: 'boolean',
-      default: true,
     });
     y.version();
-    y.alias('version', 'v');
     y.help();
+    y.alias('version', 'v');
     y.alias('help', 'h');
   },
   handler: async argv => {
@@ -41,19 +52,31 @@ module.exports = {
     const GET_FILE_METHOD_URL = `${BOT_API_URL}/getFile`;
 
     try {
-      const response = await fetch(`${GET_FILE_METHOD_URL}?file_id=${argv.fileId}`).then(res =>
-        res.json(),
-      );
+      const response = await fetch(`${GET_FILE_METHOD_URL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          file_id: argv.fileId,
+        }),
+      }).then(res => res.json());
       if (!response.ok) throw new Error(response.description);
 
       const downloadURL = `${BOT_API_FILE_URL}/${response.result.file_path}`;
 
-      if (argv.print) {
-        console.log(`The file is available to download here: ${downloadURL}`);
+      if (argv.curl) {
+        const curlString = fetchToCurl(downloadURL);
+        if (!argv.silent) console.log(curlString);
+        return argv.copy ? clipboardy.write(curlString) : undefined;
       }
 
       if (argv.open) {
         return open(downloadURL);
+      }
+
+      if (!argv.silent) {
+        console.log(`The file is available to download here:\n${downloadURL}`);
       }
     } catch (error) {
       console.error(error.message);

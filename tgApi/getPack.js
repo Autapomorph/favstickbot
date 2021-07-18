@@ -1,21 +1,19 @@
-const fetch = require('node-fetch');
 const { fetchToCurl } = require('fetch-to-curl');
 const clipboardy = require('clipboardy');
 const open = require('open');
 
-const { TELEGRAM_API } = require('./constants');
+const { T_ME } = require('./constants');
+
+const ADD_PACK_URL = `${T_ME}/addstickers`;
 
 module.exports = {
-  command: 'getMe',
-  description: 'Get info about bot',
+  command: 'getPack <pack>',
+  description: 'Get pack link by name',
   builder: y => {
-    y.option('token', {
-      description: 'Bot token',
-      alias: 't',
+    y.positional('pack', {
+      description: 'Pack name',
+      alias: 'packName',
       type: 'string',
-      default: process.env.BOT_TOKEN,
-      defaultDescription: 'process.env.BOT_TOKEN',
-      demandOption: 'Please provide bot token',
     });
     y.option('curl', {
       description: 'Print as cURL request',
@@ -43,25 +41,20 @@ module.exports = {
     y.alias('help', 'h');
   },
   handler: async argv => {
-    const BOT_API_URL = `${TELEGRAM_API}/bot${argv.token}`;
-    const GET_ME_METHOD_URL = `${BOT_API_URL}/getMe`;
-
-    if (argv.open) {
-      return open(GET_ME_METHOD_URL);
-    }
+    const packURL = `${ADD_PACK_URL}/${argv.pack}`;
 
     if (argv.curl) {
-      const curlString = fetchToCurl(GET_ME_METHOD_URL);
+      const curlString = fetchToCurl(packURL);
       if (!argv.silent) console.log(curlString);
       return argv.copy ? clipboardy.write(curlString) : undefined;
     }
 
-    try {
-      const response = await fetch(GET_ME_METHOD_URL).then(res => res.json());
-      if (!response.ok) throw new Error(response.description);
-      if (!argv.silent) console.dir(response.result);
-    } catch (error) {
-      console.error(error.message);
+    if (argv.open) {
+      return open(packURL);
+    }
+
+    if (!argv.silent) {
+      console.log(`The sticker pack is available here:\n${packURL}`);
     }
   },
 };

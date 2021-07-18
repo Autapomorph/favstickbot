@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+const { fetchToCurl } = require('fetch-to-curl');
+const clipboardy = require('clipboardy');
 
 const { TELEGRAM_API } = require('../constants');
 
@@ -18,29 +20,54 @@ module.exports = {
       description: 'Drop pending updates',
       alias: 'd',
       type: 'boolean',
-      default: false,
     });
-    y.option('print', {
-      description: 'Print results',
+    y.option('curl', {
+      description: 'Print as cURL request',
+      type: 'boolean',
+    });
+    y.option('copy', {
+      description: 'Copy cURL request to clipboard',
+      alias: 'c',
       type: 'boolean',
       default: true,
     });
+    y.option('silent', {
+      description: 'Do not print to console',
+      alias: 's',
+      type: 'boolean',
+    });
     y.version();
-    y.alias('version', 'v');
     y.help();
+    y.alias('version', 'v');
     y.alias('help', 'h');
   },
   handler: async argv => {
     const BOT_API_URL = `${TELEGRAM_API}/bot${argv.token}`;
-    let DELETE_WEBHOOK_METHOD_URL = `${BOT_API_URL}/deleteWebhook`;
+    const DELETE_WEBHOOK_METHOD_URL = `${BOT_API_URL}/deleteWebhook`;
 
-    if (argv.drop) DELETE_WEBHOOK_METHOD_URL += `?drop_pending_updates=${argv.drop}`;
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        drop_pending_updates: argv.dropUpdates,
+      }),
+    };
+
+    if (argv.curl) {
+      const curlString = fetchToCurl(DELETE_WEBHOOK_METHOD_URL, requestOptions);
+      if (!argv.silent) console.log(curlString);
+      return argv.copy ? clipboardy.write(curlString) : undefined;
+    }
 
     try {
-      const response = await fetch(DELETE_WEBHOOK_METHOD_URL).then(res => res.json());
+      const response = await fetch(DELETE_WEBHOOK_METHOD_URL, requestOptions).then(res =>
+        res.json(),
+      );
       if (!response.ok) throw new Error(response.description);
 
-      if (argv.print) {
+      if (!argv.silent) {
         console.dir(response);
       }
     } catch (error) {

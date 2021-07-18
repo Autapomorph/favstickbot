@@ -1,3 +1,5 @@
+const { fetchToCurl } = require('fetch-to-curl');
+const clipboardy = require('clipboardy');
 const open = require('open');
 
 const { CORE } = require('./constants');
@@ -7,12 +9,30 @@ module.exports = {
   description: 'Open Telegram Bot API docs page',
   aliases: ['docs'],
   builder: y => {
+    y.option('curl', {
+      description: 'Print as cURL request',
+      type: 'boolean',
+    });
+    y.option('copy', {
+      description: 'Copy cURL request to clipboard',
+      alias: 'c',
+      type: 'boolean',
+      default: true,
+    });
     y.version();
-    y.alias('version', 'v');
     y.help();
+    y.alias('version', 'v');
     y.alias('help', 'h');
   },
-  handler: async () => {
-    return open(`${CORE}/bots/api`);
+  handler: async argv => {
+    const docsURL = `${CORE}/bots/api`;
+
+    if (argv.curl) {
+      const curlString = fetchToCurl(docsURL);
+      console.log(curlString);
+      return argv.copy ? clipboardy.write(curlString) : undefined;
+    }
+
+    return open(docsURL);
   },
 };

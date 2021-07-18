@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+const { fetchToCurl } = require('fetch-to-curl');
+const clipboardy = require('clipboardy');
 
 const { TELEGRAM_API } = require('../constants');
 const createWebhookPath = require('../../src/utils/bot/createWebhookPath');
@@ -21,53 +23,85 @@ module.exports = {
       defaultDescription: 'process.env.BOT_TOKEN',
       demandOption: 'Please provide bot token',
     });
+    y.option('ip_address', {
+      description:
+        'The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS',
+      alias: 'ip',
+      type: 'string',
+    });
     y.option('maxConnections', {
       description:
         'Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100',
       alias: 'mc',
       type: 'number',
-      default: 40,
       coerce: maxConnections => {
-        if (!Number.isFinite(maxConnections)) return 40;
-        return maxConnections < 1 ? 1 : Math.min(maxConnections, 100);
+        const minMaxConnections = 1;
+        const maxMaxConnections = 100;
+        if (!Number.isSafeInteger(maxConnections)) return undefined;
+        return maxConnections < minMaxConnections
+          ? undefined
+          : Math.min(maxConnections, maxMaxConnections);
       },
+    });
+    y.option('allowedUpdates', {
+      description: 'A JSON-serialized list of the update types you want your bot to receive',
+      alias: 'au',
+      type: 'array',
     });
     y.option('dropUpdates', {
       description: 'Drop pending updates',
       alias: 'd',
       type: 'boolean',
-      default: false,
     });
-    y.option('print', {
-      description: 'Print results',
+    y.option('curl', {
+      description: 'Print as cURL request',
+      type: 'boolean',
+    });
+    y.option('copy', {
+      description: 'Copy cURL request to clipboard',
+      alias: 'c',
       type: 'boolean',
       default: true,
     });
+    y.option('silent', {
+      description: 'Do not print to console',
+      alias: 's',
+      type: 'boolean',
+    });
     y.version();
-    y.alias('version', 'v');
     y.help();
+    y.alias('version', 'v');
     y.alias('help', 'h');
   },
   handler: async argv => {
     const BOT_API_URL = `${TELEGRAM_API}/bot${argv.token}`;
-    const GET_WEBHOOK_INFO_METHOD_URL = `${BOT_API_URL}/getWebhookInfo`;
-    let SET_WEBHOOK_METHOD_URL = `${BOT_API_URL}/setWebhook`;
+    const SET_WEBHOOK_METHOD_URL = `${BOT_API_URL}/setWebhook`;
 
-    SET_WEBHOOK_METHOD_URL += `?url=${argv.url}/bots/${createWebhookPath(argv.token)}`;
-    if (argv.maxConnections) SET_WEBHOOK_METHOD_URL += `&max_connections=${argv.maxConnections}`;
-    if (argv.drop) SET_WEBHOOK_METHOD_URL += `&drop_pending_updates=${argv.drop}`;
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: `${argv.url}/bots/${createWebhookPath(argv.token)}`,
+        ip_address: argv.ip,
+        max_connections: argv.maxConnections,
+        allowed_updates: argv.allowedUpdates,
+        drop_pending_updates: argv.dropUpdates,
+      }),
+    };
+
+    if (argv.curl) {
+      const curlString = fetchToCurl(SET_WEBHOOK_METHOD_URL, requestOptions);
+      if (!argv.silent) console.log(curlString);
+      return argv.copy ? clipboardy.write(curlString) : undefined;
+    }
 
     try {
-      const setWebhookResponse = await fetch(SET_WEBHOOK_METHOD_URL).then(res => res.json());
-      if (!setWebhookResponse.ok) throw new Error(setWebhookResponse.description);
-      if (argv.print) {
-        console.dir(setWebhookResponse);
-      }
-
-      const getWebhookResponse = await fetch(GET_WEBHOOK_INFO_METHOD_URL).then(res => res.json());
-      if (!getWebhookResponse.ok) throw new Error(getWebhookResponse.description);
-      if (argv.print) {
-        console.dir(getWebhookResponse.result);
+      const response = await fetch(SET_WEBHOOK_METHOD_URL, requestOptions).then(res => res.json());
+      if (!response.ok) throw new Error(response.description);
+      if (!argv.silent) {
+        console.dir(response);
       }
     } catch (error) {
       console.error(error.message);
