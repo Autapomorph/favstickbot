@@ -8,6 +8,7 @@ const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorUnknown } = require('../../../utils/errors/reply');
 const validateError = require('../../../utils/errors/validateErrorType');
 const createMeta = require('../../../utils/logger/meta/createMeta');
+const escapeHTML = require('../../../utils/common/escapeHTML');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
@@ -35,7 +36,7 @@ module.exports = async ctx => {
 
   try {
     const { title, link } = await addSticker(ctx, userFile, user.selectedPack);
-    return replySuccess(ctx, { title, link });
+    return await replySuccess(ctx, { title: escapeHTML(title), link });
   } catch (error) {
     if (!(error instanceof TelegramError)) {
       logger.error(error, createMeta(ctx));

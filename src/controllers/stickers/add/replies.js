@@ -3,7 +3,7 @@ const ERROR_TYPES = require('../../../utils/errors/types');
 const ERROR_SETS = require('../../../utils/errors/sets');
 const validateError = require('../../../utils/errors/validateErrorType');
 
-const replySuccess = (ctx, { title, link }) => {
+const replySuccess = async (ctx, { title, link }) => {
   return ctx.replyWithHTML(
     ctx.i18n.t('operation.sticker.add.reply.ok', {
       title,
@@ -16,13 +16,13 @@ const replySuccess = (ctx, { title, link }) => {
   );
 };
 
-const replyErrorNoSuitablePacks = (ctx, isAnimated) => {
+const replyErrorNoSuitablePacks = async (ctx, isAnimated) => {
   return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.NO_SUITABLE_PACKS, {
     isAnimated,
   });
 };
 
-const replyErrorAddSticker = (ctx, error) => {
+const replyErrorAddSticker = async (ctx, error) => {
   if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.STICKERS.ADD.PACK_INVALID);
   }
