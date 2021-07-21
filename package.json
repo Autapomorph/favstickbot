@@ -55,7 +55,7 @@
     "is-docker": "^2.2.1",
     "migrate": "^1.7.0",
     "mongo-seeding": "^3.7.0",
-    "mongodb": "^4.0.0",
+    "mongodb": "^4.0.1",
     "mongoose": "^5.13.3",
     "mongoose-long": "^0.4.0",
     "node-fetch": "^2.6.1",
