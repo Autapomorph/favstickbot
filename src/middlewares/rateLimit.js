@@ -1,4 +1,4 @@
-const { limit } = require('@grammyjs/ratelimiter/out/rateLimiter');
+const { limit } = require('@grammyjs/ratelimiter');
 
 const ERROR_TYPES = require('../utils/errors/types');
 const { replyError } = require('../utils/errors/reply');
