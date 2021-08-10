@@ -30,7 +30,7 @@
     "lint:staged": "lint-staged --relative",
     "cm": "cz",
     "release": "standard-version",
-    "prepare": "is-ci || is-docker || (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks)"
+    "prepare": "is-ci || is-docker || husky install"
   },
   "dependencies": {
     "@casl/ability": "^5.3.1",
@@ -56,12 +56,11 @@
     "migrate": "^1.7.0",
     "mongo-seeding": "^3.7.0",
     "mongodb": "^4.1.0",
-    "mongoose": "^5.13.5",
+    "mongoose": "^5.13.6",
     "mongoose-long": "^0.4.0",
     "node-fetch": "^2.6.1",
     "open": "^8.2.1",
     "sharp": "^0.28.3",
-    "shx": "^0.3.3",
     "telegraf": "^4.4.1",
     "telegraf-inline-menu": "^6.3.0",
     "telegraf-throttler": "^0.6.0",
