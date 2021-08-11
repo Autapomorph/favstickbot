@@ -57,7 +57,7 @@
     "mongo-seeding": "^3.7.0",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.6",
-    "mongoose-long": "^0.4.0",
+    "mongoose-long": "^0.4.1",
     "node-fetch": "^2.6.1",
     "open": "^8.2.1",
     "sharp": "^0.28.3",
