@@ -33,7 +33,7 @@
     "prepare": "is-ci || is-docker || husky install"
   },
   "dependencies": {
-    "@casl/ability": "^5.3.1",
+    "@casl/ability": "^5.4.0",
     "@casl/mongoose": "^5.0.0",
     "@edjopato/telegraf-i18n": "^0.2.2",
     "@grammyjs/ratelimiter": "^1.1.4",
@@ -56,8 +56,8 @@
     "migrate": "^1.7.0",
     "mongo-seeding": "^3.7.0",
     "mongodb": "^4.1.0",
-    "mongoose": "^5.13.6",
-    "mongoose-long": "^0.4.0",
+    "mongoose": "^5.13.7",
+    "mongoose-long": "^0.4.1",
     "node-fetch": "^2.6.1",
     "open": "^8.2.1",
     "sharp": "^0.28.3",
@@ -69,7 +69,7 @@
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "winston-transport": "^4.4.0",
-    "yargs": "^17.1.0"
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
