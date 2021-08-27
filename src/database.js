@@ -7,10 +7,6 @@ const logger = require('./utils/logger');
 mongooseLong(mongoose);
 mongoose.plugin(accessibleRecordsPlugin);
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useUnifiedTopology', true);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', false);
 mongoose.set('returnOriginal', false);
 
 mongoose.connection.on('connected', () => {

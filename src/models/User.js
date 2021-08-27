@@ -64,7 +64,7 @@ UserSchema.pre('deleteOne', { document: true }, async function pre() {
 });
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
-  const userResult = await this.findByIdAndUpdate(
+  const user = await this.findByIdAndUpdate(
     tgUser.id,
     {
       firstName: tgUser.first_name,
@@ -76,18 +76,8 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       upsert: true,
       setDefaultsOnInsert: true,
       runValidators: true,
-      rawResult: true,
     },
   );
-
-  const user = userResult.value;
-  const { upserted: upsertedId } = userResult.lastErrorObject;
-  if (upsertedId) {
-    logger.debug('New user created: %s', upsertedId);
-  } else {
-    // Save defaults
-    await user.save();
-  }
 
   return user;
 };

@@ -12,6 +12,7 @@ const PackSchema = mongoose.Schema(
     userId: {
       type: mongoose.Types.Long,
       ref: 'User',
+      transform: value => value.toString(),
     },
     title: {
       type: String,

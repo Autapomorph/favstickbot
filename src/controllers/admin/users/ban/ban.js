@@ -7,7 +7,7 @@ module.exports = async ctx => {
     return ctx.reply(ctx.i18n.t('operation.user.ban.reply.error.empty_userlist'));
   }
 
-  const { nModified: usersCount } = await User.updateMany(
+  const { modifiedCount: usersCount } = await User.updateMany(
     { _id: { $in: parsedIds } },
     { ban: true },
   ).accessibleBy(ctx.state.ability, 'update');

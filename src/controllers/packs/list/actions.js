@@ -1,3 +1,5 @@
+const { subject } = require('@casl/ability');
+
 const Pack = require('../../../models/Pack');
 const ERROR_TYPES = require('../../../utils/errors/types');
 const { replyErrorToMessage } = require('../../../utils/errors/reply');
@@ -7,7 +9,7 @@ const selectPack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToSelect = await Pack.findById(packId);
 
-  if (ctx.state.ability.cannot('update', packToSelect)) {
+  if (ctx.state.ability.cannot('update', subject('Pack', packToSelect.toObject()))) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
@@ -28,7 +30,7 @@ const archivePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
 
-  if (ctx.state.ability.cannot('update', packToModify)) {
+  if (ctx.state.ability.cannot('update', subject('Pack', packToModify.toObject()))) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
@@ -61,7 +63,7 @@ const restorePack = async (ctx, packId) => {
   const packToModify = await Pack.findById(packId);
   const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
 
-  if (ctx.state.ability.cannot('update', packToModify)) {
+  if (ctx.state.ability.cannot('update', subject('Pack', packToModify.toObject()))) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
@@ -86,7 +88,7 @@ const deletePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
 
-  if (ctx.state.ability.cannot('delete', packToDelete)) {
+  if (ctx.state.ability.cannot('delete', subject('Pack', packToDelete.toObject()))) {
     return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.ACCESS_DENIED);
   }
 
