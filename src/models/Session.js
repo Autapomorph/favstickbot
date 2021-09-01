@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const logger = require('../utils/logger');
+
 const SessionSchema = mongoose.Schema(
   {
     _id: mongoose.Types.Long,
@@ -16,13 +18,20 @@ const SessionSchema = mongoose.Schema(
 );
 
 SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) {
-  return this.findByIdAndUpdate(
+  const sessionResult = await this.findByIdAndUpdate(
     key,
     {
       data,
     },
-    { upsert: true, rawResult: true },
+    { upsert: true, omitUndefined: true, rawResult: true },
   );
+
+  const { upserted: upsertedId, updatedExisting } = sessionResult.lastErrorObject;
+  if (!updatedExisting) {
+    logger.debug('New session created: %s', upsertedId);
+  }
+
+  return sessionResult.value;
 };
 
 const Session = mongoose.model('Session', SessionSchema);

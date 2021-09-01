@@ -53,10 +53,6 @@ UserSchema.virtual('packs', {
   foreignField: 'userId',
 });
 
-UserSchema.pre(['find', 'findOne', 'findOneAndUpdate'], function pre() {
-  this.populate('selectedPack');
-});
-
 UserSchema.pre('deleteOne', { document: true }, async function pre() {
   await Pack.deleteMany({ userId: this.id });
   await Session.deleteOne({ _id: this.id });
@@ -64,7 +60,7 @@ UserSchema.pre('deleteOne', { document: true }, async function pre() {
 });
 
 UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
-  const user = await this.findByIdAndUpdate(
+  const userResult = await this.findByIdAndUpdate(
     tgUser.id,
     {
       firstName: tgUser.first_name,
@@ -73,13 +69,23 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       $setOnInsert: { 'settings.locale': tgUser.language_code || defaultLocale.code },
     },
     {
+      rawResult: true,
       upsert: true,
       setDefaultsOnInsert: true,
       runValidators: true,
     },
-  );
+  ).populate('selectedPack');
 
-  return user;
+  const user = userResult.value;
+  const { upserted: upsertedId, updatedExisting } = userResult.lastErrorObject;
+  if (!updatedExisting) {
+    logger.debug('New user created: %s', upsertedId);
+  } else {
+    // Save defaults
+    await user.save();
+  }
+
+  return user.populate('selectedPack');
 };
 
 const User = mongoose.model('User', UserSchema);
