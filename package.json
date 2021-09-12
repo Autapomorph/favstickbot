@@ -45,7 +45,7 @@
     "chrono-node": "^2.3.1",
     "clipboardy": "^2.3.0",
     "cross-env": "^7.0.3",
-    "dayjs": "^1.10.6",
+    "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "faker": "^5.5.3",
@@ -61,7 +61,7 @@
     "node-fetch": "^2.6.1",
     "open": "^8.2.1",
     "sharp": "^0.29.1",
-    "telegraf": "^4.4.1",
+    "telegraf": "^4.4.2",
     "telegraf-inline-menu": "^6.3.0",
     "telegraf-throttler": "^0.6.0",
     "telegraf-update-logger": "^1.5.0",
@@ -84,7 +84,7 @@
     "ignore": "^5.1.8",
     "lint-staged": "^11.1.2",
     "nodemon": "^2.0.12",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.0",
     "standard-version": "^9.3.1"
   },
   "standard-version": {
