@@ -35,7 +35,7 @@
   "dependencies": {
     "@casl/ability": "^5.4.3",
     "@casl/mongoose": "^5.0.0",
-    "@edjopato/telegraf-i18n": "^0.2.2",
+    "@grammyjs/i18n": "^0.3.0",
     "@grammyjs/ratelimiter": "^1.1.4",
     "@sentry/node": "^6.13.2",
     "agenda": "^4.2.1",

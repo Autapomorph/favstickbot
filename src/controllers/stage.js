@@ -1,10 +1,10 @@
 const { Scenes } = require('telegraf');
-const { match } = require('@edjopato/telegraf-i18n');
 
 const packCreateScenes = require('./packs/create/scene');
 const packCopyScene = require('./packs/copy/scene');
 const stickerOriginalScene = require('./stickers/original/scene');
 const getMainKeyboard = require('../keyboards/main');
+const match = require('../utils/i18n/match');
 
 const stage = new Scenes.Stage([
   ...Object.values(packCreateScenes),

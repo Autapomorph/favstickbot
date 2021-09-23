@@ -1,9 +1,9 @@
 const { Scenes } = require('telegraf');
-const { match } = require('@edjopato/telegraf-i18n');
 
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
 const { validatePackType } = require('../helpers/validators');
 const { replyPackType } = require('../replies');
+const match = require('../../../../utils/i18n/match');
 
 const packsCreateTypeScene = new Scenes.BaseScene('PACKS/CREATE/TYPE');
 

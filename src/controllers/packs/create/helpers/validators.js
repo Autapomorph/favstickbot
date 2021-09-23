@@ -1,8 +1,7 @@
-const { match } = require('@edjopato/telegraf-i18n');
-
 const replies = require('../replies');
 const { validateNameLength, validateNameSymbols } = require('../../../../utils/packs/validate');
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
+const match = require('../../../../utils/i18n/match');
 
 const validatePackType = async (ctx, type) => {
   const isStatic = Boolean(match(PACK_TYPES.STATIC)(type, ctx));

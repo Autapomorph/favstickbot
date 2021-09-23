@@ -1,5 +1,4 @@
 const { Telegraf, Composer } = require('telegraf');
-const { match } = require('@edjopato/telegraf-i18n');
 
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
@@ -7,6 +6,7 @@ const mw = require('./middlewares');
 const menus = require('./middlewares/menu');
 const commandLists = require('./config/commands');
 const commands = require('./utils/bot/commands');
+const match = require('./utils/i18n/match');
 const errorBoundary = require('./utils/errors/errorBoundary');
 
 const bot = new Telegraf(process.env.BOT_TOKEN, {
