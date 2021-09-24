@@ -83,7 +83,7 @@
     "husky": "^7.0.2",
     "ignore": "^5.1.8",
     "lint-staged": "^11.1.2",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
     "standard-version": "^9.3.1"
   },
