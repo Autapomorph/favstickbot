@@ -42,7 +42,7 @@
     "agendash": "^2.1.1",
     "bottleneck": "^2.19.5",
     "change-case": "^4.1.2",
-    "chrono-node": "^2.3.1",
+    "chrono-node": "^2.3.2",
     "clipboardy": "^2.3.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.7",
@@ -69,7 +69,7 @@
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "winston-transport": "^4.4.0",
-    "yargs": "^17.2.0"
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
@@ -83,7 +83,7 @@
     "husky": "^7.0.2",
     "ignore": "^5.1.8",
     "lint-staged": "^11.1.2",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
     "standard-version": "^9.3.1"
   },
