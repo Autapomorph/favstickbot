@@ -43,7 +43,7 @@
     "bottleneck": "^2.19.5",
     "change-case": "^4.1.2",
     "chrono-node": "^2.3.2",
-    "clipboardy": "^2.3.0",
+    "clipboardy": "^3.0.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
