@@ -1,0 +1,7 @@
+{
+  "reject": [
+    "clipboardy",
+    "is-docker",
+    "node-fetch"
+  ]
+}
