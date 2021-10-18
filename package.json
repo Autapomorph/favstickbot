@@ -85,7 +85,7 @@
     "lint-staged": "^11.2.3",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
-    "standard-version": "^9.3.1"
+    "standard-version": "^9.3.2"
   },
   "standard-version": {
     "skip": {
