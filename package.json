@@ -59,7 +59,7 @@
     "mongoose": "^6.0.12",
     "mongoose-long": "^0.5.0",
     "node-fetch": "^2.6.5",
-    "open": "^8.3.0",
+    "open": "^8.4.0",
     "sharp": "^0.29.2",
     "telegraf": "^4.4.2",
     "telegraf-inline-menu": "^6.3.0",
