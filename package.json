@@ -82,7 +82,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "ignore": "^5.1.8",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^11.2.6",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "standard-version": "^9.3.2"
