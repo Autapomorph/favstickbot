@@ -34,7 +34,7 @@ const formatErrorSentry = format(info => {
 });
 
 // eslint-disable-next-line no-control-regex
-const decolorizeRegex = new RegExp(/\u001b\[[0-9]{1,2}m/g);
+const decolorizeRegex = /\u001b\[[0-9]{1,2}m/g;
 const decolorize = format(info => {
   const { message } = info;
   return {
