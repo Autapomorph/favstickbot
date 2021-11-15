@@ -2,6 +2,7 @@
   "reject": [
     "clipboardy",
     "is-docker",
+    "lint-staged",
     "node-fetch"
   ]
 }
