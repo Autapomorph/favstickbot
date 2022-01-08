@@ -1,6 +1,7 @@
 {
   "reject": [
     "clipboardy",
+    "faker",
     "is-docker",
     "node-fetch"
   ]

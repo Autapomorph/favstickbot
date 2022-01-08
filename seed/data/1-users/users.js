@@ -1,4 +1,4 @@
-const faker = require('faker');
+const faker = require('community-faker');
 const { roles, rolesEnum } = require('../../../src/config/roles');
 const { ownerList, ownerSet, devModeAllowedList } = require('../../../src/config/userLists');
 
