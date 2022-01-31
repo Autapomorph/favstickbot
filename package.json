@@ -40,7 +40,7 @@
     "@grammyjs/ratelimiter": "^1.1.4",
     "@sentry/node": "^6.17.3",
     "agenda": "^4.2.1",
-    "agendash": "^2.1.1",
+    "agendash": "^3.0.0",
     "bottleneck": "^2.19.5",
     "change-case": "^4.1.2",
     "chrono-node": "^2.3.5",
