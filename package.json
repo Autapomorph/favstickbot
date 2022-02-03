@@ -47,7 +47,7 @@
     "clipboardy": "^2.3.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.7",
-    "dotenv": "^15.0.0",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "fetch-to-curl": "^0.5.2",
     "human-interval": "^2.0.1",
