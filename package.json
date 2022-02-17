@@ -38,7 +38,7 @@
     "@faker-js/faker": "^5.5.3",
     "@grammyjs/i18n": "^0.5.1",
     "@grammyjs/ratelimiter": "^1.1.4",
-    "@sentry/node": "^6.17.8",
+    "@sentry/node": "^6.17.9",
     "agenda": "^4.2.1",
     "agendash": "^3.1.0",
     "bottleneck": "^2.19.5",
