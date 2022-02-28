@@ -46,7 +46,7 @@
     "chrono-node": "^2.3.7",
     "clipboardy": "^2.3.0",
     "cross-env": "^7.0.3",
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.10.8",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "fetch-to-curl": "^0.5.2",
