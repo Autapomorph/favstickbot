@@ -37,7 +37,7 @@
     "@casl/mongoose": "^6.0.0",
     "@faker-js/faker": "^6.1.2",
     "@grammyjs/i18n": "^0.5.1",
-    "@grammyjs/ratelimiter": "^1.1.4",
+    "@grammyjs/ratelimiter": "^1.1.5",
     "@sentry/node": "^6.19.6",
     "agenda": "^4.2.1",
     "agendash": "^3.1.0",
