@@ -43,7 +43,7 @@
     "agendash": "^3.1.0",
     "bottleneck": "^2.19.5",
     "change-case": "^4.1.2",
-    "chrono-node": "^2.3.8",
+    "chrono-node": "^2.3.9",
     "clipboardy": "^2.3.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.2",
