@@ -30,6 +30,9 @@ Object.values(commandLists).forEach(commandList => {
 // Disallow channels
 bot.use(mw.dropChannel);
 
+// Disallow supergroups
+bot.use(mw.dropSuperGroup);
+
 // Register middlewares
 bot.use(
   Composer.compose([

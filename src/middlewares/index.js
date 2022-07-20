@@ -12,6 +12,7 @@ const hasPackLink = require('./hasPackLink');
 const validateDocument = require('./validateDocument');
 const getCommandParts = require('./getCommandParts');
 const dropChannel = require('./dropChannel');
+const dropSuperGroup = require('./dropSuperGroup');
 const rateLimit = require('./rateLimit');
 const throttle = require('./throttle');
 const i18n = require('./i18n');
@@ -31,6 +32,7 @@ module.exports = {
   validateDocument,
   getCommandParts,
   dropChannel,
+  dropSuperGroup,
   rateLimit,
   throttle,
   i18n,
