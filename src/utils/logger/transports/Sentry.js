@@ -3,13 +3,14 @@ const Sentry = require('@sentry/node');
 const TransportStream = require('winston-transport');
 const { LEVEL } = require('triple-beam');
 
+// Map Sentry error severity types to Winston types
 const DEFAULT_LEVELS_MAP = {
-  silly: Sentry.Severity.Debug,
-  verbose: Sentry.Severity.Debug,
-  info: Sentry.Severity.Info,
-  debug: Sentry.Severity.Debug,
-  warn: Sentry.Severity.Warning,
-  error: Sentry.Severity.Error,
+  silly: 'debug',
+  verbose: 'debug',
+  info: 'info',
+  debug: 'debug',
+  warn: 'warning',
+  error: 'error',
 };
 
 class ExtendedError extends Error {
@@ -25,7 +26,7 @@ class ExtendedError extends Error {
 
 const isObject = obj => typeof obj === 'function' || (typeof obj === 'object' && Boolean(obj));
 
-const isException = level => level === Sentry.Severity.Fatal || level === Sentry.Severity.Error;
+const isException = level => level === 'fatal' || level === 'error';
 
 const setLevelsMap = options => {
   if (!options) {
@@ -33,7 +34,7 @@ const setLevelsMap = options => {
   }
 
   const customLevelsMap = Object.keys(options).reduce((acc, winstonSeverity) => {
-    acc[winstonSeverity] = Sentry.Severity.fromString(options[winstonSeverity]);
+    acc[winstonSeverity] = options[winstonSeverity];
     return acc;
   }, {});
 
