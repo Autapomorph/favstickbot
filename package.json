@@ -33,7 +33,7 @@
     "prepare": "is-ci || is-docker || husky install"
   },
   "dependencies": {
-    "@casl/ability": "^5.4.4",
+    "@casl/ability": "^6.0.0",
     "@casl/mongoose": "^6.0.0",
     "@faker-js/faker": "^7.3.0",
     "@grammyjs/i18n": "^0.5.1",
