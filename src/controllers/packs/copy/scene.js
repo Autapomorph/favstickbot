@@ -1,6 +1,5 @@
 const { Scenes } = require('telegraf');
 const { drop } = require('telegraf').Composer;
-// eslint-disable-next-line import/no-unresolved
 const { message } = require('telegraf/filters');
 
 const Session = require('../../../models/Session');

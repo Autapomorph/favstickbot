@@ -1,5 +1,4 @@
 const { Telegraf, Composer } = require('telegraf');
-// eslint-disable-next-line import/no-unresolved
 const { message, callbackQuery } = require('telegraf/filters');
 
 const controllers = require('./controllers');

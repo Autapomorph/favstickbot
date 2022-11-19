@@ -1,5 +1,4 @@
 const { Scenes } = require('telegraf');
-// eslint-disable-next-line import/no-unresolved
 const { message } = require('telegraf/filters');
 
 const { validatePackTitle } = require('../helpers/validators');
