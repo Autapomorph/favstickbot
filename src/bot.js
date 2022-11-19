@@ -1,4 +1,6 @@
 const { Telegraf, Composer } = require('telegraf');
+// eslint-disable-next-line import/no-unresolved
+const { message, callbackQuery } = require('telegraf/filters');
 
 const controllers = require('./controllers');
 const stage = require('./controllers/stage');
@@ -69,11 +71,15 @@ userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settin
 userBot.command('copy', controllers.packs.copy.reply);
 userBot.command('original', controllers.stickers.original);
 userBot.command('deleteme', controllers.deleteMe);
-userBot.on(['sticker', 'document', 'photo'], mw.validateDocument, controllers.stickers.add);
+userBot.on(
+  [message('sticker'), message('document'), message('photo')],
+  mw.validateDocument,
+  controllers.stickers.add,
+);
 userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);
-userBot.on('message', controllers.start);
-userBot.on('callback_query', ctx => ctx.answerCbQuery());
+userBot.on(message(), controllers.start);
+userBot.on(callbackQuery(), ctx => ctx.answerCbQuery());
 userBot.on('my_chat_member', controllers.botStatusChange);
 
 // Admin route

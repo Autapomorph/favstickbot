@@ -1,4 +1,6 @@
 const { Scenes } = require('telegraf');
+// eslint-disable-next-line import/no-unresolved
+const { message } = require('telegraf/filters');
 
 const createPack = require('../helpers/createPack');
 const getMainKeyboard = require('../../../../keyboards/main');
@@ -12,7 +14,7 @@ packsCreateNameScene.enter(async ctx => {
   return replyPackName(ctx);
 });
 
-packsCreateNameScene.on('text', async ctx => {
+packsCreateNameScene.on(message('text'), async ctx => {
   const { user } = ctx.state;
   const { state } = ctx.scene;
   const { packToCreate, nextScene } = state;
@@ -37,7 +39,7 @@ packsCreateNameScene.on('text', async ctx => {
   return ctx.scene.leave();
 });
 
-packsCreateNameScene.on('message', async ctx => {
+packsCreateNameScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
 

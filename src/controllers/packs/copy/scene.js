@@ -1,5 +1,7 @@
 const { Scenes } = require('telegraf');
 const { drop } = require('telegraf').Composer;
+// eslint-disable-next-line import/no-unresolved
+const { message } = require('telegraf/filters');
 
 const Session = require('../../../models/Session');
 const copyPack = require('./helpers/copyPack');
@@ -26,8 +28,8 @@ packsCopyScene.enter(async ctx => {
   return copyPack(ctx, packToCopy, user.selectedPack, getIsAborted.bind(null, sessionKey));
 });
 
-packsCopyScene.on('message', async ctx => {
-  return ctx.reply(ctx.i18n.t('scene.pack_copy.reply.help'), { ...getCancelKeyboard(ctx) });
+packsCopyScene.on(message(), async ctx => {
+  return ctx.sendMessage(ctx.i18n.t('scene.pack_copy.reply.help'), { ...getCancelKeyboard(ctx) });
 });
 
 // Drop any updates

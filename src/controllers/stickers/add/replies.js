@@ -4,7 +4,7 @@ const ERROR_SETS = require('../../../utils/errors/sets');
 const validateError = require('../../../utils/errors/validateErrorType');
 
 const replySuccess = async (ctx, { title, link }) => {
-  return ctx.replyWithHTML(
+  return ctx.sendMessage(
     ctx.i18n.t('operation.sticker.add.reply.ok', {
       title,
       link,
@@ -12,6 +12,7 @@ const replySuccess = async (ctx, { title, link }) => {
     {
       reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
+      parse_mode: 'HTML',
     },
   );
 };

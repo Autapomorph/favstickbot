@@ -39,5 +39,5 @@ module.exports = async ctx => {
     },
   ];
   const replyText = getReplyText(ctx, responseConfig);
-  return ctx.replyWithHTML(replyText);
+  return ctx.sendMessage(replyText, { parse_mode: 'HTML' });
 };

@@ -12,7 +12,7 @@ const escapeHTML = require('../../../utils/common/escapeHTML');
 const logger = require('../../../utils/logger');
 
 module.exports = async ctx => {
-  await ctx.replyWithChatAction('upload_document');
+  await ctx.sendChatAction('upload_document');
 
   const { user } = ctx.state;
   const userFile = getUserFile(ctx);

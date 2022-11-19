@@ -46,5 +46,5 @@ module.exports = async ctx => {
 };
 
 module.exports.reply = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('cmd.copy.reply'));
+  return ctx.sendMessage(ctx.i18n.t('cmd.copy.reply'), { parse_mode: 'HTML' });
 };

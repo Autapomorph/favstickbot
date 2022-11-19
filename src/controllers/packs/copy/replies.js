@@ -4,9 +4,10 @@ const { replyError, replyErrorToMessage } = require('../../../utils/errors/reply
 const escapeHTML = require('../../../utils/common/escapeHTML');
 
 const replyEnter = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_copy.reply.enter'), {
+  return ctx.sendMessage(ctx.i18n.t('scene.pack_copy.reply.enter'), {
     reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
+    parse_mode: 'HTML',
   });
 };
 
@@ -19,7 +20,7 @@ const replyErrorUnknown = async (ctx, extra) => {
 };
 
 const replyProgress = async (ctx, packToCopy, newPack) => {
-  return ctx.replyWithHTML(
+  return ctx.sendMessage(
     ctx.i18n.t('scene.pack_copy.reply.progress', {
       originalTitle: escapeHTML(packToCopy.title),
       originalLink: `${packLinkPrefix}${packToCopy.name}`,
@@ -28,6 +29,7 @@ const replyProgress = async (ctx, packToCopy, newPack) => {
       current: 0,
       total: packToCopy.stickers.length,
     }),
+    { parse_mode: 'HTML' },
   );
 };
 
@@ -50,14 +52,14 @@ const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
 
 const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
   ctx.deleteMessage(message.message_id);
-  return ctx.replyWithHTML(
+  return ctx.sendMessage(
     ctx.i18n.t('scene.pack_copy.reply.done', {
       originalTitle: escapeHTML(packToCopy.title),
       originalLink: `${packLinkPrefix}${packToCopy.name}`,
       title: escapeHTML(newPack.title),
       link: `${packLinkPrefix}${newPack.name}`,
     }),
-    extra,
+    { ...extra, parse_mode: 'HTML' },
   );
 };
 

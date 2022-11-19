@@ -7,34 +7,37 @@ const { replyErrorToMessage } = require('../../../utils/errors/reply');
 const escapeHTML = require('../../../utils/common/escapeHTML');
 
 const replyPackType = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_type'), {
+  return ctx.sendMessage(ctx.i18n.t('scene.pack_create.pack_type'), {
     ...getPackTypeKeyboard(ctx),
+    parse_mode: 'HTML',
     reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
   });
 };
 
 const replyPackTitle = async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scene.pack_create.pack_title'), {
+  return ctx.sendMessage(ctx.i18n.t('scene.pack_create.pack_title'), {
     ...getCancelKeyboard(ctx),
     reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
+    parse_mode: 'HTML',
   });
 };
 
 const replyPackName = async ctx => {
-  return ctx.replyWithHTML(
+  return ctx.sendMessage(
     ctx.i18n.t('scene.pack_create.pack_name', { botUsername: ctx.botInfo.username }),
     {
       ...getCancelKeyboard(ctx),
       reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
+      parse_mode: 'HTML',
     },
   );
 };
 
 const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) => {
-  return ctx.replyWithHTML(
+  return ctx.sendMessage(
     ctx.i18n.t('scene.pack_create.reply.ok', {
       title: escapeHTML(createdPack.title),
       link: `${packLinkPrefix}${createdPack.name}`,
@@ -43,6 +46,7 @@ const replySuccess = async (ctx, createdPack, keyboard = getMainKeyboard(ctx)) =
       ...keyboard,
       reply_to_message_id: ctx.message.message_id,
       allow_sending_without_reply: true,
+      parse_mode: 'HTML',
     },
   );
 };

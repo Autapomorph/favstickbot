@@ -1,5 +1,7 @@
 const { Scenes } = require('telegraf');
 const { drop } = require('telegraf').Composer;
+// eslint-disable-next-line import/no-unresolved
+const { message } = require('telegraf/filters');
 
 const Sticker = require('../../../models/Sticker');
 const { replyOriginal, replyErrorNotFound } = require('./replies');
@@ -8,12 +10,13 @@ const getCancelKeyboard = require('../../../keyboards/cancel');
 const stickersOriginalScene = new Scenes.BaseScene('STICKERS/ORIGINAL');
 
 stickersOriginalScene.enter(async ctx => {
-  return ctx.replyWithHTML(ctx.i18n.t('scene.sticker_original.reply.enter'), {
+  return ctx.sendMessage(ctx.i18n.t('scene.sticker_original.reply.enter'), {
     ...getCancelKeyboard(ctx),
+    parse_mode: 'HTML',
   });
 });
 
-stickersOriginalScene.on('sticker', async ctx => {
+stickersOriginalScene.on(message('sticker'), async ctx => {
   const sticker = await Sticker.findOne().byUID(ctx.message.sticker.file_unique_id);
 
   if (!sticker) {
@@ -23,8 +26,10 @@ stickersOriginalScene.on('sticker', async ctx => {
   return replyOriginal(ctx, sticker.original);
 });
 
-stickersOriginalScene.on('message', async ctx => {
-  return ctx.reply(ctx.i18n.t('scene.sticker_original.reply.help'), { ...getCancelKeyboard(ctx) });
+stickersOriginalScene.on(message(), async ctx => {
+  return ctx.sendMessage(ctx.i18n.t('scene.sticker_original.reply.help'), {
+    ...getCancelKeyboard(ctx),
+  });
 });
 
 // Drop any updates

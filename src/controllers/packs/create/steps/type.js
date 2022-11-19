@@ -1,4 +1,6 @@
 const { Scenes } = require('telegraf');
+// eslint-disable-next-line import/no-unresolved
+const { message } = require('telegraf/filters');
 
 const PACK_TYPES = require('../../../../utils/packs/packTypes');
 const { validatePackType } = require('../helpers/validators');
@@ -31,7 +33,7 @@ packsCreateTypeScene.hears([match(PACK_TYPES.STATIC), match(PACK_TYPES.ANIMATED)
   return ctx.scene.enter('PACKS/CREATE/TITLE', state);
 });
 
-packsCreateTypeScene.on('message', async ctx => {
+packsCreateTypeScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
 

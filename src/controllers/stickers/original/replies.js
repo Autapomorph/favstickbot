@@ -18,13 +18,13 @@ const replyOriginal = async (ctx, { type, fileId }) => {
   try {
     switch (type) {
       case 'sticker':
-        return await ctx.replyWithSticker(fileId, replyExtra);
+        return await ctx.sendSticker(fileId, replyExtra);
 
       case 'photo':
-        return await ctx.replyWithPhoto(fileId, replyExtra);
+        return await ctx.sendPhoto(fileId, replyExtra);
 
       case 'document':
-        return await ctx.replyWithDocument(fileId, replyExtra);
+        return await ctx.sendDocument(fileId, replyExtra);
 
       default:
         return replyErrorNotFound(ctx);

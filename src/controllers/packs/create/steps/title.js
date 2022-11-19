@@ -1,4 +1,6 @@
 const { Scenes } = require('telegraf');
+// eslint-disable-next-line import/no-unresolved
+const { message } = require('telegraf/filters');
 
 const { validatePackTitle } = require('../helpers/validators');
 const { replyPackTitle } = require('../replies');
@@ -16,7 +18,7 @@ packsCreateTitleScene.enter(async ctx => {
   return replyPackTitle(ctx);
 });
 
-packsCreateTitleScene.on('text', async ctx => {
+packsCreateTitleScene.on(message('text'), async ctx => {
   const { state } = ctx.scene;
   const { packToCreate } = state;
   const packTitle = ctx.message.text;
@@ -30,7 +32,7 @@ packsCreateTitleScene.on('text', async ctx => {
   return ctx.scene.enter('PACKS/CREATE/NAME', state);
 });
 
-packsCreateTitleScene.on('message', async ctx => {
+packsCreateTitleScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
 

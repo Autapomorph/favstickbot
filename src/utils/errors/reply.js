@@ -2,7 +2,7 @@ const ERROR_TYPES = require('./types');
 
 // Base reply error
 const replyError = async (ctx, tKey, resource, extra = {}) => {
-  return ctx.replyWithHTML(ctx.i18n.t(tKey, resource), extra);
+  return ctx.sendMessage(ctx.i18n.t(tKey, resource), { ...extra, parse_mode: 'HTML' });
 };
 
 // Reply error to specified message
