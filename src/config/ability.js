@@ -1,6 +1,6 @@
-const { Ability, AbilityBuilder } = require('@casl/ability');
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
-const { roles } = require('./roles');
+import { roles } from './roles.js';
 
 const defineUserRules = (user, { can }) => {
   can('delete', 'User', { id: user.id });
@@ -31,8 +31,8 @@ const defineOwnerRules = (user, { can, cannot }) => {
   cannot('update', 'User', ['ban', 'role'], { id: user.id });
 };
 
-const defineAbilityFor = user => {
-  const builder = new AbilityBuilder(Ability);
+export const defineAbilityFor = user => {
+  const builder = new AbilityBuilder(createMongoAbility);
 
   switch (user.role) {
     case roles.owner:
@@ -58,5 +58,3 @@ const defineAbilityFor = user => {
 
   return builder.build();
 };
-
-module.exports = { defineAbilityFor };

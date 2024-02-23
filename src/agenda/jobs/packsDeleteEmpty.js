@@ -1,16 +1,16 @@
-const hi = require('human-interval');
+import hi from 'human-interval';
 
-const Pack = require('../../models/Pack');
-const telegram = require('../../telegram');
-const validateError = require('../../utils/errors/validateErrorType');
-const ERROR_TYPES = require('../../utils/errors/types');
-const logger = require('../../utils/logger');
+import { Pack } from '../../models/Pack.js';
+import { telegram } from '../../telegram.js';
+import { validateTelegramErrorType } from '../../utils/errors/validateErrorType.js';
+import * as ERROR_TYPES from '../../utils/errors/types/index.js';
+import { logger } from '../../utils/logger/index.js';
 
 const jobName = 'packs-delete-empty';
 
 const defaultThreshold = hi('7 days');
 
-module.exports = agenda => {
+export const packsDeleteEmptyJob = agenda => {
   agenda.define(jobName, { concurrency: 1 }, async job => {
     const jobData = job.attrs.data;
     if (typeof jobData.threshold !== 'number' && typeof jobData.threshold !== 'string') {
@@ -37,7 +37,8 @@ module.exports = agenda => {
             // If there is no pack on Telegram servers
             // It means that this pack was deleted
             // And it should be removed from db
-            if (!validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) throw error;
+            if (!validateTelegramErrorType(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error))
+              throw error;
             resolve({ id });
           });
       });

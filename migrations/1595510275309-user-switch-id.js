@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
-const { ObjectID } = require('mongodb');
+import { ObjectId } from 'mongodb';
 
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'User: set `telegramId` as `_id`';
+export const description = 'User: set `telegramId` as `_id`';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
 
   const users = client.db().collection('users');
@@ -35,7 +35,7 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
 
   const users = client.db().collection('users');
@@ -47,7 +47,7 @@ module.exports.down = async () => {
   const newUsers = oldUsers.map(oldUser => {
     return {
       ...oldUser,
-      _id: new ObjectID(),
+      _id: new ObjectId(),
       telegramId: oldUser._id,
     };
   });

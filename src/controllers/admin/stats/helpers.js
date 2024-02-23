@@ -1,9 +1,9 @@
-const hi = require('human-interval');
-const chrono = require('chrono-node');
-const dayjs = require('dayjs');
-const utcPlugin = require('dayjs/plugin/utc');
-const durationPlugin = require('dayjs/plugin/duration');
-const localizedFormatPlugin = require('dayjs/plugin/localizedFormat');
+import hi from 'human-interval';
+import chrono from 'chrono-node';
+import dayjs from 'dayjs';
+import utcPlugin from 'dayjs/plugin/utc';
+import durationPlugin from 'dayjs/plugin/duration';
+import localizedFormatPlugin from 'dayjs/plugin/localizedFormat';
 
 dayjs.extend(utcPlugin);
 dayjs.extend(durationPlugin);
@@ -49,7 +49,7 @@ const getHumanIntervalDates = hiParsed => {
   };
 };
 
-const getThresholdDates = ctx => {
+export const getThresholdDates = ctx => {
   const dateString = ctx.state.commandParts?.args?.trim() ?? ctx.match?.[1];
   const replyTo = ctx.message?.reply_to_message;
 
@@ -73,7 +73,7 @@ const getThresholdDates = ctx => {
   };
 };
 
-const getThresholdFilter = dates => {
+export const getThresholdFilter = dates => {
   const { from, to } = dates;
   if (from || to) {
     const createdAt = {};
@@ -83,7 +83,7 @@ const getThresholdFilter = dates => {
   }
 };
 
-const getReplyText = (ctx, responseConfig) => {
+export const getReplyText = (ctx, responseConfig) => {
   let replyText = '';
 
   responseConfig.forEach((config, i) => {
@@ -109,13 +109,13 @@ const getReplyText = (ctx, responseConfig) => {
   return replyText;
 };
 
-const getLocalizedDate = (date, locale) => {
+export const getLocalizedDate = (date, locale) => {
   if (!date) return undefined;
   const format = date.hour() === 0 && date.minute() === 0 ? 'll' : 'lll UTC';
   return date.locale(locale).format(format);
 };
 
-const getLocalizedDates = (dates, locale) => {
+export const getLocalizedDates = (dates, locale) => {
   if (!dates || !locale) return undefined;
   return Object.entries(dates).reduce((acc, [key, val]) => {
     acc[key] = getLocalizedDate(val, locale);
@@ -123,18 +123,9 @@ const getLocalizedDates = (dates, locale) => {
   }, {});
 };
 
-const getPeriodKey = ({ from, to }) => {
+export const getPeriodKey = ({ from, to }) => {
   if (from && to) return 'from_to';
   if (from) return 'since';
   if (to) return 'until';
   return 'total';
-};
-
-module.exports = {
-  getThresholdDates,
-  getThresholdFilter,
-  getLocalizedDate,
-  getLocalizedDates,
-  getReplyText,
-  getPeriodKey,
 };

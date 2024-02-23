@@ -1,9 +1,9 @@
-const path = require('path');
+import { fileURLToPath } from 'node:url';
 
-require('dayjs/locale/en');
-require('dayjs/locale/ru');
+import 'dayjs/locale/en.js';
+import 'dayjs/locale/ru.js';
 
-const locales = {
+export const locales = {
   en: {
     englishName: 'English',
     name: 'English',
@@ -18,12 +18,6 @@ const locales = {
   },
 };
 
-const defaultLocale = locales.en;
+export const defaultLocale = locales.en;
 
-const resourcesPath = path.resolve(__dirname, '../../locales');
-
-module.exports = {
-  locales,
-  defaultLocale,
-  resourcesPath,
-};
+export const resourcesPath = fileURLToPath(new URL('../../locales', import.meta.url));

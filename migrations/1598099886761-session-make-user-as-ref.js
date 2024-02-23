@@ -1,9 +1,9 @@
 /* eslint-disable no-await-in-loop */
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'Session: make `data.user` as ref to User model';
+export const description = 'Session: make `data.user` as ref to User model';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const sessions = client.db().collection('sessions');
   await sessions.updateMany({ 'data.user._id': { $ne: null } }, [
@@ -12,7 +12,7 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
 
   const sessions = client.db().collection('sessions');

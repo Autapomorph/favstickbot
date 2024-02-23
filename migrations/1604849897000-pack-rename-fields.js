@@ -1,15 +1,15 @@
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'Pack: rename `isHidden`';
+export const description = 'Pack: rename `isHidden`';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const packs = client.db().collection('packs');
   await packs.updateMany({}, { $rename: { isHidden: 'isArchived' } });
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
   const packs = client.db().collection('packs');
   await packs.updateMany({}, { $rename: { isArchived: 'isHidden' } });

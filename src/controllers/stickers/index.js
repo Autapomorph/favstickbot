@@ -1,7 +1,7 @@
-const add = require('./add');
-const original = require('./original');
+import { add } from './add/index.js';
+import { original } from './original/index.js';
 
-module.exports = {
+export const stickers = {
   add,
   original,
 };

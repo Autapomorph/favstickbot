@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Pack = require('./Pack');
-const Session = require('./Session');
-const { rolesList } = require('../config/roles');
-const { defaultLocale } = require('../config/i18n');
-const logger = require('../utils/logger');
+import { Pack } from './Pack.js';
+import { Session } from './Session.js';
+import { rolesList } from '../config/roles.js';
+import { defaultLocale } from '../config/i18n.js';
+import { logger } from '../utils/logger/index.js';
 
 const UserSchema = mongoose.Schema(
   {
@@ -88,6 +88,4 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
   return user.populate('selectedPack');
 };
 
-const User = mongoose.model('User', UserSchema);
-
-module.exports = User;
+export const User = mongoose.model('User', UserSchema);

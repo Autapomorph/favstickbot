@@ -1,9 +1,9 @@
-const sendMessage = require('./sendMessage');
-const User = require('../../models/User');
-const wait = require('../common/wait');
-const logger = require('../logger');
+import { sendMessage } from './sendMessage.js';
+import { User } from '../../models/User.js';
+import { wait } from '../common/wait.js';
+import { logger } from '../logger/index.js';
 
-async function sendToAll(tgInstance, text, authorId) {
+export async function sendToAll(tgInstance, text, authorId) {
   const chats = await User.find();
   try {
     return await sendMessage(text, authorId, chats, tgInstance);
@@ -13,5 +13,3 @@ async function sendToAll(tgInstance, text, authorId) {
     await tgInstance.sendMessage(authorId, error.message);
   }
 }
-
-module.exports = sendToAll;

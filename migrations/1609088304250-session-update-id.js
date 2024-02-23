@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-syntax */
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'Session: make `data.user` as _id';
+export const description = 'Session: make `data.user` as _id';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const sessions = client.db().collection('sessions');
 
@@ -18,7 +18,7 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
   const sessions = client.db().collection('sessions');
 

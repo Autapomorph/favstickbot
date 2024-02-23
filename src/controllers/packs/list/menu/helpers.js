@@ -1,8 +1,8 @@
-const Pack = require('../../../../models/Pack');
-const options = require('./options');
-const { packLinkPrefix } = require('../../../../config/packs');
-const packPostfix = require('../../../../utils/packs/postfix');
-const escapeHTML = require('../../../../utils/common/escapeHTML');
+import { Pack } from '../../../../models/Pack.js';
+import { options } from './options.js';
+import { packLinkPrefix } from '../../../../config/packs.js';
+import * as packPostfix from '../../../../utils/packs/postfix.js';
+import { escapeHTML } from '../../../../utils/common/escapeHTML.js';
 
 const perPage = options.maxRows;
 
@@ -22,7 +22,7 @@ const getBodyText = (ctx, packsCount, selectedPack) => {
   return text;
 };
 
-const getMenuBody = async ctx => {
+export const getMenuBody = async ctx => {
   const { user } = ctx.state;
   const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
   const text = getBodyText(ctx, visiblePacksCount, user.selectedPack);
@@ -43,7 +43,7 @@ const getPacksCount = async (user, showArchivedPacks) => {
   return packsCountQuery;
 };
 
-const getMenuChoices = async ctx => {
+export const getMenuChoices = async ctx => {
   const { user } = ctx.state;
   const { showArchivedPacks } = user.settings;
 
@@ -70,7 +70,7 @@ const getMenuChoices = async ctx => {
   }, {});
 };
 
-async function getTotalPages(ctx) {
+export async function getTotalPages(ctx) {
   const { user } = ctx.state;
   const { showArchivedPacks } = user.settings;
 
@@ -78,13 +78,13 @@ async function getTotalPages(ctx) {
   return Math.ceil(packsCount / perPage);
 }
 
-function getCurrentPage(ctx) {
+export function getCurrentPage(ctx) {
   const { packListPage } = ctx.session;
   if (!Number.parseInt(packListPage, 10) || packListPage <= 0) setPage(ctx, 1);
   return ctx.session.packListPage;
 }
 
-function setPage(ctx, page) {
+export function setPage(ctx, page) {
   ctx.session.packListPage = page;
 }
 
@@ -93,11 +93,3 @@ function getSkip(ctx) {
   const skip = (currentPage - 1) * perPage;
   return skip >= 0 ? skip : 0;
 }
-
-module.exports = {
-  getMenuBody,
-  getMenuChoices,
-  getTotalPages,
-  getCurrentPage,
-  setPage,
-};

@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
-const express = require('express');
-const Agendash = require('agendash');
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const open = require('open');
+import 'dotenv/config';
+import express from 'express';
+import Agendash from 'agendash';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import open from 'open';
 
-const database = require('./database');
-const { agenda, collectionName } = require('./agenda');
-const logger = require('./utils/logger');
+import * as database from './database.js';
+import { agenda, collectionName } from './agenda/index.js';
+import { logger } from './utils/logger/index.js';
 
 yargs(hideBin(process.argv))
   .scriptName('agendash')

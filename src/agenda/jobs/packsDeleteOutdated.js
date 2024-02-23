@@ -1,13 +1,13 @@
-const hi = require('human-interval');
+import hi from 'human-interval';
 
-const Pack = require('../../models/Pack');
-const logger = require('../../utils/logger');
+import { Pack } from '../../models/Pack.js';
+import { logger } from '../../utils/logger/index.js';
 
 const jobName = 'packs-delete-outdated';
 
 const defaultThreshold = hi('7 days');
 
-module.exports = agenda => {
+export const packsDeleteOutdatedJob = agenda => {
   agenda.define(jobName, { concurrency: 1 }, async job => {
     const jobData = job.attrs.data;
     if (typeof jobData.threshold !== 'number' && typeof jobData.threshold !== 'string') {

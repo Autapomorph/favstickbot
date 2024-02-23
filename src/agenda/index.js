@@ -1,9 +1,11 @@
-const { Agenda } = require('agenda');
+import { Agenda } from 'agenda';
 
-const jobs = require('./jobs');
-const logger = require('../utils/logger');
+import { jobs } from './jobs/index.js';
+import { logger } from '../utils/logger/index.js';
 
-const agenda = new Agenda();
+export const collectionName = '_agendaJobs';
+
+export const agenda = new Agenda();
 
 jobs.forEach(job => job(agenda));
 
@@ -32,7 +34,3 @@ agenda.on('fail', (error, job) => {
     tags: { agenda: true },
   });
 });
-
-const collectionName = '_agendaJobs';
-
-module.exports = { agenda, collectionName };

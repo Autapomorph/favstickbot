@@ -1,13 +1,11 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const singleRoleMenu = require('./singleRole');
-const { getMenuBody, getMenuChoices } = require('./helpers');
-const options = require('./options');
+import { menu as singleRoleMenu } from './singleRole/index.js';
+import { getMenuBody, getMenuChoices } from './helpers.js';
+import { options } from './options.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.chooseIntoSubmenu('', getMenuChoices, singleRoleMenu, options);
 
 menu.navigate(ctx => ctx.i18n.t('menu.admin.stats.actions.back'), '..');
-
-module.exports = menu;

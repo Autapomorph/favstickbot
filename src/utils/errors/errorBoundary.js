@@ -1,23 +1,23 @@
-const { TelegramError } = require('telegraf');
-const { Error: MongooseError } = require('mongoose');
-const { ForbiddenError } = require('@casl/ability');
+import { TelegramError } from 'telegraf';
+import { MongooseError } from 'mongoose';
+import { ForbiddenError } from '@casl/ability';
 
-const { replyErrorTelegram, replyErrorForbidden, replyErrorUnknown } = require('./reply');
-const { answerErrorForbidden } = require('./answer');
-const validateError = require('./validateErrorType');
-const ERROR_TYPES = require('./types');
-const ERROR_SETS = require('./sets');
-const logger = require('../logger');
-const createMeta = require('../logger/meta/createMeta');
+import { replyErrorTelegram, replyErrorForbidden, replyErrorUnknown } from './reply.js';
+import { answerErrorForbidden } from './answer.js';
+import { validateTelegramErrorType } from './validateErrorType.js';
+import * as ERROR_TYPES from './types/index.js';
+import * as ERROR_SETS from './sets/index.js';
+import { logger } from '../logger/index.js';
+import { createMeta } from '../logger/meta/createMeta.js';
 
-module.exports = async (error, ctx) => {
+export const errorBoundary = (error, ctx) => {
   if (error instanceof MongooseError || error.message.includes('ECONNREFUSED')) {
     logger.error(error);
     return;
   }
 
   // Do not log or reply if blocked by user
-  if (validateError(ERROR_TYPES.TELEGRAM.BLOCKED_BY_USER, error)) {
+  if (validateTelegramErrorType(ERROR_TYPES.TELEGRAM.BLOCKED_BY_USER, error)) {
     return;
   }
 
@@ -35,7 +35,7 @@ module.exports = async (error, ctx) => {
   });
 
   if (error instanceof TelegramError) {
-    if (validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
+    if (validateTelegramErrorType(ERROR_SETS.DO_NOT_REPLY, error)) {
       return;
     }
 

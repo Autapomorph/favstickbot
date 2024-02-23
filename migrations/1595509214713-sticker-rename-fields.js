@@ -1,9 +1,9 @@
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description =
+export const description =
   'Sticker: rename `pack`, `original.fileId`, `original.fileType`. Drop `emojis`, `original.fileUniqueId`, `original.packName` and `updatedAt`';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const stickers = client.db().collection('stickers');
   await stickers.dropIndex({ fileUniqueId: 1 });
@@ -23,7 +23,7 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
   const stickers = client.db().collection('stickers');
   await stickers.dropIndex({ uid: 1 });

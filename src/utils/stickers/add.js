@@ -1,10 +1,10 @@
-const createSticker = require('./create');
-const downloadSticker = require('./download');
-const uploadSticker = require('./upload');
-const { normalizeImage } = require('../common/image');
-const { packLinkPrefix } = require('../../config/packs');
+import { createSticker } from './create.js';
+import { downloadSticker } from './download.js';
+import { uploadSticker } from './upload.js';
+import { normalizeImage } from '../common/image.js';
+import { packLinkPrefix } from '../../config/packs.js';
 
-const addSticker = async (ctx, userFile, pack) => {
+export const addSticker = async (ctx, userFile, pack) => {
   let fileBuffer = await downloadSticker(ctx, userFile.fileId);
 
   if (userFile.isAnimated === false) {
@@ -30,5 +30,3 @@ const addSticker = async (ctx, userFile, pack) => {
     link: `${packLinkPrefix}${pack.name}`,
   };
 };
-
-module.exports = addSticker;

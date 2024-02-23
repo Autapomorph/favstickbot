@@ -1,12 +1,11 @@
-const { acl } = require('telegraf').Composer;
+import { Composer } from 'telegraf';
 
 const abilityGuard =
   can =>
   (...args) =>
   (...fns) =>
-    acl(ctx => ctx.state.ability[can ? 'can' : 'cannot'](...args), ...fns);
+    Composer.acl(ctx => ctx.state.ability[can ? 'can' : 'cannot'](...args), ...fns);
 
-module.exports = {
-  can: abilityGuard(true),
-  cannot: abilityGuard(false),
-};
+export const can = abilityGuard(true);
+
+export const cannot = abilityGuard(false);

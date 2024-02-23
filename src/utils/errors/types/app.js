@@ -1,4 +1,4 @@
-const ERROR_TYPES = {
+export const ERROR_TYPES_APP = {
   REPLY: 'shared.reply.error.telegram',
   ANSWER: 'shared.answer.error.telegram',
   RATELIMIT: 'shared.reply.error.ratelimit',
@@ -35,5 +35,3 @@ const ERROR_TYPES = {
     },
   },
 };
-
-module.exports = ERROR_TYPES;

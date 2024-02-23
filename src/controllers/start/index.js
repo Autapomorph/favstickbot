@@ -1,7 +1,7 @@
-const getMainKeyboard = require('../../keyboards/main');
-const getUserName = require('../../utils/users/getUserName');
+import { getMainKeyboard } from '../../keyboards/main.js';
+import { getUserName } from '../../utils/users/getUserName.js';
 
-module.exports = async ctx => {
+export const start = async ctx => {
   return ctx.sendMessage(
     ctx.i18n.t('cmd.start.reply', {
       name: getUserName(ctx.from),

@@ -1,8 +1,8 @@
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'User: drop null fields';
+export const description = 'User: drop null fields';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const users = client.db().collection('users');
   await users.updateMany({}, [
@@ -20,4 +20,4 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = next => next();
+export const down = next => next();

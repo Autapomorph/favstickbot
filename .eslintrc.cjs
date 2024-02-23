@@ -8,10 +8,17 @@ module.exports = {
     ecmaVersion: 2024,
   },
   extends: ['airbnb-base', 'plugin:prettier/recommended'],
+  settings: {
+    'import/resolver': {
+      node: true,
+    },
+  },
   rules: {
     'consistent-return': 'off',
     'no-use-before-define': ['error', { functions: false }],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'import/extensions': ['error', 'ignorePackages'],
+    'import/prefer-default-export': 'off',
   },
   overrides: [
     {

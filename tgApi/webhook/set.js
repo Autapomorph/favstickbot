@@ -1,10 +1,10 @@
-const { fetchToCurl } = require('fetch-to-curl');
-const clipboardy = require('clipboardy');
+import fetchToCurl from 'fetch-to-curl';
+import clipboardy from 'clipboardy';
 
-const { TELEGRAM_API } = require('../constants');
-const createWebhookPath = require('../../src/utils/bot/createWebhookPath');
+import { TELEGRAM_API } from '../constants.js';
+import createWebhookPath from '../../src/utils/bot/createWebhookPath.js';
 
-module.exports = {
+export const setWebhookCommand = {
   command: 'set [url]',
   description: 'Set webhook URL',
   builder: y => {

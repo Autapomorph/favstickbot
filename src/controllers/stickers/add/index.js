@@ -1,17 +1,17 @@
-const { TelegramError } = require('telegraf');
+import { TelegramError } from 'telegraf';
 
-const Pack = require('../../../models/Pack');
-const { replySuccess, replyErrorNoSuitablePacks, replyErrorAddSticker } = require('./replies');
-const { getUserFile } = require('../../../utils/stickers/get');
-const addSticker = require('../../../utils/stickers/add');
-const ERROR_TYPES = require('../../../utils/errors/types');
-const { replyErrorUnknown } = require('../../../utils/errors/reply');
-const validateError = require('../../../utils/errors/validateErrorType');
-const createMeta = require('../../../utils/logger/meta/createMeta');
-const escapeHTML = require('../../../utils/common/escapeHTML');
-const logger = require('../../../utils/logger');
+import { Pack } from '../../../models/Pack.js';
+import { replySuccess, replyErrorNoSuitablePacks, replyErrorAddSticker } from './replies.js';
+import { getUserFile } from '../../../utils/stickers/get.js';
+import { addSticker } from '../../../utils/stickers/add.js';
+import * as ERROR_TYPES from '../../../utils/errors/types/index.js';
+import { replyErrorUnknown } from '../../../utils/errors/reply.js';
+import { validateTelegramErrorType } from '../../../utils/errors/validateErrorType.js';
+import { createMeta } from '../../../utils/logger/meta/createMeta.js';
+import { escapeHTML } from '../../../utils/common/escapeHTML.js';
+import { logger } from '../../../utils/logger/index.js';
 
-module.exports = async ctx => {
+export const add = async ctx => {
   await ctx.sendChatAction('upload_document');
 
   const { user } = ctx.state;
@@ -50,7 +50,7 @@ module.exports = async ctx => {
       ERROR_TYPES.TELEGRAM.STICKER_PNG_NOPNG,
       ERROR_TYPES.TELEGRAM.STICKER_TGS_NOTGS,
     ];
-    if (validateError(errorsToSkip, error)) {
+    if (validateTelegramErrorType(errorsToSkip, error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error, createMeta(ctx));

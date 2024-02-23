@@ -2,6 +2,7 @@
   "name": "favstickbot",
   "version": "1.0.0",
   "description": "Telegram bot which helps you mix stickers from multiple packs into a single one",
+  "type": "module",
   "keywords": [
     "telegram",
     "bot",

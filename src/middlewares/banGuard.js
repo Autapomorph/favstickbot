@@ -1,9 +1,9 @@
-const { drop } = require('telegraf').Composer;
+import { Composer } from 'telegraf';
 
-const User = require('../models/User');
+import { User } from '../models/User.js';
 
-module.exports = async (ctx, next) => {
+export const banGuard = async (ctx, next) => {
   const userId = ctx.from?.id;
   const user = await User.findById(userId).select('ban');
-  return user?.ban ? drop(true) : next();
+  return user?.ban ? Composer.drop(true) : next();
 };

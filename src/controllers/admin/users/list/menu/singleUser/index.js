@@ -1,10 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const User = require('../../../../../../models/User');
-const { getMenuBody } = require('./helpers');
-const setRoleMenu = require('../setRole');
+import { User } from '../../../../../../models/User.js';
+import { getMenuBody } from './helpers.js';
+import { menu as setRoleMenu } from '../setRole/index.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.interact(ctx => ctx.i18n.t('menu.admin.users.user.actions.ban'), 'b', {
   do: async ctx => {
@@ -43,5 +43,3 @@ menu.interact(ctx => ctx.i18n.t('menu.admin.users.user.actions.unban'), 'u', {
 menu.submenu(ctx => ctx.i18n.t('menu.admin.users.user.actions.set_role'), 'r', setRoleMenu);
 
 menu.navigate(ctx => ctx.i18n.t('menu.admin.users.actions.back'), '..');
-
-module.exports = menu;

@@ -1,7 +1,7 @@
-const { roles } = require('../config/roles');
-const { ownerSet } = require('../config/userLists');
+import { roles } from '../config/roles.js';
+import { ownerSet } from '../config/userLists.js';
 
-module.exports = async (ctx, next) => {
+export const restoreOwner = async (ctx, next) => {
   const { user } = ctx.state;
   if (user.role !== roles.owner && ownerSet.has(user._id.toNumber())) {
     user.role = roles.owner;

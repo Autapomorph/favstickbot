@@ -1,12 +1,15 @@
-/* eslint-disable global-require */
-module.exports = {
+import { setWebhookCommand } from './set.js';
+import { getWebhookCommand } from './get.js';
+import { deleteWebhookCommand } from './delete.js';
+
+export const webhookCommand = {
   command: 'webhook',
   aliases: ['wh'],
   description: 'Webhook commands',
   builder: y => {
-    y.command(require('./set'));
-    y.command(require('./get'));
-    y.command(require('./delete'));
+    y.command(setWebhookCommand);
+    y.command(getWebhookCommand);
+    y.command(deleteWebhookCommand);
     y.version();
     y.help();
     y.alias('version', 'v');

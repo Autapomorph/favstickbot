@@ -1,12 +1,12 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const deleteConfirmMenu = require('./deleteConfirm');
-const Pack = require('../../../../../models/Pack');
-const actions = require('../../actions');
-const { getMenuBody } = require('./helpers');
-const packPostfix = require('../../../../../utils/packs/postfix');
+import { menu as deleteConfirmMenu } from './deleteConfirm/index.js';
+import { Pack } from '../../../../../models/Pack.js';
+import { selectPack, archivePack, restorePack } from '../../actions.js';
+import { getMenuBody } from './helpers.js';
+import * as packPostfix from '../../../../../utils/packs/postfix.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), 's', {
   hide: async ctx => {
@@ -18,7 +18,7 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.select'), '
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
-    await actions.select(ctx, packId);
+    await selectPack(ctx, packId);
     return '..';
   },
 });
@@ -31,7 +31,7 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.archive'), 
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
-    await actions.archive(ctx, packId);
+    await archivePack(ctx, packId);
     return true;
   },
 });
@@ -44,7 +44,7 @@ menu.interact(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.restore'), 
   },
   do: async ctx => {
     const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
-    await actions.restore(ctx, packId);
+    await restorePack(ctx, packId);
     return true;
   },
 });
@@ -56,5 +56,3 @@ menu.submenu(
 );
 
 menu.navigate(ctx => ctx.i18n.t('menu.packs_list.single_pack.actions.back'), '..');
-
-module.exports = menu;

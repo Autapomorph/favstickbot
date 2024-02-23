@@ -1,18 +1,16 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const actions = require('./actions');
-const { getMenuBody, getMenuChoices } = require('./helpers');
+import { setLanguage } from './actions.js';
+import { getMenuBody, getMenuChoices } from './helpers.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.choose('set', getMenuChoices, {
   do: async ctx => {
-    await actions.setLanguage(ctx);
+    await setLanguage(ctx);
     return true;
   },
   columns: 5,
 });
 
 menu.navigate(ctx => ctx.i18n.t('menu.settings.language.actions.back'), '..');
-
-module.exports = menu;

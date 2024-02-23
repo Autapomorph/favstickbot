@@ -1,15 +1,15 @@
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'Pack: drop `hasTgInstance`';
+export const description = 'Pack: drop `hasTgInstance`';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
   const packs = client.db().collection('packs');
   await packs.updateMany({}, { $unset: { hasTgInstance: '' } });
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
   const packs = client.db().collection('packs');
   await packs.updateMany({}, { $set: { hasTgInstance: true } });

@@ -1,11 +1,12 @@
-const faker = require('@faker-js/faker');
-const { roles, rolesEnum } = require('../../../src/config/roles');
-const { ownerList, ownerSet, devModeAllowedList } = require('../../../src/config/userLists');
+import { faker } from '@faker-js/faker';
+
+import { roles, rolesEnum } from '../../../src/config/roles.js';
+import { ownerList, ownerSet, devModeAllowedList } from '../../../src/config/userLists.js';
 
 const getDefaultUser = () => {
   return {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
     username: faker.internet.userName(),
     selectedPack: null,
     role: roles.user,
@@ -96,4 +97,4 @@ const users = [
   ...regularUsers,
 ];
 
-module.exports = users;
+export default users;

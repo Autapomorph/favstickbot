@@ -1,10 +1,5 @@
-const path = require('path');
+import path from 'node:path';
 
-const defaultEmojis = '🛸';
+export const defaultEmojis = '🛸';
 
-const placeholderDir = path.resolve(process.cwd(), 'assets');
-
-module.exports = {
-  defaultEmojis,
-  placeholderDir,
-};
+export const placeholderDir = path.resolve(process.cwd(), 'assets');

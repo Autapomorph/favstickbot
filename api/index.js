@@ -1,14 +1,14 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-const database = require('../src/database');
-const bot = require('../src/bot');
-const WEBHOOK_OPTIONS = require('../src/config/webhook');
+import { connect } from '../src/database.js';
+import { bot } from '../src/bot.js';
+import WEBHOOK_OPTIONS from '../src/config/webhook.js';
 
 const { MONGODB_URI } = process.env;
 
 const webhookCallback = bot.webhookCallback(WEBHOOK_OPTIONS.hookPath);
-database.connect(MONGODB_URI);
+connect(MONGODB_URI);
 
-module.exports = (req, res) => {
+export default (req, res) => {
   return webhookCallback(req, res);
 };

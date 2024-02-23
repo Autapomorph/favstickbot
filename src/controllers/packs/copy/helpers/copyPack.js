@@ -1,8 +1,8 @@
-const getMainKeyboard = require('../../../../keyboards/main');
-const { replyProgress, editProgress, replySuccess, replyErrorUnknown } = require('../replies');
-const copyPackHelper = require('../../../../utils/packs/copy');
-const createMeta = require('../../../../utils/logger/meta/createMeta');
-const logger = require('../../../../utils/logger');
+import { getMainKeyboard } from '../../../../keyboards/main.js';
+import { replyProgress, editProgress, replySuccess, replyErrorUnknown } from '../replies.js';
+import { copyPack as copyPackHelper } from '../../../../utils/packs/copy.js';
+import { createMeta } from '../../../../utils/logger/meta/createMeta.js';
+import { logger } from '../../../../utils/logger/index.js';
 
 const onProgress = (ctx, packToCopy, newPack, message) => async index => {
   await editProgress(ctx, packToCopy, newPack, message, index);
@@ -19,7 +19,7 @@ const onFail = (ctx, extra) => async error => {
   return ctx.scene.leave();
 };
 
-module.exports = async (ctx, packToCopy, newPack, getIsAborted) => {
+export const copyPack = async (ctx, packToCopy, newPack, getIsAborted) => {
   const extra = { ...getMainKeyboard(ctx) };
   const message = await replyProgress(ctx, packToCopy, newPack);
 

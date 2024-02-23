@@ -1,15 +1,15 @@
-const { replyMenuToContext } = require('telegraf-inline-menu');
+import { replyMenuToContext } from 'telegraf-inline-menu';
 
-const menu = require('./menu');
-const users = require('./users');
-const stats = require('./stats');
+import { menu } from './menu/index.js';
+import { users } from './users/index.js';
+import { stats } from './stats/index.js';
 
 const menuController = async ctx => {
   return replyMenuToContext(menu, ctx, 'admin/');
 };
 
-module.exports = {
+export const admin = {
+  menu: menuController,
   users,
   stats,
-  menu: menuController,
 };

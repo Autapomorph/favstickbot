@@ -1,11 +1,11 @@
-require('dotenv').config();
-const { MongoClient } = require('mongodb');
+import 'dotenv/config';
+import { MongoClient } from 'mongodb';
 
-const logger = require('../logger');
+import { logger } from '../logger/index.js';
 
 const { MONGODB_URI } = process.env;
 
-module.exports = async (uri = MONGODB_URI) => {
+export const connect = async (uri = MONGODB_URI) => {
   try {
     return await MongoClient.connect(uri, {
       useNewUrlParser: true,

@@ -1,7 +1,2 @@
-const packLinkPrefix = 't.me/addstickers/';
-const packNameMaxLength = 64;
-
-module.exports = {
-  packLinkPrefix,
-  packNameMaxLength,
-};
+export const packLinkPrefix = 't.me/addstickers/';
+export const packNameMaxLength = 64;

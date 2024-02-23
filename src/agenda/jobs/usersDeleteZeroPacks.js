@@ -1,13 +1,13 @@
-const hi = require('human-interval');
+import hi from 'human-interval';
 
-const User = require('../../models/User');
-const logger = require('../../utils/logger');
+import { User } from '../../models/User.js';
+import { logger } from '../../utils/logger/index.js';
 
 const jobName = 'users-delete-zero-packs';
 
 const defaultThreshold = hi('30 days');
 
-module.exports = agenda => {
+export const usersDeleteZeroPacksJob = agenda => {
   agenda.define(jobName, { concurrency: 1 }, async job => {
     const jobData = job.attrs.data;
     if (typeof jobData.threshold !== 'number' && typeof jobData.threshold !== 'string') {

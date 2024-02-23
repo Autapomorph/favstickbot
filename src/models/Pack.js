@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Sticker = require('./Sticker');
-const logger = require('../utils/logger');
+import { Sticker } from './Sticker.js';
+import { logger } from '../utils/logger/index.js';
 
 const PackSchema = mongoose.Schema(
   {
@@ -80,6 +80,4 @@ PackSchema.query.byIsAnimated = function byIsAnimated(isAnimated = false) {
   return this.where({ isAnimated: Boolean(isAnimated) });
 };
 
-const Pack = mongoose.model('Pack', PackSchema);
-
-module.exports = Pack;
+export const Pack = mongoose.model('Pack', PackSchema);

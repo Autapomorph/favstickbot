@@ -1,10 +1,7 @@
-const { replyMenuToContext } = require('telegraf-inline-menu');
+import { replyMenuToContext } from 'telegraf-inline-menu';
 
-const menu = require('./menu');
-const actions = require('./actions');
+import { menu } from './menu/index.js';
 
-module.exports = async ctx => {
+export const list = async ctx => {
   return replyMenuToContext(menu, ctx, 'packs/');
 };
-
-module.exports.actions = actions;

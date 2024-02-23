@@ -1,6 +1,6 @@
-const connect = require('./connect');
+import { connect } from './connect.js';
 
-class MigrationStore {
+export class MigrationStore {
   constructor() {
     this.collectionName = '_migrations';
   }
@@ -41,5 +41,3 @@ class MigrationStore {
     }
   }
 }
-
-module.exports = MigrationStore;

@@ -1,6 +1,6 @@
-const Session = require('../../models/Session');
+import { Session } from '../../models/Session.js';
 
-module.exports = async key => {
+export const getSession = async key => {
   const session = await Session.updateOrCreate(key);
   return session.data ?? {};
 };

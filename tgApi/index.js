@@ -1,17 +1,23 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+import 'dotenv/config';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+import { openBotApiDocsCommand } from './openBotApiDocs.js';
+import { getMeCommand } from './getMe.js';
+import { getPackCommand } from './getPack.js';
+import { getFileCommand } from './getFile.js';
+import { webhookCommand } from './webhook/index.js';
 
 yargs(hideBin(process.argv))
   .scriptName('tg-api')
   .usage('$0 <cmd> [args]')
-  .command(require('./openBotApiDocs'))
-  .command(require('./getMe'))
-  .command(require('./getPack'))
-  .command(require('./getFile'))
-  .command(require('./webhook'))
+  .command(openBotApiDocsCommand)
+  .command(getMeCommand)
+  .command(getPackCommand)
+  .command(getFileCommand)
+  .command(webhookCommand)
   .version()
   .help()
   .alias('version', 'v')

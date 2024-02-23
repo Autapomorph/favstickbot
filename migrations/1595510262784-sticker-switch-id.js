@@ -1,10 +1,10 @@
-const { ObjectID } = require('mongodb');
+import { ObjectId } from 'mongodb';
 
-const connect = require('../src/utils/migrations/connect');
+import { connect } from '../src/utils/migrations/connect.js';
 
-module.exports.description = 'Sticker: set `fileId` as `_id`';
+export const description = 'Sticker: set `fileId` as `_id`';
 
-module.exports.up = async () => {
+export const up = async () => {
   const client = await connect();
 
   const stickers = client.db().collection('stickers');
@@ -29,7 +29,7 @@ module.exports.up = async () => {
   await client.close();
 };
 
-module.exports.down = async () => {
+export const down = async () => {
   const client = await connect();
 
   const stickers = client.db().collection('stickers');
@@ -40,7 +40,7 @@ module.exports.down = async () => {
   const newStickers = oldStickers.map(oldSticker => {
     return {
       ...oldSticker,
-      _id: new ObjectID(),
+      _id: new ObjectId(),
       fileId: oldSticker._id,
     };
   });

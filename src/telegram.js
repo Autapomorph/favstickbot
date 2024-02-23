@@ -1,7 +1,5 @@
-const { Telegram } = require('telegraf');
+import { Telegram } from 'telegraf';
 
-const telegram = new Telegram(process.env.BOT_TOKEN, {
+export const telegram = new Telegram(process.env.BOT_TOKEN, {
   webhookReply: false,
 });
-
-module.exports = telegram;

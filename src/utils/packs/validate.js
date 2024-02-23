@@ -1,10 +1,6 @@
-const { packNameMaxLength } = require('../../config/packs');
+import { packNameMaxLength } from '../../config/packs.js';
 
-const validateNameLength = name => name && name.length > 0 && name.length <= packNameMaxLength;
+export const validateNameLength = name =>
+  name && name.length > 0 && name.length <= packNameMaxLength;
 
-const validateNameSymbols = name => name && /^(?!.*__)[a-zA-Z]\w*$/.test(name);
-
-module.exports = {
-  validateNameLength,
-  validateNameSymbols,
-};
+export const validateNameSymbols = name => name && /^(?!.*__)[a-zA-Z]\w*$/.test(name);

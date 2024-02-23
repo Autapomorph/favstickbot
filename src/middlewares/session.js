@@ -1,11 +1,11 @@
-const { session } = require('telegraf');
+import { session as telegrafSession } from 'telegraf';
 
-const getSessionKey = require('../utils/sessions/getKey');
-const getSession = require('../utils/sessions/get');
-const saveSession = require('../utils/sessions/save');
-const deleteSession = require('../utils/sessions/delete');
+import { getSessionKey } from '../utils/sessions/getKey.js';
+import { getSession } from '../utils/sessions/get.js';
+import { saveSession } from '../utils/sessions/save.js';
+import { deleteSession } from '../utils/sessions/delete.js';
 
-module.exports = session({
+export const session = telegrafSession({
   getSessionKey,
   store: {
     get: getSession,

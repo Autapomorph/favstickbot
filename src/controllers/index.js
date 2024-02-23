@@ -1,19 +1,8 @@
-const start = require('./start');
-const admin = require('./admin');
-const packs = require('./packs');
-const stickers = require('./stickers');
-const settings = require('./settings');
-const deleteMe = require('./deleteMe');
-const botStatusChange = require('./botStatusChange');
-const unknown = require('./unknown');
-
-module.exports = {
-  start,
-  admin,
-  packs,
-  stickers,
-  settings,
-  deleteMe,
-  botStatusChange,
-  unknown,
-};
+export * from './start/index.js';
+export * from './admin/index.js';
+export * from './packs/index.js';
+export * from './stickers/index.js';
+export * from './settings/index.js';
+export * from './deleteMe/index.js';
+export * from './botStatusChange/index.js';
+export * from './unknown/index.js';

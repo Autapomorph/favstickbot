@@ -9,7 +9,7 @@ const getPackNameFromURL = url => {
   return reExecRes?.groups.packName;
 };
 
-module.exports = async (ctx, next) => {
+export const hasPackLink = async (ctx, next) => {
   const { entities } = ctx.message;
 
   if (!entities?.length) {

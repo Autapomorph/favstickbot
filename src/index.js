@@ -1,11 +1,11 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-const database = require('./database');
-const bot = require('./bot');
-const { agenda, collectionName } = require('./agenda');
-const WEBHOOK_OPTIONS = require('./config/webhook');
-const logger = require('./utils/logger');
-const { isProd } = require('./utils');
+import * as database from './database.js';
+import { bot } from './bot.js';
+import { agenda, collectionName } from './agenda/index.js';
+import { WEBHOOK_OPTIONS } from './config/webhook.js';
+import { logger } from './utils/logger/index.js';
+import { isProd } from './utils/index.js';
 
 const { NODE_ENV, MONGODB_URI, WEBHOOK_ENABLE } = process.env;
 

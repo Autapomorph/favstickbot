@@ -1,11 +1,11 @@
-const { subject } = require('@casl/ability');
+import { subject } from '@casl/ability';
 
-const Pack = require('../../../models/Pack');
-const ERROR_TYPES = require('../../../utils/errors/types');
-const { replyErrorToMessage } = require('../../../utils/errors/reply');
+import { Pack } from '../../../models/Pack.js';
+import * as ERROR_TYPES from '../../../utils/errors/types/index.js';
+import { replyErrorToMessage } from '../../../utils/errors/reply.js';
 
 // Mark pack as selected
-const selectPack = async (ctx, packId) => {
+export const selectPack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToSelect = await Pack.findById(packId);
 
@@ -26,7 +26,7 @@ const selectPack = async (ctx, packId) => {
 };
 
 // Archive pack
-const archivePack = async (ctx, packId) => {
+export const archivePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
 
@@ -58,7 +58,7 @@ const archivePack = async (ctx, packId) => {
 };
 
 // Restore pack from archive
-const restorePack = async (ctx, packId) => {
+export const restorePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToModify = await Pack.findById(packId);
   const visiblePacksCount = await Pack.find().byUser(user.id).byIsArchived(false).countDocuments();
@@ -84,7 +84,7 @@ const restorePack = async (ctx, packId) => {
 };
 
 // Delete pack
-const deletePack = async (ctx, packId) => {
+export const deletePack = async (ctx, packId) => {
   const { user } = ctx.state;
   const packToDelete = await Pack.findById(packId);
 
@@ -112,11 +112,4 @@ const deletePack = async (ctx, packId) => {
       title: packToDelete.title,
     }),
   );
-};
-
-module.exports = {
-  select: selectPack,
-  archive: archivePack,
-  restore: restorePack,
-  delete: deletePack,
 };
