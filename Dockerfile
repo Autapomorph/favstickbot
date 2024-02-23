@@ -1,4 +1,4 @@
-FROM node:14-alpine as base
+FROM node:20-alpine as base
 RUN apk add --no-cache git
 RUN npm config set unsafe-perm true
 WORKDIR /usr/src/app

@@ -1,6 +1,11 @@
+dist
+logs
+.husky
+
 .git
 .gitignore
 .gitattributes
+.gitkeep
 
 node_modules
 npm-debug.log*
@@ -12,6 +17,7 @@ yarn-error.log*
 .github
 .vscode
 Dockerfile*
+compose*
 docker-compose*
 .dockerignore
 .env*

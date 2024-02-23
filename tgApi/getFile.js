@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { fetchToCurl } = require('fetch-to-curl');
 const clipboardy = require('clipboardy');
 const open = require('open');

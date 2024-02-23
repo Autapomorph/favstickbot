@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 const logger = require('../logger');
 
 const downloadFile = async url => {

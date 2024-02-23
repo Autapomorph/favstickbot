@@ -1,7 +1,8 @@
 {
   "reject": [
+    "@grammyjs/i18n",
+    "change-case",
     "clipboardy",
-    "is-docker",
-    "node-fetch"
+    "open"
   ]
 }

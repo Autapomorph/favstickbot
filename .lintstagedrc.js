@@ -1,38 +1,42 @@
-const fs = require('fs');
-const path = require('path');
-const ignore = require('ignore');
+const { ESLint } = require('eslint');
+const { getFileInfo } = require('prettier');
 
-const getIgnore = (ignoreFile, defaultIgnorePatterns) => {
-  const ig = ignore();
-
-  if (defaultIgnorePatterns) {
-    ig.add(defaultIgnorePatterns);
-  }
-
-  if (fs.existsSync(ignoreFile)) {
-    const ignoreFileContent = fs.readFileSync(ignoreFile);
-    ig.add(ignoreFileContent.toString());
-  }
-
-  return ig;
+const removeEslintIgnoredFiles = async files => {
+  const eslint = new ESLint();
+  const isIgnored = await Promise.all(
+    files.map(file => {
+      return eslint.isPathIgnored(file);
+    }),
+  );
+  const filteredFiles = files.filter((_, i) => !isIgnored[i]);
+  return filteredFiles.join(' ');
 };
-const filterIgnore = (ignore, filenames) => ignore.filter(filenames);
-const joinMatch = match => match.join(' ');
-const getMatch = (filenames, ignoreFile, defaultIgnorePatterns) =>
-  joinMatch(filterIgnore(getIgnore(ignoreFile, defaultIgnorePatterns), filenames));
+
+const removePrettierIgnoredFiles = async files => {
+  const isIgnored = await Promise.all(
+    files.map(file => {
+      return getFileInfo(file, { ignorePath: '.prettierignore' }).then(
+        fileInfo => fileInfo.ignored,
+      );
+    }),
+  );
+  const filteredFiles = files.filter((_, i) => !isIgnored[i]);
+  return filteredFiles.join(' ');
+};
 
 const addCommand = ([command, match]) => (match.length ? `${command} ${match}` : undefined);
 const getCommands = (...commands) => commands.map(addCommand).filter(Boolean);
 
 module.exports = {
-  '*.{js,jsx,ts,tsx}': filenames => {
-    const eslintMatch = getMatch(filenames, path.join('.eslintignore'), ['.*']);
-    const prettierMatch = getMatch(filenames, path.join('.prettierignore'));
+  '**/*.{ts,tsx,js,jsx}': async files => {
+    const filesToLint = await removeEslintIgnoredFiles(files);
+    const filesToPrettify = await removePrettierIgnoredFiles(files);
     return getCommands(
-      ['prettier --write', prettierMatch],
-      ['eslint --max-warnings=0', eslintMatch],
+      ['prettier --write', filesToPrettify],
+      ['eslint --report-unused-disable-directives --max-warnings=0', filesToLint],
     );
   },
-
-  '*.{json,md}': [`prettier --write`],
+  '**/*.{css,scss,sass,less}': ['prettier --write', 'stylelint --fix'],
+  '**/*.json': [`prettier --write`],
+  '**/*.md': [`prettier`],
 };
