@@ -69,7 +69,7 @@ UserSchema.statics.updateOrCreate = async function updateOrCreate(tgUser) {
       $setOnInsert: { 'settings.locale': tgUser.language_code || defaultLocale.code },
     },
     {
-      rawResult: true,
+      includeResultMetadata: true,
       upsert: true,
       setDefaultsOnInsert: true,
       runValidators: true,

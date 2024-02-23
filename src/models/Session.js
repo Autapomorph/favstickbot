@@ -23,7 +23,7 @@ SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) 
     {
       data,
     },
-    { upsert: true, omitUndefined: true, rawResult: true },
+    { upsert: true, omitUndefined: true, includeResultMetadata: true },
   );
 
   const { upserted: upsertedId, updatedExisting } = sessionResult.lastErrorObject;
