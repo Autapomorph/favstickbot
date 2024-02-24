@@ -1,16 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const {
-  getMenuBody,
-  getMenuChoices,
-  getTotalPages,
-  getCurrentPage,
-  setPage,
-} = require('./helpers');
-const options = require('./options');
-const singleUserMenu = require('../singleUser');
+import { getMenuBody, getMenuChoices, getTotalPages, getCurrentPage, setPage } from './helpers.js';
+import { options } from './options.js';
+import { menu as singleUserMenu } from '../singleUser/index.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.chooseIntoSubmenu('', getMenuChoices, singleUserMenu, options);
 
@@ -21,5 +15,3 @@ menu.pagination('P', {
 });
 
 menu.navigate(ctx => ctx.i18n.t('menu.admin.stats.actions.back'), '..');
-
-module.exports = menu;

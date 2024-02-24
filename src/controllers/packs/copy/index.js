@@ -1,10 +1,10 @@
-const { replyEnter, replyErrorNotFound } = require('./replies');
-const ERROR_TYPES = require('../../../utils/errors/types');
-const validateError = require('../../../utils/errors/validateErrorType');
-const createMeta = require('../../../utils/logger/meta/createMeta');
-const logger = require('../../../utils/logger');
+import { replyEnter, replyErrorNotFound } from './replies.js';
+import * as ERROR_TYPES from '../../../utils/errors/types/index.js';
+import { validateTelegramErrorType } from '../../../utils/errors/validateErrorType.js';
+import { createMeta } from '../../../utils/logger/meta/createMeta.js';
+import { logger } from '../../../utils/logger/index.js';
 
-module.exports = async ctx => {
+const baseCopy = async ctx => {
   const { packName } = ctx.match.groups;
   const packToCreate = {};
   const packToCopy = {};
@@ -23,7 +23,7 @@ module.exports = async ctx => {
       type: 'sticker',
     }));
   } catch (error) {
-    if (validateError(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
+    if (validateTelegramErrorType(ERROR_TYPES.TELEGRAM.STICKERSET_INVALID, error)) {
       logger.error(error, { sentry: false });
     } else {
       logger.error(error, createMeta(ctx));
@@ -45,6 +45,11 @@ module.exports = async ctx => {
   });
 };
 
-module.exports.reply = async ctx => {
+const replyCopy = async ctx => {
   return ctx.sendMessage(ctx.i18n.t('cmd.copy.reply'), { parse_mode: 'HTML' });
+};
+
+export const copy = {
+  base: baseCopy,
+  reply: replyCopy,
 };

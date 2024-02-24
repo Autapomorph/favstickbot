@@ -1,4 +1,4 @@
-const defaultDefault = {
+export const defaultDefault = {
   scope: {
     type: 'default',
   },
@@ -34,12 +34,12 @@ const defaultDefault = {
   ],
 };
 
-const defaultEn = {
+export const defaultEn = {
   ...defaultDefault,
   language: 'en',
 };
 
-const defaultRu = {
+export const defaultRu = {
   scope: {
     type: 'default',
   },
@@ -74,10 +74,4 @@ const defaultRu = {
       description: 'Помощь',
     },
   ],
-};
-
-module.exports = {
-  defaultDefault,
-  defaultEn,
-  defaultRu,
 };

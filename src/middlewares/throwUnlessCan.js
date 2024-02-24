@@ -1,6 +1,6 @@
-const { ForbiddenError } = require('@casl/ability');
+import { ForbiddenError } from '@casl/ability';
 
-module.exports =
+export const throwUnlessCan =
   (...canArgs) =>
   (ctx, next) => {
     ForbiddenError.from(ctx.state.ability).throwUnlessCan(...canArgs);

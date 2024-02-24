@@ -1,3 +1,3 @@
-module.exports = {
+export const options = {
   columns: 1,
 };

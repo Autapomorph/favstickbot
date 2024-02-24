@@ -1,9 +1,9 @@
-const { fetchToCurl } = require('fetch-to-curl');
-const clipboardy = require('clipboardy');
+import fetchToCurl from 'fetch-to-curl';
+import clipboardy from 'clipboardy';
 
-const { TELEGRAM_API } = require('../constants');
+import { TELEGRAM_API } from '../constants.js';
 
-module.exports = {
+export const deleteWebhookCommand = {
   command: 'delete',
   description: 'Delete webhook',
   builder: y => {

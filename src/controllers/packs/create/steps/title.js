@@ -1,10 +1,10 @@
-const { Scenes } = require('telegraf');
-const { message } = require('telegraf/filters');
+import { Scenes } from 'telegraf';
+import { message } from 'telegraf/filters';
 
-const { validatePackTitle } = require('../helpers/validators');
-const { replyPackTitle } = require('../replies');
+import { validatePackTitle } from '../helpers/validators.js';
+import { replyPackTitle } from '../replies.js';
 
-const packsCreateTitleScene = new Scenes.BaseScene('PACKS/CREATE/TITLE');
+export const packsCreateTitleScene = new Scenes.BaseScene('PACKS/CREATE/TITLE');
 
 packsCreateTitleScene.enter(async ctx => {
   const { state } = ctx.scene;
@@ -34,5 +34,3 @@ packsCreateTitleScene.on(message('text'), async ctx => {
 packsCreateTitleScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
-
-module.exports = packsCreateTitleScene;

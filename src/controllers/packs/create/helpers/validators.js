@@ -1,9 +1,9 @@
-const replies = require('../replies');
-const { validateNameLength, validateNameSymbols } = require('../../../../utils/packs/validate');
-const PACK_TYPES = require('../../../../utils/packs/packTypes');
-const match = require('../../../../utils/i18n/match');
+import * as replies from '../replies.js';
+import { validateNameLength, validateNameSymbols } from '../../../../utils/packs/validate.js';
+import { PACK_TYPES } from '../../../../utils/packs/packTypes.js';
+import { match } from '../../../../utils/i18n/match.js';
 
-const validatePackType = async (ctx, type) => {
+export const validatePackType = async (ctx, type) => {
   const isStatic = Boolean(match(PACK_TYPES.STATIC)(type, ctx));
   const isAnimated = Boolean(match(PACK_TYPES.ANIMATED)(type, ctx));
 
@@ -16,7 +16,7 @@ const validatePackType = async (ctx, type) => {
   return true;
 };
 
-const validatePackTitle = async (ctx, title) => {
+export const validatePackTitle = async (ctx, title) => {
   if (!validateNameLength(title)) {
     await replies.replyErrorTitleTooLong(ctx);
     return false;
@@ -24,7 +24,7 @@ const validatePackTitle = async (ctx, title) => {
   return true;
 };
 
-const validatePackName = async (ctx, name) => {
+export const validatePackName = async (ctx, name) => {
   if (!validateNameLength(name)) {
     await replies.replyErrorNameTooLong(ctx);
     return false;
@@ -36,10 +36,4 @@ const validatePackName = async (ctx, name) => {
   }
 
   return true;
-};
-
-module.exports = {
-  validatePackType,
-  validatePackTitle,
-  validatePackName,
 };

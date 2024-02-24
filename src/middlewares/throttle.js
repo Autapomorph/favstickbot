@@ -1,11 +1,11 @@
-const { telegrafThrottler } = require('telegraf-throttler');
-const Bottleneck = require('bottleneck').default;
+import { telegrafThrottler } from 'telegraf-throttler';
+import Bottleneck from 'bottleneck';
 
-const ERROR_TYPES = require('../utils/errors/types');
-const { replyError } = require('../utils/errors/reply');
-const logger = require('../utils/logger');
+import * as ERROR_TYPES from '../utils/errors/types/index.js';
+import { replyError } from '../utils/errors/reply.js';
+import { logger } from '../utils/logger/index.js';
 
-module.exports = telegrafThrottler({
+export const throttle = telegrafThrottler({
   in: {
     maxConcurrent: 1,
     minTime: 333,

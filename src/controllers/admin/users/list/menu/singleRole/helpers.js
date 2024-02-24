@@ -1,20 +1,20 @@
-const { ForbiddenError, subject } = require('@casl/ability');
-const { capitalCase } = require('change-case');
+import { ForbiddenError, subject } from '@casl/ability';
+import { capitalCase } from 'change-case';
 
-const User = require('../../../../../../models/User');
-const { rolesEnum } = require('../../../../../../config/roles');
-const options = require('./options');
+import { User } from '../../../../../../models/User.js';
+import { rolesEnum } from '../../../../../../config/roles.js';
+import { options } from './options.js';
 
 const perPage = options.maxRows;
 
-const getMenuBody = async ctx => {
+export const getMenuBody = async ctx => {
   const role = rolesEnum[ctx.match[1]];
   ForbiddenError.from(ctx.state.ability).throwUnlessCan('read', subject('User', { role }), 'role');
   const roleUserCount = await User.countDocuments({ role });
   return `${capitalCase(role)}: ${roleUserCount}`;
 };
 
-const getMenuChoices = async ctx => {
+export const getMenuChoices = async ctx => {
   const role = rolesEnum[ctx.match[1]];
   const userCount = await User.countDocuments({ role });
   if (userCount <= getSkip(ctx)) {
@@ -32,13 +32,13 @@ const getMenuChoices = async ctx => {
   }, {});
 };
 
-async function getTotalPages(ctx) {
+export async function getTotalPages(ctx) {
   const role = rolesEnum[ctx.match[1]];
   const userCount = await User.countDocuments({ role });
   return Math.ceil(userCount / perPage);
 }
 
-function getCurrentPage(ctx) {
+export function getCurrentPage(ctx) {
   const role = rolesEnum[ctx.match[1]];
   const roleListPageKey = `${role}sPage`;
   const roleListPage = ctx.session[roleListPageKey];
@@ -46,7 +46,7 @@ function getCurrentPage(ctx) {
   return ctx.session[roleListPageKey];
 }
 
-function setPage(ctx, page) {
+export function setPage(ctx, page) {
   const role = rolesEnum[ctx.match[1]];
   const roleListPageKey = `${role}sPage`;
   ctx.session[roleListPageKey] = page;
@@ -57,11 +57,3 @@ function getSkip(ctx) {
   const skip = (currentPage - 1) * perPage;
   return skip >= 0 ? skip : 0;
 }
-
-module.exports = {
-  getMenuBody,
-  getMenuChoices,
-  getTotalPages,
-  getCurrentPage,
-  setPage,
-};

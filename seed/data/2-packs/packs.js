@@ -1,5 +1,5 @@
-const users = require('../1-users/users');
-const { roles } = require('../../../src/config/roles');
+import users from '../1-users/users.js';
+import { roles } from '../../../src/config/roles.js';
 
 const packIdPostfix = `_by_${process.env.DB_SEED_BOT_USERNAME}`;
 
@@ -41,4 +41,4 @@ const packs = [];
   });
 });
 
-module.exports = packs;
+export default packs;

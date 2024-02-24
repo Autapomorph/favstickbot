@@ -1,6 +1,6 @@
-const Session = require('../../models/Session');
+import { Session } from '../../models/Session.js';
 
-module.exports = async (key, data) => {
+export const saveSession = async (key, data) => {
   if (data === null || data === undefined || Object.keys(data).length === 0) {
     return Session.deleteOne({ _id: key });
   }

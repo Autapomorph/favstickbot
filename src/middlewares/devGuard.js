@@ -1,7 +1,9 @@
-const { drop, passThru } = require('telegraf').Composer;
+import { Composer } from 'telegraf';
 
-const { devModeAllowedSet } = require('../config/userLists');
-const { isDev } = require('../utils');
+import { devModeAllowedSet } from '../config/userLists.js';
+import { isDev } from '../utils/index.js';
 
-module.exports =
-  isDev && devModeAllowedSet.size ? drop(ctx => !devModeAllowedSet.has(ctx.from?.id)) : passThru();
+export const devGuard =
+  isDev && devModeAllowedSet.size
+    ? Composer.drop(ctx => !devModeAllowedSet.has(ctx.from?.id))
+    : Composer.passThru();

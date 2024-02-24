@@ -1,12 +1,12 @@
-const { fetchToCurl } = require('fetch-to-curl');
-const clipboardy = require('clipboardy');
-const open = require('open');
+import fetchToCurl from 'fetch-to-curl';
+import clipboardy from 'clipboardy';
+import open from 'open';
 
-const { T_ME } = require('./constants');
+import { T_ME } from './constants.js';
 
 const ADD_PACK_URL = `${T_ME}/addstickers`;
 
-module.exports = {
+export const getPackCommand = {
   command: 'getPack <pack>',
   description: 'Get pack link by name',
   builder: y => {

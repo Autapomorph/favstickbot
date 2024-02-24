@@ -1,9 +1,9 @@
-const { limit } = require('@grammyjs/ratelimiter');
+import { limit } from '@grammyjs/ratelimiter';
 
-const ERROR_TYPES = require('../utils/errors/types');
-const { replyError } = require('../utils/errors/reply');
+import * as ERROR_TYPES from '../utils/errors/types/index.js';
+import { replyError } from '../utils/errors/reply.js';
 
-module.exports = limit({
+export const rateLimit = limit({
   onLimitExceeded: async ctx => {
     return replyError(ctx, ERROR_TYPES.APP.RATELIMIT);
   },

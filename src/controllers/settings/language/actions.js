@@ -1,7 +1,7 @@
-const startController = require('../../start');
-const { locales } = require('../../../config/i18n');
+import { start as startController } from '../../start/index.js';
+import { locales } from '../../../config/i18n.js';
 
-const setLanguage = async ctx => {
+export const setLanguage = async ctx => {
   const { user } = ctx.state;
 
   const locale = locales[ctx.match[1]];
@@ -18,8 +18,4 @@ const setLanguage = async ctx => {
   }
 
   return startController(ctx);
-};
-
-module.exports = {
-  setLanguage,
 };

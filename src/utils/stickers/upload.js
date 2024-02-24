@@ -1,6 +1,6 @@
-const { getUploadedStickerFile } = require('./get');
+import { getUploadedStickerFile } from './get.js';
 
-const uploadSticker = async (ctx, source, emojis, isAnimated, packName) => {
+export const uploadSticker = async (ctx, source, emojis, isAnimated, packName) => {
   const placeholderExtenstion = isAnimated ? 'tgs' : 'png';
   const placeholderProp = `${placeholderExtenstion}_sticker`;
 
@@ -15,5 +15,3 @@ const uploadSticker = async (ctx, source, emojis, isAnimated, packName) => {
     fileUniqueId: uploadedFile.file_unique_id,
   };
 };
-
-module.exports = uploadSticker;

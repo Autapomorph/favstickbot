@@ -1,16 +1,16 @@
-const { Telegraf, Composer } = require('telegraf');
-const { message, callbackQuery } = require('telegraf/filters');
+import { Telegraf, Composer } from 'telegraf';
+import { message, callbackQuery } from 'telegraf/filters';
 
-const controllers = require('./controllers');
-const stage = require('./controllers/stage');
-const mw = require('./middlewares');
-const menus = require('./middlewares/menu');
-const commandLists = require('./config/commands');
-const commands = require('./utils/bot/commands');
-const match = require('./utils/i18n/match');
-const errorBoundary = require('./utils/errors/errorBoundary');
+import * as controllers from './controllers/index.js';
+import { stage } from './controllers/stage.js';
+import * as mw from './middlewares/index.js';
+import * as menus from './middlewares/menu/index.js';
+import * as commandLists from './config/commands.js';
+import * as commands from './utils/bot/commands.js';
+import { match } from './utils/i18n/match.js';
+import { errorBoundary } from './utils/errors/errorBoundary.js';
 
-const bot = new Telegraf(process.env.BOT_TOKEN, {
+export const bot = new Telegraf(process.env.BOT_TOKEN, {
   telegram: {
     webhookReply: false,
   },
@@ -56,14 +56,14 @@ bot.use(
 bot.use(stage);
 
 // Register inline menus
-userBot.use(Composer.compose([menus.packsList, menus.settings, menus.deleteMe]));
-adminBot.use(Composer.compose([menus.admin]));
+userBot.use(Composer.compose([menus.packsListMenu, menus.settingsMenu, menus.deleteMeMenu]));
+adminBot.use(Composer.compose([menus.adminMenu]));
 
 // User route
 userBot.start(controllers.start);
 userBot.help(controllers.start);
 userBot.hears(['/packs', match('keyboard.main.packs')], controllers.packs.list);
-userBot.hears(['/new', match('keyboard.main.new')], controllers.packs.create);
+userBot.hears(['/new', match('keyboard.main.new')], controllers.packs.create.base);
 userBot.command('newstatic', controllers.packs.create.static);
 userBot.command('newanimated', controllers.packs.create.animated);
 userBot.hears(['/settings', match('keyboard.main.settings')], controllers.settings);
@@ -75,7 +75,7 @@ userBot.on(
   mw.validateDocument,
   controllers.stickers.add,
 );
-userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy);
+userBot.url(/t.me\/addstickers\/(?<packName>.+)/, controllers.packs.copy.base);
 userBot.hears(/^(?<command>\/.+)/g, controllers.unknown);
 userBot.on(message(), controllers.start);
 userBot.on(callbackQuery(), ctx => ctx.answerCbQuery());
@@ -93,5 +93,3 @@ bot.use(userBot);
 
 // Register error handler
 bot.catch(errorBoundary);
-
-module.exports = bot;

@@ -1,3 +1,3 @@
-const { chatType, drop } = require('telegraf').Composer;
+import { Composer } from 'telegraf';
 
-module.exports = chatType('supergroup', drop(true));
+export const dropSuperGroup = Composer.chatType('supergroup', Composer.drop(true));

@@ -1,6 +1,6 @@
-const { Markup } = require('telegraf');
+import { Markup } from 'telegraf';
 
-const getMainKeyboard = ctx => {
+export const getMainKeyboard = ctx => {
   const packListBtn = ctx.i18n.t('keyboard.main.packs');
   const newPackBtn = ctx.i18n.t('keyboard.main.new');
   const settingsBtn = ctx.i18n.t('keyboard.main.settings');
@@ -10,5 +10,3 @@ const getMainKeyboard = ctx => {
   };
   return Markup.keyboard([[packListBtn], [newPackBtn], [adminBtn], [settingsBtn]]).resize();
 };
-
-module.exports = getMainKeyboard;

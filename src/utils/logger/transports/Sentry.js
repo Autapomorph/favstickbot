@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
-const Sentry = require('@sentry/node');
-const TransportStream = require('winston-transport');
-const { LEVEL } = require('triple-beam');
+import Sentry from '@sentry/node';
+import TransportStream from 'winston-transport';
+import { LEVEL } from 'triple-beam';
 
 // Map Sentry error severity types to Winston types
 const DEFAULT_LEVELS_MAP = {
@@ -60,7 +60,7 @@ const getDefaults = options => {
   };
 };
 
-class SentryTransport extends TransportStream {
+export class SentryTransport extends TransportStream {
   constructor(options) {
     super(options);
     this.levelsMap = setLevelsMap(options?.levelsMap);
@@ -113,5 +113,3 @@ class SentryTransport extends TransportStream {
     });
   }
 }
-
-module.exports = SentryTransport;

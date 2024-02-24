@@ -1,13 +1,7 @@
-const { name, version } = require('../../package.json');
+import pkg from '../../package.json' assert { type: 'json' };
 
 const { NODE_ENV } = process.env;
 
-const isProd = NODE_ENV === 'production';
-const isDev = NODE_ENV === 'development';
-
-module.exports = {
-  isProd,
-  isDev,
-  name,
-  version,
-};
+export const { name, version } = pkg;
+export const isProd = NODE_ENV === 'production';
+export const isDev = NODE_ENV === 'development';

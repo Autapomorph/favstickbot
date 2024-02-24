@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const mongooseLong = require('mongoose-long');
-const { accessibleRecordsPlugin } = require('@casl/mongoose');
+import mongoose from 'mongoose';
+import mongooseLong from 'mongoose-long';
+import { accessibleRecordsPlugin } from '@casl/mongoose';
 
-const logger = require('./utils/logger');
+import { logger } from './utils/logger/index.js';
 
 mongooseLong(mongoose);
 mongoose.plugin(accessibleRecordsPlugin);
@@ -22,7 +22,7 @@ mongoose.connection.on('error', error => {
   process.exit(1);
 });
 
-const connect = async uri => {
+export const connect = async uri => {
   try {
     await mongoose.connect(uri);
     return mongoose.connection;
@@ -32,16 +32,11 @@ const connect = async uri => {
   }
 };
 
-const disconnect = async () => {
+export const disconnect = async () => {
   try {
     await mongoose.disconnect();
   } catch (error) {
     logger.error(error, { tags: { mongoose: true } });
     process.exit(1);
   }
-};
-
-module.exports = {
-  connect,
-  disconnect,
 };

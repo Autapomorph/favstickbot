@@ -1,7 +1,5 @@
-const { MenuMiddleware } = require('telegraf-inline-menu');
+import { MenuMiddleware } from 'telegraf-inline-menu';
 
-const menu = require('../../controllers/packs/list/menu');
+import { menu } from '../../controllers/packs/list/menu/index.js';
 
-const menuMiddleware = new MenuMiddleware('packs/', menu);
-
-module.exports = menuMiddleware;
+export const packsListMenu = new MenuMiddleware('packs/', menu);

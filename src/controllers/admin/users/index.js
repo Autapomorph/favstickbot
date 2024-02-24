@@ -1,7 +1,7 @@
-const ban = require('./ban/ban');
-const unban = require('./ban/unban');
+import { ban } from './ban/ban.js';
+import { unban } from './ban/unban.js';
 
-module.exports = {
+export const users = {
   ban,
   unban,
 };

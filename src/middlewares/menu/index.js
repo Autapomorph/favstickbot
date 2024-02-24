@@ -1,11 +1,4 @@
-const packsList = require('./packsList');
-const admin = require('./admin');
-const settings = require('./settings');
-const deleteMe = require('./deleteMe');
-
-module.exports = {
-  packsList,
-  admin,
-  settings,
-  deleteMe,
-};
+export { packsListMenu } from './packsList.js';
+export { adminMenu } from './admin.js';
+export { settingsMenu } from './settings.js';
+export { deleteMeMenu } from './deleteMe.js';

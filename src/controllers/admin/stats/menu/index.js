@@ -1,10 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
-const { ForbiddenError } = require('@casl/ability');
+import { MenuTemplate } from 'telegraf-inline-menu';
+import { ForbiddenError } from '@casl/ability';
 
-const statsController = require('../index');
-const { getMenuBody, getMenuChoices } = require('./helpers');
+import { stats as statsController } from '../index.js';
+import { getMenuBody, getMenuChoices } from './helpers.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.choose('show', getMenuChoices, {
   do: async ctx => {
@@ -16,5 +16,3 @@ menu.choose('show', getMenuChoices, {
 });
 
 menu.navigate(ctx => ctx.i18n.t('menu.admin.stats.actions.back'), '..');
-
-module.exports = menu;

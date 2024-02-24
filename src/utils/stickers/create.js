@@ -1,6 +1,6 @@
-const Sticker = require('../../models/Sticker');
+import { Sticker } from '../../models/Sticker.js';
 
-const createSticker = async (packId, userFile, stickerFile) => {
+export const createSticker = async (packId, userFile, stickerFile) => {
   return Sticker.create({
     _id: stickerFile.fileId,
     packId,
@@ -11,5 +11,3 @@ const createSticker = async (packId, userFile, stickerFile) => {
     },
   });
 };
-
-module.exports = createSticker;

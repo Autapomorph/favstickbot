@@ -1,16 +1,16 @@
-const User = require('../../../models/User');
-const Pack = require('../../../models/Pack');
-const Sticker = require('../../../models/Sticker');
-const Session = require('../../../models/Session');
-const {
+import { User } from '../../../models/User.js';
+import { Pack } from '../../../models/Pack.js';
+import { Sticker } from '../../../models/Sticker.js';
+import { Session } from '../../../models/Session.js';
+import {
   getThresholdDates,
   getLocalizedDates,
   getThresholdFilter,
   getReplyText,
   getPeriodKey,
-} = require('./helpers');
+} from './helpers.js';
 
-module.exports = async ctx => {
+export const stats = async ctx => {
   const dates = getThresholdDates(ctx);
   const thresholdDatesFilter = getThresholdFilter(dates);
 

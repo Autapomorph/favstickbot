@@ -1,7 +1,2 @@
-const ERROR_TYPES_APP = require('./app');
-const ERROR_TYPES_TELEGRAM = require('./telegram');
-
-module.exports = {
-  APP: ERROR_TYPES_APP,
-  TELEGRAM: ERROR_TYPES_TELEGRAM,
-};
+export { ERROR_TYPES_APP as APP } from './app.js';
+export { ERROR_TYPES_TELEGRAM as TELEGRAM } from './telegram.js';

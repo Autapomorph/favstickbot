@@ -1,12 +1,12 @@
-const { Scenes } = require('telegraf');
+import { Scenes } from 'telegraf';
 
-const packsTypeScene = require('./steps/type');
-const packsTitleScene = require('./steps/title');
-const packsNameScene = require('./steps/name');
+import { packsCreateTypeScene } from './steps/type.js';
+import { packsCreateTitleScene } from './steps/title.js';
+import { packsCreateNameScene } from './steps/name.js';
 
-const packsCreateScene = new Scenes.BaseScene('PACKS/CREATE');
+const packCreateScene = new Scenes.BaseScene('PACKS/CREATE');
 
-packsCreateScene.enter(async ctx => {
+packCreateScene.enter(async ctx => {
   const { state } = ctx.scene;
 
   if (!state.packToCreate) {
@@ -16,9 +16,11 @@ packsCreateScene.enter(async ctx => {
   return ctx.scene.enter('PACKS/CREATE/TYPE', state);
 });
 
-module.exports = {
-  base: packsCreateScene,
-  type: packsTypeScene,
-  title: packsTitleScene,
-  name: packsNameScene,
+export { packCreateScene as base };
+
+export const packCreateScenes = {
+  base: packCreateScene,
+  type: packsCreateTypeScene,
+  title: packsCreateTitleScene,
+  name: packsCreateNameScene,
 };

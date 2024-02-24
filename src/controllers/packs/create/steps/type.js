@@ -1,12 +1,12 @@
-const { Scenes } = require('telegraf');
-const { message } = require('telegraf/filters');
+import { Scenes } from 'telegraf';
+import { message } from 'telegraf/filters';
 
-const PACK_TYPES = require('../../../../utils/packs/packTypes');
-const { validatePackType } = require('../helpers/validators');
-const { replyPackType } = require('../replies');
-const match = require('../../../../utils/i18n/match');
+import { PACK_TYPES } from '../../../../utils/packs/packTypes.js';
+import { validatePackType } from '../helpers/validators.js';
+import { replyPackType } from '../replies.js';
+import { match } from '../../../../utils/i18n/match.js';
 
-const packsCreateTypeScene = new Scenes.BaseScene('PACKS/CREATE/TYPE');
+export const packsCreateTypeScene = new Scenes.BaseScene('PACKS/CREATE/TYPE');
 
 packsCreateTypeScene.enter(async ctx => {
   const { state } = ctx.scene;
@@ -35,5 +35,3 @@ packsCreateTypeScene.hears([match(PACK_TYPES.STATIC), match(PACK_TYPES.ANIMATED)
 packsCreateTypeScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
-
-module.exports = packsCreateTypeScene;

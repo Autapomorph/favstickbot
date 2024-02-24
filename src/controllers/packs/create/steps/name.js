@@ -1,13 +1,13 @@
-const { Scenes } = require('telegraf');
-const { message } = require('telegraf/filters');
+import { Scenes } from 'telegraf';
+import { message } from 'telegraf/filters';
 
-const createPack = require('../helpers/createPack');
-const getMainKeyboard = require('../../../../keyboards/main');
-const getCancelKeyboard = require('../../../../keyboards/cancel');
-const { validatePackName } = require('../helpers/validators');
-const { replyPackName } = require('../replies');
+import { createPack } from '../helpers/createPack.js';
+import { getMainKeyboard } from '../../../../keyboards/main.js';
+import { getCancelKeyboard } from '../../../../keyboards/cancel.js';
+import { validatePackName } from '../helpers/validators.js';
+import { replyPackName } from '../replies.js';
 
-const packsCreateNameScene = new Scenes.BaseScene('PACKS/CREATE/NAME');
+export const packsCreateNameScene = new Scenes.BaseScene('PACKS/CREATE/NAME');
 
 packsCreateNameScene.enter(async ctx => {
   return replyPackName(ctx);
@@ -41,5 +41,3 @@ packsCreateNameScene.on(message('text'), async ctx => {
 packsCreateNameScene.on(message(), async ctx => {
   return ctx.scene.reenter();
 });
-
-module.exports = packsCreateNameScene;

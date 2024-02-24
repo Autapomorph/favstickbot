@@ -1,4 +1,4 @@
-const { TelegramError } = require('telegraf');
+import { TelegramError } from 'telegraf';
 
 /**
  * Validate Telegram error description by regex
@@ -6,7 +6,7 @@ const { TelegramError } = require('telegraf');
  * @param {TelegramError} error - Error to be tested
  * @return {boolean} Whether or not (one of) regex pattern exists in error description
  */
-const validateTelegramErrorType = (errorDescriptionRegex, error) => {
+export const validateTelegramErrorType = (errorDescriptionRegex, error) => {
   if (!errorDescriptionRegex) return false;
   if (!(error instanceof TelegramError)) return false;
 
@@ -16,5 +16,3 @@ const validateTelegramErrorType = (errorDescriptionRegex, error) => {
 
   return errorDescriptionRegex.test(error.description);
 };
-
-module.exports = validateTelegramErrorType;

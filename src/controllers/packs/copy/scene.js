@@ -1,13 +1,12 @@
-const { Scenes } = require('telegraf');
-const { drop } = require('telegraf').Composer;
-const { message } = require('telegraf/filters');
+import { Scenes, Composer } from 'telegraf';
+import { message } from 'telegraf/filters';
 
-const Session = require('../../../models/Session');
-const copyPack = require('./helpers/copyPack');
-const getSessionKey = require('../../../utils/sessions/getKey');
-const getCancelKeyboard = require('../../../keyboards/cancel');
+import { Session } from '../../../models/Session.js';
+import { copyPack } from './helpers/copyPack.js';
+import { getSessionKey } from '../../../utils/sessions/getKey.js';
+import { getCancelKeyboard } from '../../../keyboards/cancel.js';
 
-const packsCopyScene = new Scenes.BaseScene('PACKS/COPY');
+export const packCopyScene = new Scenes.BaseScene('PACKS/COPY');
 
 const getIsAborted = async sessionKey => {
   const session = await Session.findById(sessionKey);
@@ -17,7 +16,7 @@ const getIsAborted = async sessionKey => {
   /* eslint-enable no-underscore-dangle */
 };
 
-packsCopyScene.enter(async ctx => {
+packCopyScene.enter(async ctx => {
   const { user } = ctx.state;
   const { packToCopy } = ctx.scene.state;
   const sessionKey = getSessionKey(ctx);
@@ -27,19 +26,17 @@ packsCopyScene.enter(async ctx => {
   return copyPack(ctx, packToCopy, user.selectedPack, getIsAborted.bind(null, sessionKey));
 });
 
-packsCopyScene.on(message(), async ctx => {
+packCopyScene.on(message(), async ctx => {
   return ctx.sendMessage(ctx.i18n.t('scene.pack_copy.reply.help'), { ...getCancelKeyboard(ctx) });
 });
 
 // Drop any updates
-packsCopyScene.use(drop(true));
+packCopyScene.use(Composer.drop(true));
 
 // Delete data from session after leave
-packsCopyScene.leave(async ctx => {
+packCopyScene.leave(async ctx => {
   const sessionKey = getSessionKey(ctx);
   return Session.findByIdAndUpdate(sessionKey, {
     $unset: { 'data.__scenes': '' },
   });
 });
-
-module.exports = packsCopyScene;

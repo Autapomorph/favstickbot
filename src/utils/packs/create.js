@@ -1,8 +1,8 @@
-const path = require('path');
+import path from 'node:path';
 
-const { placeholderDir, defaultEmojis } = require('../../config/stickers');
+import { placeholderDir, defaultEmojis } from '../../config/stickers.js';
 
-module.exports = async (ctx, packToCreate) => {
+export const createPack = async (ctx, packToCreate) => {
   const placeholderExtenstion = packToCreate.isAnimated ? 'tgs' : 'png';
   const placeholderProp = `${placeholderExtenstion}_sticker`;
   const placeholderPath = path.resolve(placeholderDir, `placeholder.${placeholderExtenstion}`);

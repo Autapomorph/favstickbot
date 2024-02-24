@@ -1,3 +1,3 @@
-const crypto = require('crypto');
+import { createHash } from 'node:crypto';
 
-module.exports = token => crypto.createHash('sha3-256').update(token).digest('hex');
+export const createWebhookPath = token => createHash('sha3-256').update(token).digest('hex');

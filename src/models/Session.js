@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const logger = require('../utils/logger');
+import { logger } from '../utils/logger/index.js';
 
 const SessionSchema = mongoose.Schema(
   {
@@ -34,6 +34,4 @@ SessionSchema.statics.updateOrCreate = async function updateOrCreate(key, data) 
   return sessionResult.value;
 };
 
-const Session = mongoose.model('Session', SessionSchema);
-
-module.exports = Session;
+export const Session = mongoose.model('Session', SessionSchema);

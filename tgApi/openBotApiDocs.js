@@ -1,10 +1,10 @@
-const { fetchToCurl } = require('fetch-to-curl');
-const clipboardy = require('clipboardy');
-const open = require('open');
+import fetchToCurl from 'fetch-to-curl';
+import clipboardy from 'clipboardy';
+import open from 'open';
 
-const { CORE } = require('./constants');
+import { CORE } from './constants.js';
 
-module.exports = {
+export const openBotApiDocsCommand = {
   command: 'openDocs',
   description: 'Open Telegram Bot API docs page',
   aliases: ['docs'],

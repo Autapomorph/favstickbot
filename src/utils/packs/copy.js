@@ -1,6 +1,6 @@
-const addSticker = require('../stickers/add');
+import { addSticker } from '../stickers/add.js';
 
-module.exports = async (ctx, packToCopy, getIsAborted, onProgress) => {
+export const copyPack = async (ctx, packToCopy, getIsAborted, onProgress) => {
   const { user } = ctx.state;
 
   /* eslint-disable no-restricted-syntax, no-await-in-loop */
