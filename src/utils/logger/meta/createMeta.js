@@ -1,11 +1,9 @@
-const createUser = require('./createUser');
-const createContexts = require('./createContexts');
+import { createUser } from './createUser.js';
+import { createContexts } from './createContexts.js';
 
-const createMeta = ctx => {
+export const createMeta = ctx => {
   return {
     user: createUser(ctx),
     contexts: createContexts(ctx),
   };
 };
-
-module.exports = createMeta;

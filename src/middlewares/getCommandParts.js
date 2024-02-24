@@ -1,8 +1,9 @@
-const { on } = require('telegraf').Composer;
+import { Composer } from 'telegraf';
+import { message } from 'telegraf/filters';
 
 const regex = /^\/([^@\s]+)@?(?:(\S+)|)\s?([\s\S]+)?$/i;
 
-module.exports = on('text', (ctx, next) => {
+export const getCommandParts = Composer.on(message('text'), (ctx, next) => {
   const messageText = ctx.updateType === 'channel_post' ? ctx.channelPost.text : ctx.message.text;
 
   const parts = regex.exec(messageText);

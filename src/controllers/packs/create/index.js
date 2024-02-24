@@ -1,6 +1,6 @@
-module.exports = ctx => ctx.scene.enter('PACKS/CREATE');
+const createBase = ctx => ctx.scene.enter('PACKS/CREATE');
 
-module.exports.static = ctx => {
+const createStatic = ctx => {
   return ctx.scene.enter('PACKS/CREATE', {
     packToCreate: {
       isAnimated: false,
@@ -8,10 +8,16 @@ module.exports.static = ctx => {
   });
 };
 
-module.exports.animated = ctx => {
+const createAnimated = ctx => {
   return ctx.scene.enter('PACKS/CREATE', {
     packToCreate: {
       isAnimated: true,
     },
   });
+};
+
+export const create = {
+  base: createBase,
+  static: createStatic,
+  animated: createAnimated,
 };

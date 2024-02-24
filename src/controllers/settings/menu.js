@@ -1,10 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const { getMenuBody } = require('./helpers');
-const langMenu = require('./language/menu');
-const { setShowArchivedPacks } = require('./archivedPacks/actions');
+import { getMenuBody } from './helpers.js';
+import { menu as langMenu } from './language/menu.js';
+import { setShowArchivedPacks } from './archivedPacks/actions.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.toggle(ctx => ctx.i18n.t('menu.settings.actions.show_archived_packs'), 'archived_packs', {
   isSet: ctx => {
@@ -18,5 +18,3 @@ menu.toggle(ctx => ctx.i18n.t('menu.settings.actions.show_archived_packs'), 'arc
 });
 
 menu.submenu(ctx => ctx.i18n.t('menu.settings.actions.language'), 'language', langMenu);
-
-module.exports = menu;

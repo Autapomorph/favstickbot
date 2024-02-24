@@ -1,8 +1,6 @@
-const downloadFile = require('../common/downloadFile');
+import { downloadFile } from '../common/downloadFile.js';
 
-const downloadSticker = async (ctx, fileId) => {
+export const downloadSticker = async (ctx, fileId) => {
   const fileUrl = await ctx.telegram.getFileLink(fileId);
   return downloadFile(fileUrl);
 };
-
-module.exports = downloadSticker;

@@ -1,4 +1,5 @@
-const updateLogger = require('telegraf-update-logger');
-const logger = require('../utils/logger');
+import updateLogger from 'telegraf-update-logger';
 
-module.exports = updateLogger({ colors: true, log: logger.debug });
+import { logger } from '../utils/logger/index.js';
+
+export const logUpdate = updateLogger({ colors: true, log: logger.debug });

@@ -1,11 +1,11 @@
-require('dotenv').config();
+import { fileURLToPath } from 'node:url';
 
-const path = require('path');
-const { Seeder } = require('mongo-seeding');
+import 'dotenv/config';
+import { Seeder } from 'mongo-seeding';
 
-const logger = require('../src/utils/logger');
+import { logger } from '../src/utils/logger/index.js';
 
-const collectionsPath = path.resolve(__dirname, './data');
+const collectionsPath = fileURLToPath(new URL('./data', import.meta.url));
 const seederConfig = {
   database: process.env.MONGODB_URI,
   removeAllDocuments: true,

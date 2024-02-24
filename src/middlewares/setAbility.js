@@ -1,6 +1,6 @@
-const { defineAbilityFor } = require('../config/ability');
+import { defineAbilityFor } from '../config/ability.js';
 
-module.exports = async (ctx, next) => {
+export const setAbility = async (ctx, next) => {
   ctx.state.ability = defineAbilityFor(ctx.state.user);
   return next();
 };

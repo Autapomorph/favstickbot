@@ -1,8 +1,8 @@
-const list = require('./list');
-const create = require('./create');
-const copy = require('./copy');
+import { list } from './list/index.js';
+import { create } from './create/index.js';
+import { copy } from './copy/index.js';
 
-module.exports = {
+export const packs = {
   list,
   create,
   copy,

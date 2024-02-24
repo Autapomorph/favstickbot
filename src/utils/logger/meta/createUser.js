@@ -1,4 +1,4 @@
-const createUser = ctx => {
+export const createUser = ctx => {
   const user = ctx.state?.user ?? {};
   const { id, username, firstName, lastName, settings, selectedPack, ban, left } = user;
   return {
@@ -12,5 +12,3 @@ const createUser = ctx => {
     left,
   };
 };
-
-module.exports = createUser;

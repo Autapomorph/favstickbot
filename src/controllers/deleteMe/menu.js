@@ -1,9 +1,9 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const actions = require('./actions');
-const { getMenuBody } = require('./helpers');
+import * as actions from './actions.js';
+import { getMenuBody } from './helpers.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.interact(ctx => ctx.i18n.t('menu.delete_me.actions.yes'), 'y', {
   do: async ctx => {
@@ -18,5 +18,3 @@ menu.interact(ctx => ctx.i18n.t('menu.delete_me.actions.no'), 'n', {
     return false;
   },
 });
-
-module.exports = menu;

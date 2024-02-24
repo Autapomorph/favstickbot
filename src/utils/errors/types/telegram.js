@@ -1,4 +1,4 @@
-const ERROR_TYPES = {
+export const ERROR_TYPES_TELEGRAM = {
   // Too Many Requests: retry after *
   TOO_MANY_REQUESTS: /too.*many.*requests/i,
   // Bad Request: user not found
@@ -48,5 +48,3 @@ const ERROR_TYPES = {
   // Forbidden: bot is not a member of the channel chat
   NOT_CHANNEL_MEMBER: /forbidden.*bot.*not.*member.*channel/i,
 };
-
-module.exports = ERROR_TYPES;

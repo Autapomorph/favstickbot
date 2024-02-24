@@ -1,9 +1,9 @@
-const { packLinkPrefix } = require('../../../config/packs');
-const ERROR_TYPES = require('../../../utils/errors/types');
-const { replyError, replyErrorToMessage } = require('../../../utils/errors/reply');
-const escapeHTML = require('../../../utils/common/escapeHTML');
+import { packLinkPrefix } from '../../../config/packs.js';
+import * as ERROR_TYPES from '../../../utils/errors/types/index.js';
+import { replyError, replyErrorToMessage } from '../../../utils/errors/reply.js';
+import { escapeHTML } from '../../../utils/common/escapeHTML.js';
 
-const replyEnter = async ctx => {
+export const replyEnter = async ctx => {
   return ctx.sendMessage(ctx.i18n.t('scene.pack_copy.reply.enter'), {
     reply_to_message_id: ctx.message.message_id,
     allow_sending_without_reply: true,
@@ -11,15 +11,15 @@ const replyEnter = async ctx => {
   });
 };
 
-const replyErrorNotFound = async ctx => {
+export const replyErrorNotFound = async ctx => {
   return replyErrorToMessage(ctx, ERROR_TYPES.APP.PACKS.COPY.PACK_NOT_FOUND);
 };
 
-const replyErrorUnknown = async (ctx, extra) => {
+export const replyErrorUnknown = async (ctx, extra) => {
   return replyError(ctx, ERROR_TYPES.APP.PACKS.COPY.UNKNOWN, null, extra);
 };
 
-const replyProgress = async (ctx, packToCopy, newPack) => {
+export const replyProgress = async (ctx, packToCopy, newPack) => {
   return ctx.sendMessage(
     ctx.i18n.t('scene.pack_copy.reply.progress', {
       originalTitle: escapeHTML(packToCopy.title),
@@ -33,7 +33,7 @@ const replyProgress = async (ctx, packToCopy, newPack) => {
   );
 };
 
-const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
+export const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
   return ctx.telegram.editMessageText(
     message.chat.id,
     message.message_id,
@@ -50,7 +50,7 @@ const editProgress = async (ctx, packToCopy, newPack, message, index = 0) => {
   );
 };
 
-const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
+export const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
   ctx.deleteMessage(message.message_id);
   return ctx.sendMessage(
     ctx.i18n.t('scene.pack_copy.reply.done', {
@@ -61,13 +61,4 @@ const replySuccess = async (ctx, message, packToCopy, newPack, extra) => {
     }),
     { ...extra, parse_mode: 'HTML' },
   );
-};
-
-module.exports = {
-  replyEnter,
-  replyProgress,
-  editProgress,
-  replySuccess,
-  replyErrorNotFound,
-  replyErrorUnknown,
 };

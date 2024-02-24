@@ -1,4 +1,4 @@
-function match(resourceKey, templateData) {
+export const match = (resourceKey, templateData) => {
   return (text, ctx) => {
     if (text && ctx.i18n.t(resourceKey, templateData) === text) {
       return Object.assign([text], {
@@ -9,6 +9,4 @@ function match(resourceKey, templateData) {
 
     return null;
   };
-}
-
-module.exports = match;
+};

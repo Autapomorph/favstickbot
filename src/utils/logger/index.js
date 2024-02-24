@@ -1,10 +1,10 @@
-const path = require('path');
-const winston = require('winston');
-require('winston-daily-rotate-file');
+import { fileURLToPath } from 'node:url';
 
-const SentryTransport = require('./transports/Sentry');
+import winston from 'winston';
+import 'winston-daily-rotate-file';
 
-const { isProd, name, version } = require('../index');
+import { SentryTransport } from './transports/Sentry.js';
+import { isProd, name, version } from '../index.js';
 
 const { npm_package_name: npmPackageName, npm_package_version: npmPackageVersion } = process.env;
 
@@ -43,7 +43,7 @@ const decolorize = format(info => {
   };
 });
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   format: errors({ stack: true }),
   transports: [
     new winston.transports.Console({
@@ -78,7 +78,7 @@ if (!process.env.VERCEL) {
   logger.add(
     new winston.transports.DailyRotateFile({
       level: 'debug',
-      dirname: path.resolve(__dirname, '../../../logs'),
+      dirname: fileURLToPath(new URL('../../../logs', import.meta.url)),
       filename: '%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       maxFiles: '7d',
@@ -94,5 +94,3 @@ if (!process.env.VERCEL) {
     }),
   );
 }
-
-module.exports = logger;

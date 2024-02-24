@@ -1,9 +1,9 @@
-const Pack = require('../../../../../../models/Pack');
-const { packLinkPrefix } = require('../../../../../../config/packs');
-const packPostfix = require('../../../../../../utils/packs/postfix');
-const escapeHTML = require('../../../../../../utils/common/escapeHTML');
+import { Pack } from '../../../../../../models/Pack.js';
+import { packLinkPrefix } from '../../../../../../config/packs.js';
+import * as packPostfix from '../../../../../../utils/packs/postfix.js';
+import { escapeHTML } from '../../../../../../utils/common/escapeHTML.js';
 
-const getMenuBody = async ctx => {
+export const getMenuBody = async ctx => {
   const packId = packPostfix.pad(ctx.match[1], ctx.botInfo.username);
   const pack = await Pack.findById(packId);
   const text = ctx.i18n.t('menu.packs_list.single_pack.delete_confirm.body', {
@@ -14,8 +14,4 @@ const getMenuBody = async ctx => {
     text,
     parse_mode: 'HTML',
   };
-};
-
-module.exports = {
-  getMenuBody,
 };

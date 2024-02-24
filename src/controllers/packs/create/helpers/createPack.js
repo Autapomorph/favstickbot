@@ -1,18 +1,18 @@
-const replies = require('../replies');
-const Pack = require('../../../../models/Pack');
-const getMainKeyboard = require('../../../../keyboards/main');
-const createPack = require('../../../../utils/packs/create');
-const clearPack = require('../../../../utils/packs/clear');
-const { replyErrorTelegram } = require('../../../../utils/errors/reply');
-const ERROR_TYPES = require('../../../../utils/errors/types');
-const ERROR_SETS = require('../../../../utils/errors/sets');
-const validateError = require('../../../../utils/errors/validateErrorType');
-const createMeta = require('../../../../utils/logger/meta/createMeta');
-const logger = require('../../../../utils/logger');
+import * as replies from '../replies.js';
+import { Pack } from '../../../../models/Pack.js';
+import { getMainKeyboard } from '../../../../keyboards/main.js';
+import { createPack as createPackHelper } from '../../../../utils/packs/create.js';
+import { clearPack } from '../../../../utils/packs/clear.js';
+import { replyErrorTelegram } from '../../../../utils/errors/reply.js';
+import * as ERROR_TYPES from '../../../../utils/errors/types/index.js';
+import * as ERROR_SETS from '../../../../utils/errors/sets/index.js';
+import { validateTelegramErrorType } from '../../../../utils/errors/validateErrorType.js';
+import { createMeta } from '../../../../utils/logger/meta/createMeta.js';
+import { logger } from '../../../../utils/logger/index.js';
 
-module.exports = async (ctx, user, packToCreate, keyboard) => {
+export const createPack = async (ctx, user, packToCreate, keyboard) => {
   try {
-    const isCreated = await createPack(ctx, packToCreate);
+    const isCreated = await createPackHelper(ctx, packToCreate);
     if (isCreated) {
       await clearPack(ctx, packToCreate);
     }
@@ -20,19 +20,19 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
     const { STICKERSET_INVALID_NAME, STICKERSET_NAME_OCCUPIED, CREATED_STICKERSET_NOT_FOUND } =
       ERROR_TYPES.TELEGRAM;
 
-    if (validateError(CREATED_STICKERSET_NOT_FOUND, error)) {
+    if (validateTelegramErrorType(CREATED_STICKERSET_NOT_FOUND, error)) {
       logger.error(error, { sentry: false });
       return;
     }
 
-    if (validateError(STICKERSET_INVALID_NAME, error)) {
+    if (validateTelegramErrorType(STICKERSET_INVALID_NAME, error)) {
       logger.error(error, { sentry: false });
       await replies.replyErrorNameInvalid(ctx);
       ctx.scene.reenter();
       throw error;
     }
 
-    if (validateError(STICKERSET_NAME_OCCUPIED, error)) {
+    if (validateTelegramErrorType(STICKERSET_NAME_OCCUPIED, error)) {
       logger.error(error, { sentry: false });
       await replies.replyErrorNameOccupied(ctx);
       ctx.scene.reenter();
@@ -41,7 +41,7 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
 
     logger.error(error, createMeta(ctx));
 
-    if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
+    if (!validateTelegramErrorType(ERROR_SETS.DO_NOT_REPLY, error)) {
       await replyErrorTelegram(ctx, error, {
         ...getMainKeyboard(ctx),
         reply_to_message_id: ctx.message.message_id,
@@ -67,7 +67,7 @@ module.exports = async (ctx, user, packToCreate, keyboard) => {
   } catch (error) {
     logger.error(error, createMeta(ctx));
 
-    if (!validateError(ERROR_SETS.DO_NOT_REPLY, error)) {
+    if (!validateTelegramErrorType(ERROR_SETS.DO_NOT_REPLY, error)) {
       await replyErrorTelegram(ctx, error, {
         ...getMainKeyboard(ctx),
         reply_to_message_id: ctx.message.message_id,

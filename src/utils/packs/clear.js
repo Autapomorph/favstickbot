@@ -1,4 +1,4 @@
-module.exports = async (ctx, packToCreate) => {
+export const clearPack = async (ctx, packToCreate) => {
   const createdPack = await ctx.getStickerSet(packToCreate.name);
   const stickerToDelete = createdPack.stickers.slice(-1)[0];
   if (stickerToDelete) {

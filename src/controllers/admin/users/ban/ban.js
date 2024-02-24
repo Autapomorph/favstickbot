@@ -1,7 +1,7 @@
-const User = require('../../../../models/User');
-const { parseIds } = require('./helpers');
+import { User } from '../../../../models/User.js';
+import { parseIds } from './helpers.js';
 
-module.exports = async ctx => {
+export const ban = async ctx => {
   const parsedIds = parseIds(ctx.state.commandParts.splitArgs);
   if (parsedIds.length <= 0) {
     return ctx.sendMessage(ctx.i18n.t('operation.user.ban.reply.error.empty_userlist'));

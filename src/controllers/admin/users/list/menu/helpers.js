@@ -1,8 +1,8 @@
-const { ForbiddenError, subject } = require('@casl/ability');
-const { capitalCase } = require('change-case');
+import { ForbiddenError, subject } from '@casl/ability';
+import { capitalCase } from 'change-case';
 
-const User = require('../../../../../models/User');
-const { roles, rolesList, rolesEnum } = require('../../../../../config/roles');
+import { User } from '../../../../../models/User.js';
+import { roles, rolesList, rolesEnum } from '../../../../../config/roles.js';
 
 const filterUsersByRole = (users, role) =>
   users.filter(user => {
@@ -10,7 +10,7 @@ const filterUsersByRole = (users, role) =>
     return user.role === role;
   });
 
-const getMenuBody = async ctx => {
+export const getMenuBody = async ctx => {
   ForbiddenError.from(ctx.state.ability).throwUnlessCan('read', 'User');
 
   const users = await User.find().select('role');
@@ -23,16 +23,11 @@ const getMenuBody = async ctx => {
   }, replyText);
 };
 
-const getMenuChoices = async ctx => {
+export const getMenuChoices = async ctx => {
   return rolesList.reduce((acc, role) => {
     if (ctx.state.ability.can('read', subject('User', { role: roles[role] }))) {
       acc[rolesEnum[role]] = capitalCase(role);
     }
     return acc;
   }, {});
-};
-
-module.exports = {
-  getMenuBody,
-  getMenuChoices,
 };

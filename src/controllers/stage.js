@@ -1,12 +1,12 @@
-const { Scenes } = require('telegraf');
+import { Scenes } from 'telegraf';
 
-const packCreateScenes = require('./packs/create/scene');
-const packCopyScene = require('./packs/copy/scene');
-const stickerOriginalScene = require('./stickers/original/scene');
-const getMainKeyboard = require('../keyboards/main');
-const match = require('../utils/i18n/match');
+import { packCreateScenes } from './packs/create/scene.js';
+import { packCopyScene } from './packs/copy/scene.js';
+import { stickerOriginalScene } from './stickers/original/scene.js';
+import { getMainKeyboard } from '../keyboards/main.js';
+import { match } from '../utils/i18n/match.js';
 
-const stage = new Scenes.Stage([
+export const stage = new Scenes.Stage([
   ...Object.values(packCreateScenes),
   packCopyScene,
   stickerOriginalScene,
@@ -52,5 +52,3 @@ stage.hears(['/cancel', match('keyboard.shared.cancel')], async ctx => {
 
   return ctx.scene.leave();
 });
-
-module.exports = stage;

@@ -1,8 +1,8 @@
-const { deleteMenuFromContext } = require('telegraf-inline-menu');
+import { deleteMenuFromContext } from 'telegraf-inline-menu';
 
-const getMainKeyboard = require('../../keyboards/main');
+import { getMainKeyboard } from '../../keyboards/main.js';
 
-const eraseUserData = async ctx => {
+export const eraseUserData = async ctx => {
   const { user } = ctx.state;
   await user.deleteOne();
   ctx.session = undefined;
@@ -13,11 +13,6 @@ const eraseUserData = async ctx => {
   await deleteMenuFromContext(ctx);
 };
 
-const cancel = async ctx => {
+export const cancel = async ctx => {
   return deleteMenuFromContext(ctx);
-};
-
-module.exports = {
-  eraseUserData,
-  cancel,
 };

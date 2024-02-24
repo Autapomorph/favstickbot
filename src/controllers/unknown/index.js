@@ -1,6 +1,6 @@
-const getMainKeyboard = require('../../keyboards/main');
+import { getMainKeyboard } from '../../keyboards/main.js';
 
-module.exports = async ctx => {
+export const unknown = async ctx => {
   return ctx.sendMessage(ctx.i18n.t('cmd.unknown.reply'), {
     ...getMainKeyboard(ctx),
     parse_mode: 'HTML',

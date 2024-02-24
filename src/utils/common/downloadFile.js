@@ -1,13 +1,12 @@
-const logger = require('../logger');
+import { logger } from '../logger/index.js';
 
-const downloadFile = async url => {
+export const downloadFile = async url => {
   try {
     const response = await fetch(url);
-    return await response.buffer();
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
   } catch (error) {
     logger.error(error);
     throw new Error(error);
   }
 };
-
-module.exports = downloadFile;

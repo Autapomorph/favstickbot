@@ -1,10 +1,10 @@
-const { fetchToCurl } = require('fetch-to-curl');
-const clipboardy = require('clipboardy');
-const open = require('open');
+import fetchToCurl from 'fetch-to-curl';
+import clipboardy from 'clipboardy';
+import open from 'open';
 
-const { TELEGRAM_API } = require('../constants');
+import { TELEGRAM_API } from '../constants.js';
 
-module.exports = {
+export const getWebhookCommand = {
   command: 'get',
   description: 'Get webhook info',
   builder: y => {

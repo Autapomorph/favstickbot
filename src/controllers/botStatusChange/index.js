@@ -1,4 +1,4 @@
-module.exports = async ctx => {
+export const botStatusChange = async ctx => {
   const { user } = ctx.state;
   const botId = ctx.botInfo.id;
   const oldChatMember = ctx.myChatMember.old_chat_member;

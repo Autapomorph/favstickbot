@@ -1,11 +1,11 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
-const { noCase } = require('change-case');
+import { MenuTemplate } from 'telegraf-inline-menu';
+import { noCase } from 'change-case';
 
-const User = require('../../../../../../models/User');
-const { getMenuBody, getMenuChoices } = require('./helpers');
-const { rolesEnum } = require('../../../../../../config/roles');
+import { User } from '../../../../../../models/User.js';
+import { getMenuBody, getMenuChoices } from './helpers.js';
+import { rolesEnum } from '../../../../../../config/roles.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.choose('', getMenuChoices, {
   do: async ctx => {
@@ -26,5 +26,3 @@ menu.choose('', getMenuChoices, {
 });
 
 menu.navigate(ctx => ctx.i18n.t('menu.admin.stats.actions.back'), '..');
-
-module.exports = menu;

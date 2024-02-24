@@ -1,4 +1,4 @@
-const createContexts = ctx => {
+export const createContexts = ctx => {
   const sceneState = ctx.scene?.state;
   const { state, session, match, update, updateType } = ctx;
   return {
@@ -14,5 +14,3 @@ const createContexts = ctx => {
     },
   };
 };
-
-module.exports = createContexts;

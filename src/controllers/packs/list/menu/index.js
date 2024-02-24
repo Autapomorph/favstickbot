@@ -1,16 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const singlePackMenu = require('./singlePack');
-const options = require('./options');
-const {
-  getMenuBody,
-  getMenuChoices,
-  getTotalPages,
-  getCurrentPage,
-  setPage,
-} = require('./helpers');
+import { menu as singlePackMenu } from './singlePack/index.js';
+import { options } from './options.js';
+import { getMenuBody, getMenuChoices, getTotalPages, getCurrentPage, setPage } from './helpers.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.chooseIntoSubmenu('', getMenuChoices, singlePackMenu, options);
 
@@ -19,5 +13,3 @@ menu.pagination('', {
   getCurrentPage,
   setPage,
 });
-
-module.exports = menu;

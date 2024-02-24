@@ -1,5 +1,3 @@
-const { promisify } = require('util');
+import { promisify } from 'node:util';
 
-const wait = promisify(setTimeout);
-
-module.exports = wait;
+export const wait = promisify(setTimeout);

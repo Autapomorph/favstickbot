@@ -1,5 +1,5 @@
-const Session = require('../../models/Session');
+import { Session } from '../../models/Session.js';
 
-module.exports = async key => {
+export const deleteSession = async key => {
   return Session.deleteOne({ _id: key });
 };

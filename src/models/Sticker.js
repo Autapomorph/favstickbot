@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const logger = require('../utils/logger');
+import { logger } from '../utils/logger/index.js';
 
 const StickerSchema = mongoose.Schema(
   {
@@ -49,6 +49,4 @@ StickerSchema.query.byUID = function byUID(uid) {
   return this.where({ uid });
 };
 
-const Sticker = mongoose.model('Sticker', StickerSchema);
-
-module.exports = Sticker;
+export const Sticker = mongoose.model('Sticker', StickerSchema);

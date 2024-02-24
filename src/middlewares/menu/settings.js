@@ -1,7 +1,5 @@
-const { MenuMiddleware } = require('telegraf-inline-menu');
+import { MenuMiddleware } from 'telegraf-inline-menu';
 
-const menu = require('../../controllers/settings/menu');
+import { menu } from '../../controllers/settings/menu.js';
 
-const menuMiddleware = new MenuMiddleware('settings/', menu);
-
-module.exports = menuMiddleware;
+export const settingsMenu = new MenuMiddleware('settings/', menu);

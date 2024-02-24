@@ -1,10 +1,10 @@
-const { MenuTemplate } = require('telegraf-inline-menu');
+import { MenuTemplate } from 'telegraf-inline-menu';
 
-const { getMenuBody } = require('./helpers');
-const statsMenu = require('../stats/menu');
-const usersMenu = require('../users/list/menu');
+import { getMenuBody } from './helpers.js';
+import { menu as statsMenu } from '../stats/menu/index.js';
+import { menu as usersMenu } from '../users/list/menu/index.js';
 
-const menu = new MenuTemplate(getMenuBody);
+export const menu = new MenuTemplate(getMenuBody);
 
 menu.submenu(
   ctx => (ctx.state.ability.can('read', 'User') ? ctx.i18n.t('menu.admin.actions.users') : ''),
@@ -17,5 +17,3 @@ menu.submenu(
   'stats',
   statsMenu,
 );
-
-module.exports = menu;

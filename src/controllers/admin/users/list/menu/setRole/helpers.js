@@ -1,16 +1,16 @@
-const { ForbiddenError, subject } = require('@casl/ability');
-const { capitalCase } = require('change-case');
+import { ForbiddenError, subject } from '@casl/ability';
+import { capitalCase } from 'change-case';
 
-const User = require('../../../../../../models/User');
-const { roles, rolesList, rolesEnum } = require('../../../../../../config/roles');
+import { User } from '../../../../../../models/User.js';
+import { roles, rolesList, rolesEnum } from '../../../../../../config/roles.js';
 
-const getMenuBody = async ctx => {
+export const getMenuBody = async ctx => {
   return ctx.i18n.t('menu.admin.users.user.set_role.body', {
     user: ctx.match[2],
   });
 };
 
-const getMenuChoices = async ctx => {
+export const getMenuChoices = async ctx => {
   const userToModify = await User.findById(ctx.match[2]);
   ForbiddenError.from(ctx.state.ability).throwUnlessCan('read', userToModify);
 
@@ -21,9 +21,4 @@ const getMenuChoices = async ctx => {
     }
     return acc;
   }, {});
-};
-
-module.exports = {
-  getMenuBody,
-  getMenuChoices,
 };

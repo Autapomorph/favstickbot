@@ -1,11 +1,11 @@
-const { defaultEmojis } = require('../../config/stickers');
+import { defaultEmojis } from '../../config/stickers.js';
 
-const getUploadedStickerFile = async (ctx, packName) => {
+export const getUploadedStickerFile = async (ctx, packName) => {
   const pack = await ctx.getStickerSet(packName);
   return pack.stickers[pack.stickers.length - 1];
 };
 
-const getUserFile = ctx => {
+export const getUserFile = ctx => {
   const { sticker, photo, document, emoji = defaultEmojis, caption = defaultEmojis } = ctx.message;
 
   if (sticker) {
@@ -38,9 +38,4 @@ const getUserFile = ctx => {
       isAnimated: false,
     };
   }
-};
-
-module.exports = {
-  getUserFile,
-  getUploadedStickerFile,
 };

@@ -1,8 +1,0 @@
-{
-  "reject": [
-    "@grammyjs/i18n",
-    "change-case",
-    "clipboardy",
-    "open"
-  ]
-}

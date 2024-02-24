@@ -1,4 +1,4 @@
-const wait = require('../common/wait');
+import { wait } from '../common/wait.js';
 
 const limit = 30;
 
@@ -17,7 +17,7 @@ async function sendResult(authorId, tgInstance, results) {
   return tgInstance.sendMessage(authorId, message);
 }
 
-async function sendMessage(
+export async function sendMessage(
   text,
   authorId,
   chats,
@@ -55,5 +55,3 @@ async function sendMessage(
   await wait(1500);
   return sendMessage(text, authorId, nextChats, tgInstance, resultsCopy);
 }
-
-module.exports = sendMessage;
