@@ -36,7 +36,7 @@
     "@casl/ability": "^6.7.0",
     "@casl/mongoose": "^7.2.2",
     "@faker-js/faker": "^8.4.1",
-    "@grammyjs/i18n": ">=0.5.1 <1.0.0",
+    "@grammyjs/i18n": ">=0.5.1 <2.0.0",
     "@grammyjs/ratelimiter": "^1.2.0",
     "@sentry/node": "^7.102.1",
     "bottleneck": "^2.19.5",
