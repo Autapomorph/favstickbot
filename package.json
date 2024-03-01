@@ -50,7 +50,7 @@
     "fetch-to-curl": "^0.6.0",
     "human-interval": "^2.0.1",
     "mongo-seeding": "^4.0.0",
-    "mongodb": "^6.3.0",
+    "mongodb": "^6.4.0",
     "mongoose": "^8.2.0",
     "mongoose-long": "^0.8.0",
     "node-fetch": "^3.3.2",
