@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import Sentry from '@sentry/node';
+import { init, withScope, captureMessage, captureException, flush } from '@sentry/node';
 import TransportStream from 'winston-transport';
 import { LEVEL } from 'triple-beam';
 
@@ -65,7 +65,7 @@ export class SentryTransport extends TransportStream {
     super(options);
     this.levelsMap = setLevelsMap(options?.levelsMap);
     this.silent = Boolean(options?.silent ?? false);
-    Sentry.init(getDefaults(options?.sentry ?? {}));
+    init(getDefaults(options?.sentry ?? {}));
   }
 
   log(info, callback) {
@@ -79,7 +79,7 @@ export class SentryTransport extends TransportStream {
     const winstonLevel = info[LEVEL];
     const sentryLevel = this.levelsMap[winstonLevel];
 
-    Sentry.withScope(scope => {
+    withScope(scope => {
       if (isObject(user)) {
         scope.setUser(user);
       }
@@ -97,18 +97,18 @@ export class SentryTransport extends TransportStream {
 
       if (isException(sentryLevel)) {
         const error = message instanceof Error ? message : new ExtendedError(info);
-        Sentry.captureException(error);
+        captureException(error);
         return;
       }
 
-      Sentry.captureMessage(message, sentryLevel);
+      captureMessage(message, sentryLevel);
     });
 
     return callback();
   }
 
   end(...args) {
-    Sentry.flush().then(() => {
+    flush().then(() => {
       super.end(...args);
     });
   }
